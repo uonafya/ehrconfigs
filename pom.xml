@@ -21,12 +21,23 @@
 		<connection>scm:git:git@github.com:openmrs/openmrs-module-ehrconfigs.git</connection>
 		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-ehrconfigs.git</developerConnection>
 		<url>https://github.com/openmrs/openmrs-module-ehrconfigs/</url>
+		<tag>HEAD</tag>
 	</scm>
 
 	<modules>
 		<module>api</module>
 		<module>omod</module>
 	</modules>
+	<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>hospitalcore-api</artifactId>
+			<version>${hospitalcoreVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	</dependencyManagement>
 
 	<repositories>
 		<repository>
@@ -54,5 +65,6 @@
 
     <properties>
         <openmrsPlatformVersion>1.11.6</openmrsPlatformVersion>
+		<hospitalcoreVersion>1.0.0-SNAPSHOT</hospitalcoreVersion>
     </properties>
 </project>

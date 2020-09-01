@@ -4,7 +4,7 @@
 	
 	<!-- Base Module Properties -->
 	<id>ehrconfigs</id>
-	<name>EHR Configurtaions</name>
+	<name>EHR Configurations</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<package>org.openmrs.module.ehrconfigs</package>
 	<author>codehub</author>

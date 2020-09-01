@@ -10,5 +10,15 @@
 	<artifactId>ehrconfigs-api</artifactId>
 	<packaging>jar</packaging>
 	<name>EHR Configurtaions API</name>
-	<description>API project for EHR Configurtaions</description>
+	<description>API project for EHR Configurations</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>hospitalcore-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.api</groupId>
+			<artifactId>openmrs-api</artifactId>
+		</dependency>
+	</dependencies>
 </project>
