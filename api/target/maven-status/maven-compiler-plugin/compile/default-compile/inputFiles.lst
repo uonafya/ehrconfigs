@@ -1,0 +1,6 @@
+/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/EHRConfigurtaionsActivator.java
+/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/EHRConfigurtaionsConfig.java
+/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/api/impl/EHRConfigurtaionsServiceImpl.java
+/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/Item.java
+/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/api/EHRConfigurtaionsService.java
+/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/api/dao/EHRConfigurtaionsDao.java

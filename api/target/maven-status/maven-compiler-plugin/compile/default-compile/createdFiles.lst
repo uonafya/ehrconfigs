@@ -1,0 +1,6 @@
+org/openmrs/module/ehrconfigs/api/dao/EHRConfigurtaionsDao.class
+org/openmrs/module/ehrconfigs/EHRConfigurtaionsActivator.class
+org/openmrs/module/ehrconfigs/Item.class
+org/openmrs/module/ehrconfigs/api/impl/EHRConfigurtaionsServiceImpl.class
+org/openmrs/module/ehrconfigs/api/EHRConfigurtaionsService.class
+org/openmrs/module/ehrconfigs/EHRConfigurtaionsConfig.class
