@@ -7,9 +7,9 @@
 	<name>EHR Configurations</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<package>org.openmrs.module.ehrconfigs</package>
-	<author>codehub</author>
+	<author>HealthIT</author>
 	<description>
-			This modules provide basic configurations for the entire system and related objects
+			Setting core data for the EHR application
 	</description>
 
 	<activator>org.openmrs.module.ehrconfigs.EHRConfigurtaionsActivator</activator>
@@ -28,14 +28,11 @@
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
 	</aware_of_modules>
-	
-	
-	<!-- AOP
+
 	<advice>
-		<point>org.openmrs.api.FormService</point>
-		<class>org.openmrs.module.ehrconfigs.advice.DuplicateFormAdvisor</class>
+		<point>org.openmrs.api.PatientService</point>
+		<class>org.openmrs.module.ehrconfigs.advice.EhrPatientAdvice</class>
 	</advice>
-	 /AOP -->
 	
 	
 	<!-- Required Privileges 

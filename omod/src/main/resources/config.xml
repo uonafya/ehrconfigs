@@ -7,9 +7,9 @@
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}</version>
 	<package>org.openmrs.module.ehrconfigs</package>
-	<author>codehub</author>
+	<author>HealthIT</author>
 	<description>
-			${project.parent.description}
+			Setting core data for the EHR application
 	</description>
 
 	<activator>org.openmrs.module.ehrconfigs.EHRConfigurtaionsActivator</activator>
@@ -28,14 +28,11 @@
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
 	</aware_of_modules>
-	
-	
-	<!-- AOP
+
 	<advice>
-		<point>org.openmrs.api.FormService</point>
-		<class>@MODULE_PACKAGE@.advice.DuplicateFormAdvisor</class>
+		<point>org.openmrs.api.PatientService</point>
+		<class>org.openmrs.module.ehrconfigs.advice.EhrPatientAdvice</class>
 	</advice>
-	 /AOP -->
 	
 	
 	<!-- Required Privileges 

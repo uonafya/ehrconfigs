@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.ehrconfigs.api.dao.EHRConfigurtaionsDaoTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.209 sec - in org.openmrs.module.ehrconfigs.api.dao.EHRConfigurtaionsDaoTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.198 sec - in org.openmrs.module.ehrconfigs.api.dao.EHRConfigurtaionsDaoTest
