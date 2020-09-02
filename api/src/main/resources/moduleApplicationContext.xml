@@ -30,7 +30,7 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.openmrs.module.ehrinventory.InventoryService</value>
+                <value>org.openmrs.module.ehrconfigs.api.EHRConfigurtaionsService</value>
                 <bean
                         class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
                     <property name="transactionManager">
