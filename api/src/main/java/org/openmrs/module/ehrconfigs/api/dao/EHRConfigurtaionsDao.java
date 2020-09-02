@@ -9,19 +9,25 @@
  */
 package org.openmrs.module.ehrconfigs.api.dao;
 
-import org.hibernate.criterion.Restrictions;
-import org.openmrs.api.db.hibernate.DbSession;
-import org.openmrs.api.db.hibernate.DbSessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
 
-@Repository("ehrconfigs.EHRConfigurtaionsDao")
 public class EHRConfigurtaionsDao {
 	
-	@Autowired
-	DbSessionFactory sessionFactory;
+	protected final Log log = LogFactory.getLog(getClass());
 	
-	private DbSession getSession() {
-		return sessionFactory.getCurrentSession();
+	/**
+	 * Hibernate session factory
+	 */
+	private SessionFactory sessionFactory;
+	
+	/**
+	 * Set session factoryfsave
+	 * 
+	 * @param sessionFactory
+	 */
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 }

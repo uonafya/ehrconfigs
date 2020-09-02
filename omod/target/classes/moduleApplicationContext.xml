@@ -27,31 +27,37 @@
 
     <!-- Wraps EHRConfigurtaionsService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
-    <bean id="ehrconfigs.EHRConfigurtaionsService"
-            class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager">
-            <ref bean="transactionManager" />
-        </property>
-        <property name="target">
-            <bean class="org.openmrs.module.ehrconfigs.api.impl.EHRConfigurtaionsServiceImpl">
-                <property name="dao" ref="ehrconfigs.EHRConfigurtaionsDao" />
-            </bean>
-        </property>
-        <property name="preInterceptors">
-            <ref bean="serviceInterceptors" />
-        </property>
-        <property name="transactionAttributeSource">
-            <ref bean="transactionAttributeSource" />
-        </property>
-    </bean>
-
-    <!-- Adds EHRConfigurtaionsService to OpenMRS context so it can be accessed
-    calling Context.getService(EHRConfigurtaionsService.class) -->
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.openmrs.module.ehrconfigs.api.EHRConfigurtaionsService</value>
-                <ref bean="ehrconfigs.EHRConfigurtaionsService" />
+                <value>org.openmrs.module.ehrinventory.InventoryService</value>
+                <bean
+                        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+                    <property name="transactionManager">
+                        <ref bean="transactionManager" />
+                    </property>
+                    <property name="target">
+                        <bean class="org.openmrs.module.ehrconfigs.api.impl.EHRConfigurtaionsServiceImpl">
+                            <property name="dao">
+                                <bean
+                                        class="org.openmrs.module.ehrconfigs.api.dao.EHRConfigurtaionsDao">
+                                    <property name="sessionFactory">
+                                        <ref bean="sessionFactory" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="preInterceptors">
+                        <list>
+                            <ref bean="authorizationInterceptor" />
+                        </list>
+                    </property>
+                    <property name="transactionAttributeSource">
+                        <bean
+                                class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

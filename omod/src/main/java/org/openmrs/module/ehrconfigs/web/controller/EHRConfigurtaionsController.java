@@ -28,18 +28,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * This class configured as controller using annotation and mapped with the URL of
  * 'module/${rootArtifactid}/${rootArtifactid}Link.form'.
  */
-@Controller("${rootrootArtifactid}.EHRConfigurtaionsController")
-@RequestMapping(value = "module/${rootArtifactid}/${rootArtifactid}.form")
+@Controller("ehrconfigs.EHRConfigurtaionsController")
+@RequestMapping(value = "module/ehrconfigs/ehrconfigs.form")
 public class EHRConfigurtaionsController {
 	
 	/** Logger for this class and subclasses */
 	protected final Log log = LogFactory.getLog(getClass());
 	
-	@Autowired
-	UserService userService;
-	
 	/** Success form view name */
-	private final String VIEW = "/module/${rootArtifactid}/${rootArtifactid}";
+	private final String VIEW = "/module/ehrconfigs/ehrconfigs";
 	
 	/**
 	 * Initially called after the getUsers method to get the landing form name
@@ -75,13 +72,4 @@ public class EHRConfigurtaionsController {
 	 * pojo. The bean name defined in the ModelAttribute annotation and the type can be just defined
 	 * by the return type of this method
 	 */
-	@ModelAttribute("users")
-	protected List<User> getUsers() throws Exception {
-		List<User> users = userService.getAllUsers();
-		
-		// this object will be made available to the jsp page under the variable name
-		// that is defined in the @ModuleAttribute tag
-		return users;
-	}
-	
 }
