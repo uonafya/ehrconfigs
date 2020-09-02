@@ -12,7 +12,6 @@ package org.openmrs.module.ehrconfigs.api.impl;
 import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.ehrconfigs.Item;
 import org.openmrs.module.ehrconfigs.api.EHRConfigurtaionsService;
 import org.openmrs.module.ehrconfigs.api.dao.EHRConfigurtaionsDao;
 
@@ -27,26 +26,5 @@ public class EHRConfigurtaionsServiceImpl extends BaseOpenmrsService implements 
 	 */
 	public void setDao(EHRConfigurtaionsDao dao) {
 		this.dao = dao;
-	}
-	
-	/**
-	 * Injected in moduleApplicationContext.xml
-	 */
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-	
-	@Override
-	public Item getItemByUuid(String uuid) throws APIException {
-		return dao.getItemByUuid(uuid);
-	}
-	
-	@Override
-	public Item saveItem(Item item) throws APIException {
-		if (item.getOwner() == null) {
-			item.setOwner(userService.getUser(1));
-		}
-		
-		return dao.saveItem(item);
 	}
 }
