@@ -57,7 +57,20 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 		List<Patient> patientList = patientService.getAllPatients();
 		for (Patient patient : patientList) {
 			if (hospitalCoreService.getPatientByPatientId(patient.getPatientId()) == null) {
-				System.out.println("This patient needs to be added");
+				patientSearch.setPatientId(patient.getPatientId());
+				patientSearch.setIdentifier(patient.getPatientIdentifier().getIdentifier());
+				patientSearch.setFullname(patient.getGivenName()+" "+patient.getFamilyName());
+				patientSearch.setGivenName(patient.getGivenName());
+				patientSearch.setMiddleName(patient.getMiddleName());
+				patientSearch.setFamilyName(patient.getFamilyName());
+				patientSearch.setGender(patient.getGender());
+				patientSearch.setBirthdate(patient.getBirthdate());
+				patientSearch.setAge(patient.getAge());
+				patientSearch.setPersonNameId(patient.getPersonName().getPersonNameId());
+				patientSearch.setDead(false);
+				patientSearch.setAdmitted(false);
+				//commit the patient object in the patient_search table
+				hospitalCoreService.savePatientSearch(patientSearch);
 			}
 		}
 	}
