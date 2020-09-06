@@ -28,3 +28,8 @@ If uploads are not allowed from the web (changable via a runtime property), you 
 into the ~/.OpenMRS/modules folder.  (Where ~/.OpenMRS is assumed to be the Application 
 Data Directory that the running openmrs is currently using.)  After putting the file in there 
 simply restart OpenMRS/tomcat and the module will be loaded and started.
+
+PersonAttributeType personAttributes
+Paying Category Type
+Non-Paying Category Type
+Special Scheme Category Type

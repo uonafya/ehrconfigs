@@ -36,6 +36,12 @@
 			<version>${hospitalcoreVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>metadatadeploy-api</artifactId>
+			<version>${metadatadeployVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	</dependencyManagement>
 
@@ -66,5 +72,7 @@
     <properties>
         <openmrsPlatformVersion>1.11.6</openmrsPlatformVersion>
 		<hospitalcoreVersion>1.0.0-SNAPSHOT</hospitalcoreVersion>
+		<metadatadeployVersion>1.2</metadatadeployVersion>
+		<metadatasharingVersion>1.1.8</metadatasharingVersion>
     </properties>
 </project>

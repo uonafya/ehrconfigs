@@ -21,6 +21,7 @@ import org.openmrs.module.hospitalcore.model.PatientSearch;
 import org.openmrs.scheduler.tasks.AbstractTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.sql.Timestamp;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 	
 	@Override
 	public void execute() {
+		List<Patient> patientList = Context.getPatientService().getAllPatients();
 		if (!isExecuting) {
 			if (log.isDebugEnabled()) {
 				log.debug("Copying patient object to patient search object to fit the hospital core searching");
@@ -38,7 +40,9 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 			startExecuting();
 			try {
 				//do all the work here
-				copyPatientObjectsToPatientSearchObjects();
+				for (Patient patient : patientList) {
+					copyPatientObjectsToPatientSearchObjects(patient);
+				}
 			}
 			catch (Exception e) {
 				log.error("Error while copying patients to the respective destination ", e);
@@ -50,37 +54,38 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 		
 	}
 	
-	private void copyPatientObjectsToPatientSearchObjects() {
+	private void copyPatientObjectsToPatientSearchObjects(Patient patient) {
 		HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
 		PatientSearch patientSearch = new PatientSearch();
-		PatientService patientService = Context.getPatientService();
-		List<Patient> patientList = patientService.getAllPatients();
 		String givenName = "";
 		String fullname = "";
 		String middleName = "";
 		String familyName = "";
-		for (Patient patient : patientList) {
-			if (hospitalCoreService.getPatientByPatientId(patient.getPatientId()) == null) {
-				givenName = patient.getGivenName();
-				familyName = patient.getFamilyName();
-				middleName = patient.getMiddleName();
-				fullname = givenName + " " + middleName + " " + familyName;
-				
-				patientSearch.setPatientId(patient.getPatientId());
-				patientSearch.setIdentifier(patient.getPatientIdentifier().getIdentifier());
-				patientSearch.setFullname(fullname);
-				patientSearch.setGivenName(givenName);
-				patientSearch.setMiddleName(middleName);
-				patientSearch.setFamilyName(familyName);
-				patientSearch.setGender(patient.getGender());
-				patientSearch.setBirthdate(patient.getBirthdate());
-				patientSearch.setAge(patient.getAge());
-				patientSearch.setPersonNameId(patient.getPersonName().getPersonNameId());
-				patientSearch.setDead(false);
-				patientSearch.setAdmitted(false);
-				//commit the patient object in the patient_search table
-				hospitalCoreService.savePatientSearch(patientSearch);
-			}
+		Timestamp birtDate = null;
+		if (patient != null && hospitalCoreService.getPatientByPatientId(patient.getPatientId()) == null) {
+			log.error("Starting with patient>>" + patient.getPatientId());
+			givenName = patient.getGivenName();
+			familyName = patient.getFamilyName();
+			middleName = patient.getMiddleName();
+			fullname = givenName + " " + middleName + " " + familyName;
+			birtDate = new Timestamp(patient.getBirthdate().getTime());
+			
+			patientSearch.setPatientId(patient.getPatientId());
+			patientSearch.setIdentifier(patient.getPatientIdentifier().getIdentifier());
+			patientSearch.setFullname(fullname);
+			patientSearch.setGivenName(givenName);
+			patientSearch.setMiddleName(middleName);
+			patientSearch.setFamilyName(familyName);
+			patientSearch.setGender(patient.getGender());
+			patientSearch.setBirthdate(birtDate);
+			patientSearch.setAge(patient.getAge());
+			patientSearch.setPersonNameId(patient.getPersonName().getPersonNameId());
+			patientSearch.setDead(false);
+			patientSearch.setAdmitted(false);
+			//commit the patient object in the patient_search table
+			hospitalCoreService.savePatientSearch(patientSearch);
+			log.info("Saved patient object successfully>> " + patient);
+			
 		}
 	}
 }
