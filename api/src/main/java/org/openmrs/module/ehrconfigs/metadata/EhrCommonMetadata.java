@@ -24,6 +24,10 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String NON_PAYING_CATEGORY_TYPE = "0a8ae818-f06a-11ea-ab82-2f183f30d954";
 		
 		public static final String SPECIAL_CLINIC_CATEGORY_TYPE = "341ee8fa-f06a-11ea-aca0-03d040bd88c8";
+		
+		public static final String PAYMENT_CATEGORY = "09cd268a-f0f5-11ea-99a8-b3467ddbf779"; // Id 14 in old afyaehms
+		
+		public static final String FILE_NUMBER = "09cd268a-f0f5-11ea-99a8-b3467ddbf779"; //id 43 in old afyaehms
 	}
 	
 	@Override
@@ -34,5 +38,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    false, 1.0, _EhrPersonAttributeType.NON_PAYING_CATEGORY_TYPE));
 		install(personAttributeType("Special Scheme Category Type", "Paying Category Type person attribute", String.class,
 		    null, false, 1.0, _EhrPersonAttributeType.SPECIAL_CLINIC_CATEGORY_TYPE));
+		install(personAttributeType("Payment Category", "The category to which the patient belongs to for hospital admin",
+		    String.class, null, false, 1.0, _EhrPersonAttributeType.PAYMENT_CATEGORY));
+		install(personAttributeType("File Number", "File number used for the patients enrolled in the special schemes",
+		    String.class, null, false, 1.0, _EhrPersonAttributeType.FILE_NUMBER));
 	}
 }

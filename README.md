@@ -33,3 +33,4 @@ PersonAttributeType personAttributes
 Paying Category Type
 Non-Paying Category Type
 Special Scheme Category Type
+Payment Category
