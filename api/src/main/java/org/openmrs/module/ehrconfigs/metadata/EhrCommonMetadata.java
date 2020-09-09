@@ -12,11 +12,13 @@ package org.openmrs.module.ehrconfigs.metadata;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
 
 @Component
 public class EhrCommonMetadata extends AbstractMetadataBundle {
 	
+	//person atttribute types
 	public static final class _EhrPersonAttributeType {
 		
 		public static final String PAYING_CATEGORY_TYPE = "e191b0b8-f069-11ea-b498-2bfd800847e8";
@@ -28,14 +30,25 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String PAYMENT_CATEGORY = "09cd268a-f0f5-11ea-99a8-b3467ddbf779"; // Id 14 in old afyaehms
 		
 		public static final String FILE_NUMBER = "09cd268a-f0f5-11ea-99a8-b3467ddbf779"; //id 43 in old afyaehms
-
+		
 		public static final String WAIVER_NUMBER = "a804c03e-f1bc-11ea-ae43-dfa0f52ad887"; //id in old afyaehms is 32
-
+		
 		public static final String EXEMPTION_NUMBER = "a22892ce-f1d2-11ea-a512-138a123d324a"; //id in old afyaehms is 36
+	}
+	
+	//encounter types
+	public static final class _EhrEncounterTypes {
+		
+		public static final String RADIOLOGYENCOUNTER = "012bb9f4-f282-11ea-a6d6-3b4fa4aefb5a"; // old value is 8
+		
+		public static final String LABENCOUNTER = "11d3f37a-f282-11ea-a825-1b5b1ff1b854";// old value is 7
+		
+		public static final String ADMISION = "6e1105ba-f282-11ea-ad42-e7971c094de0"; // old id was 15
 	}
 	
 	@Override
 	public void install() throws Exception {
+		//Installing person attribute types
 		install(personAttributeType("Paying Category Type", "Paying Category Type person attribute", String.class, null,
 		    false, 1.0, _EhrPersonAttributeType.PAYING_CATEGORY_TYPE));
 		install(personAttributeType("Non-Paying Category Type", "Paying Category Type person attribute", String.class, null,
@@ -46,9 +59,18 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    String.class, null, false, 1.0, _EhrPersonAttributeType.PAYMENT_CATEGORY));
 		install(personAttributeType("File Number", "File number used for the patients enrolled in the special schemes",
 		    String.class, null, false, 1.0, _EhrPersonAttributeType.FILE_NUMBER));
-		install(personAttributeType("Waiver Number", "Waiver Number",
-				String.class, null, false, 1.0, _EhrPersonAttributeType.WAIVER_NUMBER));
-		install(personAttributeType("Exemption Number", "Exemption Number",
-				String.class, null, false, 1.0, _EhrPersonAttributeType.EXEMPTION_NUMBER));
+		install(personAttributeType("Waiver Number", "Waiver Number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.WAIVER_NUMBER));
+		install(personAttributeType("Exemption Number", "Exemption Number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.EXEMPTION_NUMBER));
+		//Installing encounter types
+		install(encounterType("RADIOLOGYENCOUNTER", "This define encounters with radiology/ultrasounds",
+		    _EhrEncounterTypes.RADIOLOGYENCOUNTER));
+		install(encounterType("LABENCOUNTER", "Encounters in General Lab", _EhrEncounterTypes.LABENCOUNTER));
+		install(encounterType(
+		    "Admission",
+		    "Indicates that the patient has been admitted for inpatient care, and is not expected to leave the hospital unless discharged.",
+		    _EhrEncounterTypes.ADMISION));
+		
 	}
 }
