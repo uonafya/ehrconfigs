@@ -28,6 +28,10 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String PAYMENT_CATEGORY = "09cd268a-f0f5-11ea-99a8-b3467ddbf779"; // Id 14 in old afyaehms
 		
 		public static final String FILE_NUMBER = "09cd268a-f0f5-11ea-99a8-b3467ddbf779"; //id 43 in old afyaehms
+
+		public static final String WAIVER_NUMBER = "a804c03e-f1bc-11ea-ae43-dfa0f52ad887"; //id in old afyaehms is 32
+
+		public static final String EXEMPTION_NUMBER = "a22892ce-f1d2-11ea-a512-138a123d324a"; //id in old afyaehms is 36
 	}
 	
 	@Override
@@ -42,5 +46,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    String.class, null, false, 1.0, _EhrPersonAttributeType.PAYMENT_CATEGORY));
 		install(personAttributeType("File Number", "File number used for the patients enrolled in the special schemes",
 		    String.class, null, false, 1.0, _EhrPersonAttributeType.FILE_NUMBER));
+		install(personAttributeType("Waiver Number", "Waiver Number",
+				String.class, null, false, 1.0, _EhrPersonAttributeType.WAIVER_NUMBER));
+		install(personAttributeType("Exemption Number", "Exemption Number",
+				String.class, null, false, 1.0, _EhrPersonAttributeType.EXEMPTION_NUMBER));
 	}
 }
