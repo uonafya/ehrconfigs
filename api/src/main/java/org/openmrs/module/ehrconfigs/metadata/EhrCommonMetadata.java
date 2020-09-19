@@ -14,9 +14,24 @@ import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
 
 @Component
 public class EhrCommonMetadata extends AbstractMetadataBundle {
+
+	//visit types
+	public static final class _VistTypes {
+
+		public static final String FACILITY_VISIT = "66a4ef36-fac4-11ea-bcbf-375d20d55603";
+
+		public static final String INITIAL_MCH_CLINIC_VISIT = "76583758-fac4-11ea-b5f3-d340ddbbb0d2";
+
+		public static final String RETURN_ANC_CLINIC_VISIT = "8462eab4-fac4-11ea-a965-338aef2ca794";
+
+		public static final String RETURN_PNC_CLINIC_VISIT = "94e337ea-fac4-11ea-be33-0736112d65ec";
+
+		public static final String RETURN_CWC_CLINIC_VISIT = "a6329004-fac4-11ea-babb-7b8345fde680";
+	}
 	
 	//person atttribute types
 	public static final class _EhrPersonAttributeType {
@@ -75,10 +90,30 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String TRANSFER = "8d9451e8-f292-11ea-bb2f-8fdebce3194d"; // old id 18
 		
-		public static final String ANCENCOUNTER = "ae378f6e-f292-11ea-8ef8-0bb1ae4b7f42"; // old id 19
+		public static final String ANCENCOUNTER = "ae378f6e-f292-11ea-8ef8-0bb1ae4b7f42"; // old id 19 //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
-		public static final String PNCENCOUNTER = "cbe0212a-f292-11ea-affa-2b398f67bbb4"; // old id 20
-		
+		public static final String PNCENCOUNTER = "cbe0212a-f292-11ea-affa-2b398f67bbb4"; // old id 20 //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+
+		////////
+		public static final String PNC_TRIAGE_ENCOUNTER_TYPE = "fcaec384-fac5-11ea-8aeb-fffc453fcc77";
+
+		public static final String CWC_ENCOUNTER_TYPE = "09073c56-fac6-11ea-87aa-bfe01fd142fd"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+
+		public static final String CWC_TRIAGE_ENCOUNTER_TYPE = "150932f2-fac6-11ea-b158-4b1b80bfe51c";
+		public static final String ANC_TRIAGE_ENCOUNTER_TYPE = "25dbb7d0-fac6-11ea-94e8-0bd56324f4b5";
+	}
+	public static final class _EhrPrograms {
+		public static final String ANC_PROGRAM = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+
+		public static final String ANC_PROGRAM_CONCEPT = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+
+		public static final String PNC_PROGRAM = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+
+		public static final String CWC_PROGRAM = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+
+		public static final String CWC_PROGRAM_CONCEPT = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+
+		public static final String PNC_PROGRAM_CONCEPT = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 	}
 	
 	@Override
@@ -135,5 +170,24 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.TRANSFER));
 		install(encounterType("ANCENCOUNTER", "ANC encounter type", _EhrEncounterTypes.ANCENCOUNTER));
 		install(encounterType("PNCENCOUNTER", "PNC encounter type", _EhrEncounterTypes.PNCENCOUNTER));
+
+		//visit types to be applied
+		install(encounterType("FACILITYVISIT",
+				"Patient visits the clinic/hospital (as opposed to a home visit, or telephone contact)",
+				_VistTypes.FACILITY_VISIT));
+		install(encounterType("INITIALMCHCLINICVISIT", "Initial Visit to the MCH Clinic",
+				_VistTypes.INITIAL_MCH_CLINIC_VISIT));
+		install(encounterType("RETURNANCCLINICVISIT", "Return ANC Clinic Visit", _VistTypes.RETURN_ANC_CLINIC_VISIT));
+		install(encounterType("RETURNPNCCLINICVISIT", "Return PNC Clinic Visit", _VistTypes.RETURN_PNC_CLINIC_VISIT));
+		install(encounterType("RETURNCWCCLINICVISIT", "Return CWC Clinic Visit", _VistTypes.RETURN_CWC_CLINIC_VISIT));
+		install(encounterType("ANCTRIAGEENCOUNTER", "ANC triage encounter type", _EhrEncounterTypes.ANC_TRIAGE_ENCOUNTER_TYPE));
+		install(encounterType("PNCTRIAGEENCOUNTER", "PNC triage encounter type", _EhrEncounterTypes.PNC_TRIAGE_ENCOUNTER_TYPE));
+		install(encounterType("CWCENCOUNTER", "CWC encounter type", _EhrEncounterTypes.CWC_ENCOUNTER_TYPE));
+		install(encounterType("CWCTRIAGEENCOUNTER", "CWC triage encounter type", _EhrEncounterTypes.CWC_TRIAGE_ENCOUNTER_TYPE));
+
+		//programs
+		install(program("Antenatal Care Program", "ANC Program", _EhrPrograms.ANC_PROGRAM_CONCEPT, _EhrPrograms.ANC_PROGRAM));
+		install(program("Postnatal Care Program", "PNC Program", _EhrPrograms.PNC_PROGRAM_CONCEPT,_EhrPrograms.PNC_PROGRAM));
+		install(program("Child Welfare Program", "CW Program", _EhrPrograms.CWC_PROGRAM_CONCEPT, _EhrPrograms.CWC_PROGRAM));
 	}
 }
