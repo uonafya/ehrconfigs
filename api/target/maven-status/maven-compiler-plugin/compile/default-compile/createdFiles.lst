@@ -1,4 +1,5 @@
 org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata$_EhrPersonAttributeType.class
+org/openmrs/module/ehrconfigs/EHRConfigurationConstants.class
 org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata.class
 org/openmrs/module/ehrconfigs/api/EHRConfigurtaionsService.class
 org/openmrs/module/ehrconfigs/advice/EhrPatientAdvice.class
