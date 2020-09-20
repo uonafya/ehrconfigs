@@ -375,8 +375,8 @@ table {
 }
 
 i {
-    font-size: 4em;
-    padding: 0.2em;
+    font-size: 2em;
+    padding: 0.1em;
 }
 i.link {
     font-size: 0.7em;
@@ -747,7 +747,7 @@ body:after {
 
 header {
     position: relative;
-    background-color: #00463f;
+    background-color: #d1d0c9;
     line-height: 1em;
 }
 header:before, header:after {

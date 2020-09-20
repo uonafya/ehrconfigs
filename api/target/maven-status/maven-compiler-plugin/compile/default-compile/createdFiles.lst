@@ -1,3 +1,4 @@
+org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata$_EhrPrograms.class
 org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata$_EhrPersonAttributeType.class
 org/openmrs/module/ehrconfigs/EHRConfigurationConstants.class
 org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata.class
@@ -5,6 +6,7 @@ org/openmrs/module/ehrconfigs/api/EHRConfigurtaionsService.class
 org/openmrs/module/ehrconfigs/advice/EhrPatientAdvice.class
 org/openmrs/module/ehrconfigs/api/dao/EHRConfigurtaionsDao.class
 org/openmrs/module/ehrconfigs/task/CopyPatientObjectsToPatientSearch.class
+org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata$_VistTypes.class
 org/openmrs/module/ehrconfigs/EHRConfigurtaionsActivator.class
 org/openmrs/module/ehrconfigs/api/impl/EHRConfigurtaionsServiceImpl.class
 org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata$_EhrEncounterTypes.class
