@@ -106,17 +106,17 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 	
 	public static final class _EhrPrograms {
 		
-		public static final String ANC_PROGRAM = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+		public static final String ANC_PROGRAM = "e8751e5c-fbda-11ea-9bba-ff7e8cea17d3"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
-		public static final String ANC_PROGRAM_CONCEPT = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+		public static final String ANC_PROGRAM_CONCEPT = "160446AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
-		public static final String PNC_PROGRAM = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+		public static final String PNC_PROGRAM = "23edfbca-fbdb-11ea-a675-17377ca3079e"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
-		public static final String CWC_PROGRAM = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+		public static final String CWC_PROGRAM = "645d7e4c-fbdb-11ea-911a-5fe00fc87a47"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
-		public static final String CWC_PROGRAM_CONCEPT = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+		public static final String CWC_PROGRAM_CONCEPT = "163110AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
-		public static final String PNC_PROGRAM_CONCEPT = ""; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+		public static final String PNC_PROGRAM_CONCEPT = "1623AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 	}
 	
 	@Override
