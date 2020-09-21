@@ -374,20 +374,6 @@ table {
     margin: 0 auto;
 }
 
-i {
-    font-size: 2em;
-    padding: 0.1em;
-}
-i.link {
-    font-size: 0.7em;
-}
-i.small {
-    font-size: 1.2em;
-}
-i.medium {
-    font-size: 2em;
-}
-
 ul, ol, li {
     margin: 0;
     padding: 0;
@@ -418,7 +404,7 @@ hr {
 }
 
 a {
-    color: #007fff;
+    color: #ffffff;
     text-decoration: none;
 }
 a:hover {
