@@ -49,41 +49,70 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String WAIVER_NUMBER = "a804c03e-f1bc-11ea-ae43-dfa0f52ad887"; //id in old afyaehms is 32
 		
 		public static final String EXEMPTION_NUMBER = "a22892ce-f1d2-11ea-a512-138a123d324a"; //id in old afyaehms is 36
+		
 		public static final String PPO_NUMBER = "bd2e75c6-0261-11eb-8942-afdb78609e0e"; //id in old afyaehms is 17
+		
 		public static final String FREE_CATEGORY = "e41c0400-0261-11eb-a88c-9f66e7b2fac4"; //id in old afyaehms is 18
+		
 		public static final String FREE_CATEGORY_REASON = "0d3b9134-0262-11eb-979f-57cecced53d8"; //id in old afyaehms is 19
+		
 		public static final String WEIGHT = "9105adee-0265-11eb-8ffe-cfd4b66eebbe"; //id in old afyaehms is 21
+		
 		public static final String BLOOD_PRESSURE = "b6a0bbca-0265-11eb-9df5-536d14a99f2f"; //id in old afyaehms is 22
+		
 		public static final String PATIENT_HISTORY = "ee3b64c2-0265-11eb-8e51-bb9aaa2cc007"; //id in old afyaehms is 23
+		
 		public static final String HEALTH_ID = "0df9ad6e-0266-11eb-ae59-87b5342637a3"; //id in old afyaehms is 24
+		
 		public static final String OTHER_NAME = "357620c0-0266-11eb-b45b-f3f89d85a8d7"; //id in old afyaehms is 25
+		
 		public static final String MARITAL_STATUS = "71631020-0266-11eb-a662-ef6a6b91583c"; //id in old afyaehms is 26
+		
 		public static final String NATIONALITY = "a2b040bc-0266-11eb-b808-332aa122dc1b"; //id in old afyaehms is 27
+		
 		public static final String PHYSICAL_RESIDENCE_RELATIVE = "aac38e38-026d-11eb-a502-0fd7f9c94160"; //id in old afyaehms is 28
+		
 		public static final String TELEPHONE_NUMBER_RELATIVE = "41eb505c-026e-11eb-8f64-a76d93dc6b55"; //id in old afyaehms is 29
+		
 		public static final String EMAIL_ADDRESS_RELATIVE = "706dbf50-026e-11eb-b716-fbb3bb196995"; //id in old afyaehms is 30
+		
 		public static final String CHILD_LESS_THAN_5_YEAR_EXCEMPTION_NUMBER = "39f40dca-026f-11eb-a1f5-c31fabaf988d"; //id in old afyaehms is 31
+		
 		public static final String NHIF_CARD_ID = "9c945480-026f-11eb-9ff1-dbeee1a64b43"; //id in old afyaehms is 33
+		
 		public static final String NHIF_CARD_NUMBER = "bde64e04-026f-11eb-bb17-73c196be052b"; //id in old afyaehms is 34
+		
 		public static final String COMPREHENSIVE_CARE_CLINIC_PATIENT_EXEMPTION_NUMBER = "644d27c2-0270-11eb-8141-7336ef783a2e"; //id in old afyaehms is 35
+		
 		public static final String PATIENT_EMAIL_ADDRESS = "8f504f4e-0270-11eb-8ec9-6bb265d687b4"; //id in old afyaehms is 37
+		
 		public static final String PASSPORT_NUMBER = "ceb91c92-0270-11eb-ae44-1f4df7069a2e"; //id in old afyaehms is 38
+		
 		public static final String OTHER_NATIONALITY = "ef5bb162-0270-11eb-aef7-5bf3d4c5bc8b"; //id in old afyaehms is 39
+		
 		public static final String RELIGION = "1d357ec4-0271-11eb-bd97-47682e436948"; //id in old afyaehms is 40
+		
 		public static final String CHIEFDOM = "49a10820-0271-11eb-ab9f-f771acccf116"; //id in old afyaehms is 41
+		
 		public static final String STUDENT_ID = "88546440-0271-11eb-b43f-c392cfe8f5df"; //id in old afyaehms is 42
+		
 		public static final String UNIVERSITY = "5158d876-0272-11eb-a732-4f63eec879b9"; //id in old afyaehms is 47
+		
 		public static final String UNKOWN_PATIENT = "65c1b1f4-0275-11eb-b010-afbfa32a1d87"; //id in old afyaehms is 49
+		
 		public static final String TEST_PATIENT = "8e4006f8-0275-11eb-9ab8-f7ec6b1f4cec"; //id in old afyaehms is 50
+		
 		public static final String PATIENT_NUMBER_NOK = "cfca6154-0275-11eb-a9ed-43bf454ed3f5"; //id in old afyaehms is 51
+		
 		public static final String CHILD_FULLY_IMMUNIZED = "0c355d56-0276-11eb-80f6-cb51ab9e11cb"; //id in old afyaehms is 52
-
-
+		
 		//Already existing in kenyaEMR, just use the constant directly
 		public static final String NEXT_OF_KIN_INFORMANT_NAME_TYPE = "830bef6d-b01f-449d-9f8d-ac0fede8dbd3"; //id in old afyaehms is 15
+		
 		public static final String PHONE_NUMBER = "b2c38640-2603-4629-aebd-3b54f33f1e3a"; //id in old afyaehms is 16
+		
 		public static final String NATIONAL_ID_NUMBER = "73d34479-2f9e-4de3-a5e6-1f79a17459bb"; //id in old afyaehms is 20
-
+		
 		//
 	}
 	
@@ -172,64 +201,66 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrPersonAttributeType.WAIVER_NUMBER));
 		install(personAttributeType("Exemption Number", "Exemption Number", String.class, null, false, 1.0,
 		    _EhrPersonAttributeType.EXEMPTION_NUMBER));
-		install(personAttributeType("PPO Number", "Attribute to store pensions number", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.PPO_NUMBER));
-		install(personAttributeType("Free Category", "Free Category", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.FREE_CATEGORY));
-		install(personAttributeType("Free Category Reason", "Free Category Reason", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.FREE_CATEGORY_REASON));
-		install(personAttributeType("Weight", "Weight of a patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.WEIGHT));
-		install(personAttributeType("Blood Pressure", "Blood pressure of a Patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.BLOOD_PRESSURE));
-		install(personAttributeType("Patient History", "Medical history of a Patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.PATIENT_HISTORY));
-		install(personAttributeType("Health ID", "Health ID of a patient is used for registering a patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.HEALTH_ID));
-		install(personAttributeType("Other Name", "Other Name of the Patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.OTHER_NAME));
-		install(personAttributeType("Marital Status", "Marital Status of the Patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.MARITAL_STATUS));
-		install(personAttributeType("Nationality", "Nationality of the Patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.NATIONALITY));
-		install(personAttributeType("Physical Residence Relative", "Physical Residence of the relative (NOK) of the patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.PHYSICAL_RESIDENCE_RELATIVE));
-		install(personAttributeType("Telephone Number Relative", "Telephone Number of the relative (NOK) of the patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.TELEPHONE_NUMBER_RELATIVE));
-		install(personAttributeType("Email Address Relative", "E-mail address of the relative (NOK) of the patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.EMAIL_ADDRESS_RELATIVE));
-		install(personAttributeType("Child less than 5 yr Exemption Number", "Exemption Number for child less than 5 years", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.CHILD_LESS_THAN_5_YEAR_EXCEMPTION_NUMBER));
-		install(personAttributeType("NHIF Card ID", "NHIF Card ID", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.NHIF_CARD_ID));
-		install(personAttributeType("NHIF Card Number", "NHIF Exemption Number", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.NHIF_CARD_NUMBER));
-		install(personAttributeType("Comprehensive Care Clinic Patient Exemption Number", "Comprehensive Care Clinic Patient Exemption Number", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.COMPREHENSIVE_CARE_CLINIC_PATIENT_EXEMPTION_NUMBER));
-		install(personAttributeType("Exemption Number", "Exemption Number", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.EXEMPTION_NUMBER));
-		install(personAttributeType("Patient E-mail Address", "E-mail address of patient", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.PATIENT_EMAIL_ADDRESS));
-		install(personAttributeType("Passport Number", "Passport Number", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.PASSPORT_NUMBER));
-		install(personAttributeType("Other Nationality", "Other Nationality", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.OTHER_NATIONALITY));
-		install(personAttributeType("Religion", "Religion", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.RELIGION));
-		install(personAttributeType("Chiefdom", "Chiefdom of the village", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.CHIEFDOM));
-		install(personAttributeType("Student ID", "Student ID Number", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.STUDENT_ID));
-		install(personAttributeType("University", "University to which the student belongs to", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.UNIVERSITY));
-		install(personAttributeType("Unknown patient", "Used to flag patients that cannot be identified during the check-in process", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.UNKOWN_PATIENT));
-		install(personAttributeType("Test Patient", "Flag to describe if the patient was created to a test or not", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.TEST_PATIENT));
-		install(personAttributeType("Phone Number (NOK)", "Contacts of Next of kin/ Informant", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.PATIENT_NUMBER_NOK));
-		install(personAttributeType("Child Fully Immunized", "Stored property whether a child has completed immunization", String.class, null,
-				false, 1.0, _EhrPersonAttributeType.CHILD_FULLY_IMMUNIZED));
+		install(personAttributeType("PPO Number", "Attribute to store pensions number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.PPO_NUMBER));
+		install(personAttributeType("Free Category", "Free Category", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.FREE_CATEGORY));
+		install(personAttributeType("Free Category Reason", "Free Category Reason", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.FREE_CATEGORY_REASON));
+		install(personAttributeType("Weight", "Weight of a patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.WEIGHT));
+		install(personAttributeType("Blood Pressure", "Blood pressure of a Patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.BLOOD_PRESSURE));
+		install(personAttributeType("Patient History", "Medical history of a Patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.PATIENT_HISTORY));
+		install(personAttributeType("Health ID", "Health ID of a patient is used for registering a patient", String.class,
+		    null, false, 1.0, _EhrPersonAttributeType.HEALTH_ID));
+		install(personAttributeType("Other Name", "Other Name of the Patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.OTHER_NAME));
+		install(personAttributeType("Marital Status", "Marital Status of the Patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.MARITAL_STATUS));
+		install(personAttributeType("Nationality", "Nationality of the Patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.NATIONALITY));
+		install(personAttributeType("Physical Residence Relative",
+		    "Physical Residence of the relative (NOK) of the patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.PHYSICAL_RESIDENCE_RELATIVE));
+		install(personAttributeType("Telephone Number Relative", "Telephone Number of the relative (NOK) of the patient",
+		    String.class, null, false, 1.0, _EhrPersonAttributeType.TELEPHONE_NUMBER_RELATIVE));
+		install(personAttributeType("Email Address Relative", "E-mail address of the relative (NOK) of the patient",
+		    String.class, null, false, 1.0, _EhrPersonAttributeType.EMAIL_ADDRESS_RELATIVE));
+		install(personAttributeType("Child less than 5 yr Exemption Number", "Exemption Number for child less than 5 years",
+		    String.class, null, false, 1.0, _EhrPersonAttributeType.CHILD_LESS_THAN_5_YEAR_EXCEMPTION_NUMBER));
+		install(personAttributeType("NHIF Card ID", "NHIF Card ID", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.NHIF_CARD_ID));
+		install(personAttributeType("NHIF Card Number", "NHIF Exemption Number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.NHIF_CARD_NUMBER));
+		install(personAttributeType("Comprehensive Care Clinic Patient Exemption Number",
+		    "Comprehensive Care Clinic Patient Exemption Number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.COMPREHENSIVE_CARE_CLINIC_PATIENT_EXEMPTION_NUMBER));
+		install(personAttributeType("Exemption Number", "Exemption Number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.EXEMPTION_NUMBER));
+		install(personAttributeType("Patient E-mail Address", "E-mail address of patient", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.PATIENT_EMAIL_ADDRESS));
+		install(personAttributeType("Passport Number", "Passport Number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.PASSPORT_NUMBER));
+		install(personAttributeType("Other Nationality", "Other Nationality", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.OTHER_NATIONALITY));
+		install(personAttributeType("Religion", "Religion", String.class, null, false, 1.0, _EhrPersonAttributeType.RELIGION));
+		install(personAttributeType("Chiefdom", "Chiefdom of the village", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.CHIEFDOM));
+		install(personAttributeType("Student ID", "Student ID Number", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.STUDENT_ID));
+		install(personAttributeType("University", "University to which the student belongs to", String.class, null, false,
+		    1.0, _EhrPersonAttributeType.UNIVERSITY));
+		install(personAttributeType("Unknown patient",
+		    "Used to flag patients that cannot be identified during the check-in process", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.UNKOWN_PATIENT));
+		install(personAttributeType("Test Patient", "Flag to describe if the patient was created to a test or not",
+		    String.class, null, false, 1.0, _EhrPersonAttributeType.TEST_PATIENT));
+		install(personAttributeType("Phone Number (NOK)", "Contacts of Next of kin/ Informant", String.class, null, false,
+		    1.0, _EhrPersonAttributeType.PATIENT_NUMBER_NOK));
+		install(personAttributeType("Child Fully Immunized", "Stored property whether a child has completed immunization",
+		    String.class, null, false, 1.0, _EhrPersonAttributeType.CHILD_FULLY_IMMUNIZED));
 		//Installing encounter types
 		install(encounterType("RADIOLOGYENCOUNTER", "This define encounters with radiology/ultrasounds",
 		    _EhrEncounterTypes.RADIOLOGYENCOUNTER));
