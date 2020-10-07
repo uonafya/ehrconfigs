@@ -182,10 +182,10 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String CWC_PROGRAM_CONCEPT = "163110AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
 		public static final String PNC_PROGRAM_CONCEPT = "1623AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
-
-		public static final String ONCOLOGY_PROGRAM_CONCEPT = "37185468-08a4-11eb-b712-17cb7f2541a9";
-
-		public static final String ONCOLOGY_PROGRAM = "116030AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		
+		public static final String ONCOLOGY_PROGRAM_CONCEPT = "116030AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		
+		public static final String ONCOLOGY_PROGRAM = "37185468-08a4-11eb-b712-17cb7f2541a9";
 	}
 	
 	@Override
@@ -324,6 +324,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(program("Antenatal Care Program", "ANC Program", _EhrPrograms.ANC_PROGRAM_CONCEPT, _EhrPrograms.ANC_PROGRAM));
 		install(program("Postnatal Care Program", "PNC Program", _EhrPrograms.PNC_PROGRAM_CONCEPT, _EhrPrograms.PNC_PROGRAM));
 		install(program("Child Welfare Program", "CW Program", _EhrPrograms.CWC_PROGRAM_CONCEPT, _EhrPrograms.CWC_PROGRAM));
-		install(program("Oncology Program", "Oncology program",_EhrPrograms.ONCOLOGY_PROGRAM_CONCEPT, _EhrPrograms.ONCOLOGY_PROGRAM));
+		install(program("Oncology Program", "Oncology program", _EhrPrograms.ONCOLOGY_PROGRAM_CONCEPT,
+		    _EhrPrograms.ONCOLOGY_PROGRAM));
 	}
 }
