@@ -13,6 +13,7 @@ import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.form;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
 
@@ -188,6 +189,20 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String CWC_PROGRAM_CONCEPT = "163110AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
 		public static final String PNC_PROGRAM_CONCEPT = "1623AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
+		
+		public static final String ONCOLOGY_PROGRAM_CONCEPT = "116030AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		
+		public static final String ONCOLOGY_PROGRAM = "64d6b82c-08a9-11eb-b236-077a7c74158b";
+	}
+	
+	public static final class _EhrForms {
+		
+		public static final String ONCOLOGY_ENROLLMENT_FORM = "4b19bf6a-08cc-11eb-ad40-63f9910aca7b";
+		
+		public static final String ONCOLOGY_DISCONTINUATION_FORM = "67b0c4de-08cc-11eb-ae4d-c756d1210d5c";
+		
+		public static final String ONCOLOGY_FOLLOWUP_FORM = "884df5d6-08cc-11eb-a31e-27b10c64a0a7";
+		
 	}
 	
 	@Override
@@ -326,5 +341,20 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(program("Antenatal Care Program", "ANC Program", _EhrPrograms.ANC_PROGRAM_CONCEPT, _EhrPrograms.ANC_PROGRAM));
 		install(program("Postnatal Care Program", "PNC Program", _EhrPrograms.PNC_PROGRAM_CONCEPT, _EhrPrograms.PNC_PROGRAM));
 		install(program("Child Welfare Program", "CW Program", _EhrPrograms.CWC_PROGRAM_CONCEPT, _EhrPrograms.CWC_PROGRAM));
+		//oncology
+		install(program("Oncology Program", "Oncology program", _EhrPrograms.ONCOLOGY_PROGRAM_CONCEPT,
+		    _EhrPrograms.ONCOLOGY_PROGRAM));
+		//oncology encounter types
+		install(encounterType("Oncology Initial", "Initial oncology encounter type", _EhrEncounterTypes.ONCOLOGY_INITIAL));
+		install(encounterType("Oncology Discontinue", "Discontinue oncology encounter type",
+		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE));
+		install(encounterType("Oncology Followup", "Follow up oncology encounter type", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP));
+		//oncology forms
+		install(form("Oncology Initial enrollment form", "Initial form for oncology enrollment",
+		    _EhrEncounterTypes.ONCOLOGY_INITIAL, "1.0", _EhrForms.ONCOLOGY_ENROLLMENT_FORM));
+		install(form("Oncology  Discontinutaion form", "Discontinuation  form for oncology",
+		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE, "1.0", _EhrForms.ONCOLOGY_DISCONTINUATION_FORM));
+		install(form("Oncology Followup form", "Followup form for oncology", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP, "1.0",
+		    _EhrForms.ONCOLOGY_FOLLOWUP_FORM));
 	}
 }

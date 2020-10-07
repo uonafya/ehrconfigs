@@ -1,9 +1,0 @@
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/EHRConfigurationConstants.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/task/CopyPatientObjectsToPatientSearch.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/advice/EhrPatientAdvice.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/EHRConfigurtaionsActivator.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/EHRConfigurtaionsConfig.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/metadata/EhrCommonMetadata.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/api/impl/EHRConfigurtaionsServiceImpl.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/api/EHRConfigurtaionsService.java
-/home/codehub/workspace/integrated_EHR/ehrconfigs/api/src/main/java/org/openmrs/module/ehrconfigs/api/dao/EHRConfigurtaionsDao.java
