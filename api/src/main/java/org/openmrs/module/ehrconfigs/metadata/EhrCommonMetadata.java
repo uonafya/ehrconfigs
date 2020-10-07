@@ -167,6 +167,12 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String CWC_TRIAGE_ENCOUNTER_TYPE = "150932f2-fac6-11ea-b158-4b1b80bfe51c";
 		
 		public static final String ANC_TRIAGE_ENCOUNTER_TYPE = "25dbb7d0-fac6-11ea-94e8-0bd56324f4b5";
+		
+		public static final String ONCOLOGY_INITIAL = "586660a8-08ca-11eb-9dac-6f55ef0a3a7d";
+		
+		public static final String ONCOLOGY_DISCONTINUE = "7ae70e0c-08ca-11eb-9325-676401a68809";
+		
+		public static final String ONCOLOGY_FOLLOWUP = "984405fe-08ca-11eb-bb7a-cb6ccfe9c91e";
 	}
 	
 	public static final class _EhrPrograms {
