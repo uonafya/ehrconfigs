@@ -1,4 +1,5 @@
-**/target
+api/target
+omod/target
 **/bin
 /.git
 /.settings
