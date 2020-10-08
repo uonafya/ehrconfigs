@@ -15,6 +15,7 @@ package org.openmrs.module.ehrconfigs.task;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.openmrs.Patient;
+import org.openmrs.PatientIdentifier;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
@@ -63,7 +64,7 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 		String middleName = "";
 		String familyName = "";
 		Timestamp birtDate = null;
-		String patientIdentifier = "";
+		PatientIdentifier patientIdentifier;
 		if (patient != null && hospitalCoreService.getPatientByPatientId(patient.getPatientId()) == null) {
 			log.error("Starting with patient>>" + patient.getPatientId());
 			givenName = patient.getGivenName();
@@ -71,11 +72,11 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 			middleName = patient.getMiddleName();
 			fullname = givenName + " " + middleName + " " + familyName;
 			birtDate = new Timestamp(patient.getBirthdate().getTime());
-			patientIdentifier = patient.getPatientIdentifier().getIdentifier();
+			patientIdentifier = patient.getPatientIdentifier();
 			
-			if (!patientIdentifier.isEmpty()) {
+			if (patientIdentifier != null) {
 				patientSearch.setPatientId(patient.getPatientId());
-				patientSearch.setIdentifier(patientIdentifier);
+				patientSearch.setIdentifier(patientIdentifier.getIdentifier());
 				patientSearch.setFullname(fullname);
 				patientSearch.setGivenName(givenName);
 				patientSearch.setMiddleName(middleName);
