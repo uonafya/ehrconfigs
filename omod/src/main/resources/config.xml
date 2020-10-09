@@ -37,55 +37,93 @@
 		<point>org.openmrs.api.PatientService</point>
 		<class>org.openmrs.module.ehrconfigs.advice.EhrPatientAdvice</class>
 	</advice>
-	
-	
-	<!-- Required Privileges 
-	<privilege>
-		<name>Form Entry</name>
-		<description>Allows user to access Form Entry pages/functions</description>
-	</privilege>
-	 /Required Privileges -->
 
-
-	<!-- Required Global Properties 
 	<globalProperty>
-		<property>@MODULE_ID@.someProperty</property>
-		<defaultValue></defaultValue>
+		<property>${project.parent.artifactId}.location</property>
+		<defaultValue>1</defaultValue>
 		<description>
-			A description of the global property goes here.  The description
-			should explain enough for administrators to understand the purpose
-			and possible values for the global property.
+			Location id
 		</description>
 	</globalProperty>
-	/Required Global Properties -->
-	
-	<!--
-	<dwr>
-		<allow>
-			<create creator="new" javascript="DWRFormEntryService">
-				<param name="class" value="org.openmrs.module.@MODULE_ID@.web.DWRFormEntryService"/>
-				<include method="enterForm"/>
-			</create>
-		</allow>
 
-		<signatures>
-			<![CDATA[
-			import @MODULE_PACKAGE@.web.DWRFormEntryService;
-			DWRFormEntryService.enterForm(Integer patientId, Integer formId, boolean useEncounter, List<String> fields);
-			]]>
-		</signatures>	
-	</dwr>
-	-->
-	
-	<!-- Servlets -->
-	<!-- Accessed through the url /pageContext()/moduleServlet/<moduleId>/<servlet-name> 
-	<servlet>
-		<servlet-name>formDownload</servlet-name>
-		<servlet-class>@MODULE_PACKAGE@.web.FormDownloadServlet</servlet-class>
-	</servlet>
-	-->
-	<!-- /Servlets -->
-	
+	<globalProperty>
+		<property>${project.parent.artifactId}.patientIdentifierType</property>
+		<defaultValue>1</defaultValue>
+		<description>
+			Patient Identifier Type id
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.encounterType.init</property>
+		<defaultValue>REGINITIAL</defaultValue>
+		<description>
+			Encounter type for the first visit
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.encounterType.revisit</property>
+		<defaultValue>REGREVISIT</defaultValue>
+		<description>
+			Encounter type for returned visits
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.newPatientConcept</property>
+		<defaultValue>New Patient</defaultValue>
+		<description>
+			Concept name of "New Patient" referral for patient queue
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.numberOfDateValidation</property>
+		<defaultValue>0</defaultValue>
+		<description>
+			Number of date validation
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.initialVisitRegistrationFee</property>
+		<defaultValue>0</defaultValue>
+		<description>
+			Registration Fee for first visit
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.reVisitRegistrationFee</property>
+		<defaultValue>0</defaultValue>
+		<description>
+			Registration Fee for revisit
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.patientPerRSBY</property>
+		<defaultValue>5</defaultValue>
+		<description>
+			Maximum number of patients can register with a RSBY number
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.patientPerBPL</property>
+		<defaultValue>10</defaultValue>
+		<description>
+			Maximum number of patients can register with a BPL number
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.revisitConcept</property>
+		<defaultValue>REVISIT</defaultValue>
+		<description>
+			Name of concept REVISIT
+		</description>
+	</globalProperty>
 	
 	<!-- Internationalization -->
 	<!-- All message codes should start with @MODULE_ID@.* -->
