@@ -174,6 +174,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String ONCOLOGY_DISCONTINUE = "7ae70e0c-08ca-11eb-9325-676401a68809";
 		
 		public static final String ONCOLOGY_FOLLOWUP = "984405fe-08ca-11eb-bb7a-cb6ccfe9c91e";
+		
+		public static final String ONCOLOGY_SCREENING = "e24209cc-0a1d-11eb-8f2a-bb245320c623";
 	}
 	
 	public static final class _EhrPrograms {
@@ -202,6 +204,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String ONCOLOGY_DISCONTINUATION_FORM = "67b0c4de-08cc-11eb-ae4d-c756d1210d5c";
 		
 		public static final String ONCOLOGY_FOLLOWUP_FORM = "884df5d6-08cc-11eb-a31e-27b10c64a0a7";
+		
+		public static final String ONCOLOGY_SCREENING_FORM = "be5c5602-0a1d-11eb-9e20-37d2e56925ee";
 		
 	}
 	
@@ -349,6 +353,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Oncology Discontinue", "Discontinue oncology encounter type",
 		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE));
 		install(encounterType("Oncology Followup", "Follow up oncology encounter type", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP));
+		install(encounterType("Oncology Screening", "Oncology screening  encounter type",
+		    _EhrEncounterTypes.ONCOLOGY_FOLLOWUP));
 		//oncology forms
 		install(form("Oncology Initial enrollment form", "Initial form for oncology enrollment",
 		    _EhrEncounterTypes.ONCOLOGY_INITIAL, "1.0", _EhrForms.ONCOLOGY_ENROLLMENT_FORM));
@@ -356,5 +362,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE, "1.0", _EhrForms.ONCOLOGY_DISCONTINUATION_FORM));
 		install(form("Oncology Followup form", "Followup form for oncology", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP, "1.0",
 		    _EhrForms.ONCOLOGY_FOLLOWUP_FORM));
+		install(form("Oncology Screening form", "Screening form for oncology", _EhrEncounterTypes.ONCOLOGY_SCREENING, "1.0",
+		    _EhrForms.ONCOLOGY_SCREENING_FORM));
 	}
 }
