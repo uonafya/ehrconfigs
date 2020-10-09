@@ -354,7 +354,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE));
 		install(encounterType("Oncology Followup", "Follow up oncology encounter type", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP));
 		install(encounterType("Oncology Screening", "Oncology screening  encounter type",
-		    _EhrEncounterTypes.ONCOLOGY_FOLLOWUP));
+		    _EhrEncounterTypes.ONCOLOGY_SCREENING));
 		//oncology forms
 		install(form("Oncology Initial enrollment form", "Initial form for oncology enrollment",
 		    _EhrEncounterTypes.ONCOLOGY_INITIAL, "1.0", _EhrForms.ONCOLOGY_ENROLLMENT_FORM));
