@@ -176,6 +176,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String ONCOLOGY_FOLLOWUP = "984405fe-08ca-11eb-bb7a-cb6ccfe9c91e";
 		
 		public static final String ONCOLOGY_SCREENING = "e24209cc-0a1d-11eb-8f2a-bb245320c623";
+		
+		public static final String FAMILY_CANCER_HISTORY = "b9c51a7e-0e24-11eb-9559-13c33ac53eec";
 	}
 	
 	public static final class _EhrPrograms {
@@ -195,6 +197,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String ONCOLOGY_PROGRAM_CONCEPT = "116030AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 		
 		public static final String ONCOLOGY_PROGRAM = "64d6b82c-08a9-11eb-b236-077a7c74158b";
+		
 	}
 	
 	public static final class _EhrForms {
@@ -206,6 +209,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String ONCOLOGY_FOLLOWUP_FORM = "884df5d6-08cc-11eb-a31e-27b10c64a0a7";
 		
 		public static final String ONCOLOGY_SCREENING_FORM = "be5c5602-0a1d-11eb-9e20-37d2e56925ee";
+		
+		public static final String FAMILY_CANCER_HISTORY = "dd0e4f3c-0e24-11eb-aa70-bb2cf351b19b";
 		
 	}
 	
@@ -355,6 +360,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Oncology Followup", "Follow up oncology encounter type", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP));
 		install(encounterType("Oncology Screening", "Oncology screening  encounter type",
 		    _EhrEncounterTypes.ONCOLOGY_SCREENING));
+		install(encounterType("Family cancer history", "Family cancer history encounter type",
+		    _EhrEncounterTypes.FAMILY_CANCER_HISTORY));
 		//oncology forms
 		install(form("Oncology Initial enrollment form", "Initial form for oncology enrollment",
 		    _EhrEncounterTypes.ONCOLOGY_INITIAL, "1.0", _EhrForms.ONCOLOGY_ENROLLMENT_FORM));
@@ -364,5 +371,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrForms.ONCOLOGY_FOLLOWUP_FORM));
 		install(form("Oncology Screening form", "Screening form for oncology", _EhrEncounterTypes.ONCOLOGY_SCREENING, "1.0",
 		    _EhrForms.ONCOLOGY_SCREENING_FORM));
+		install(form("Family cancer history form", "Family cancer history form for oncology",
+		    _EhrEncounterTypes.FAMILY_CANCER_HISTORY, "1.0", _EhrForms.FAMILY_CANCER_HISTORY));
 	}
 }
