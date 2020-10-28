@@ -160,6 +160,17 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String PNCENCOUNTER = "cbe0212a-f292-11ea-affa-2b398f67bbb4"; // old id 20 //check this in the kenyaEMR server if the uuid exists, do not install but reuse it
 		
+		//NCD encounter types added
+		public static final String DM_HTN_INITIAL_ENCOUNTER_TYPE = "cb5f27f0-18f8-11eb-88d7-fb1a7178f8ea";
+		
+		public static final String DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE = "f1573d1c-18f8-11eb-a453-63d51e56f5cb";
+		
+		public static final String NCD_DISCONTINUE_ENCOUNTER_TYPE = "1f7ec412-18f9-11eb-8122-8f25a543787a";
+		
+		public static final String NCD_ADMISSION_ENCOUNTER_TYPE = "4664a5b0-18f9-11eb-8a5a-2bee5937c71b";
+		
+		public static final String NCD_FOOT_CLINIC_ENCOUNTER_TYPE = "af5dbd36-18f9-11eb-ae6b-7f4c0920f004";
+		
 		////////
 		public static final String PNC_TRIAGE_ENCOUNTER_TYPE = "fcaec384-fac5-11ea-8aeb-fffc453fcc77";
 		
@@ -373,5 +384,18 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrForms.ONCOLOGY_SCREENING_FORM));
 		install(form("Family cancer history form", "Family cancer history form for oncology",
 		    _EhrEncounterTypes.FAMILY_CANCER_HISTORY, "1.0", _EhrForms.FAMILY_CANCER_HISTORY));
+		
+		//NCD metadat starts here
+		//Encounter types
+		install(encounterType("DM HTN Initial", "Used for collecting Initial encounter information",
+		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE));
+		install(encounterType("DM HTN Clinical Follow up", "DM HTN Follow up information",
+		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE));
+		install(encounterType("DM HTN discontinue patient", "DM HTN discontinue patient from care from this facility",
+		    _EhrEncounterTypes.NCD_DISCONTINUE_ENCOUNTER_TYPE));
+		install(encounterType("DM HTN admit patient", "DM HTN admit patient",
+		    _EhrEncounterTypes.NCD_ADMISSION_ENCOUNTER_TYPE));
+		install(encounterType("DM HTN foot clinic", "DM HTN foot clinic", _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE));
+		
 	}
 }
