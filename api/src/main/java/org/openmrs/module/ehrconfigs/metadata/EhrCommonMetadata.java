@@ -223,6 +223,17 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String FAMILY_CANCER_HISTORY = "dd0e4f3c-0e24-11eb-aa70-bb2cf351b19b";
 		
+		//NCD forms
+		public static final String NCD_ADMISSION = "9836224a-18fb-11eb-b83c-232364035228";
+		
+		public static final String NCD_FOLLOW_UP = "b3e07c84-18fb-11eb-bab2-6f7808a09aa6";
+		
+		public static final String NCD_DISCONTINUE = "d2c4ae9a-18fb-11eb-ab7d-1b8027b414d7";
+		
+		public static final String NCD_INITIAL = "edd8c072-18fb-11eb-9c05-839296c291c4";
+		
+		public static final String NCD_FOOT_CLINIC = "099d5e12-18fc-11eb-86f3-231df7469c4e";
+		
 	}
 	
 	@Override
@@ -385,7 +396,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(form("Family cancer history form", "Family cancer history form for oncology",
 		    _EhrEncounterTypes.FAMILY_CANCER_HISTORY, "1.0", _EhrForms.FAMILY_CANCER_HISTORY));
 		
-		//NCD metadat starts here
+		//NCD metadata starts here
 		//Encounter types
 		install(encounterType("DM HTN Initial", "Used for collecting Initial encounter information",
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE));
@@ -396,6 +407,17 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("DM HTN admit patient", "DM HTN admit patient",
 		    _EhrEncounterTypes.NCD_ADMISSION_ENCOUNTER_TYPE));
 		install(encounterType("DM HTN foot clinic", "DM HTN foot clinic", _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE));
+		//forms
+		install(form("NCD admit Patient", "Admit patient into this facility with NCD related complications",
+		    _EhrEncounterTypes.NCD_ADMISSION_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_ADMISSION));
+		install(form("NCD DM HTN FOLLOW UP", "NCD Clinical Follow Up Form",
+		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
+		install(form("NCD Discontinue Patient", "NCD discontinue patient from care from this facility",
+		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
+		install(form("NCD DM HTN INITIAL", "NCD DM HTN Initial Encounter Form",
+		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
+		install(form("NCD Foot clinic", "NCD Foot examination and treatment",
+		    _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOOT_CLINIC));
 		
 	}
 }
