@@ -413,7 +413,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(form("NCD DM HTN FOLLOW UP", "NCD Clinical Follow Up Form",
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
 		install(form("NCD Discontinue Patient", "NCD discontinue patient from care from this facility",
-		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
+		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
 		install(form("NCD DM HTN INITIAL", "NCD DM HTN Initial Encounter Form",
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
 		install(form("NCD Foot clinic", "NCD Foot examination and treatment",
