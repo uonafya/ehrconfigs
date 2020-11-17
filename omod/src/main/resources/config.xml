@@ -124,6 +124,13 @@
 			Name of concept REVISIT
 		</description>
 	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.referralReasonsConcept</property>
+		<defaultValue>Reasons for Referral</defaultValue>
+		<description>
+			referralReasonsConcept concept
+		</description>
+	</globalProperty>
 	
 	<!-- Internationalization -->
 	<!-- All message codes should start with @MODULE_ID@.* -->
