@@ -34,6 +34,23 @@
             <column name="uuid" value="afd0441e-ece9-11ea-949b-6f6e36727cf1" />
         </insert>
     </changeSet>
+    <changeSet id="ehrconfigs-20201118164702" author="ningosi" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM order_type WHERE name='Radiology Order';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding the radiology order type to the list of order types</comment>
+        <insert tableName="order_type">
+            <column name="name" value="Radiology Order" />
+            <column name="description" value="This defines investigation orders for radiology/ultrasound raised at billing" />
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP" />
+            <column name="creator" value="1" />
+            <column name="java_class_name" value="org.openmrs.TestOrder" />
+            <column name="uuid" value="b554bb28-29a6-11eb-8daa-377c8e081a2c" />
+                    
+        </insert>
+    </changeSet>
 
  
 </databaseChangeLog>
