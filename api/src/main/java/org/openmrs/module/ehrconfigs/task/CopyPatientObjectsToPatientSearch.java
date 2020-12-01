@@ -13,18 +13,16 @@
  */
 package org.openmrs.module.ehrconfigs.task;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
-import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.hospitalcore.model.PatientSearch;
 import org.openmrs.scheduler.tasks.AbstractTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.sql.Timestamp;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class CopyPatientObjectsToPatientSearch extends AbstractTask {
@@ -66,7 +64,7 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 		Timestamp birtDate = null;
 		PatientIdentifier patientIdentifier;
 		if (patient != null && hospitalCoreService.getPatientByPatientId(patient.getPatientId()) == null) {
-			log.error("Starting with patient>>" + patient.getPatientId());
+			//log.error("Starting with patient>>" + patient.getPatientId());
 			givenName = patient.getGivenName();
 			familyName = patient.getFamilyName();
 			middleName = patient.getMiddleName();
