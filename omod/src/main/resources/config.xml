@@ -131,6 +131,13 @@
 			referralReasonsConcept concept
 		</description>
 	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.identifier_prefix</property>
+		<defaultValue>HOSP</defaultValue>
+		<description>
+			Prefix used for registration identifier
+		</description>
+	</globalProperty>
 	
 	<!-- Internationalization -->
 	<!-- All message codes should start with @MODULE_ID@.* -->
