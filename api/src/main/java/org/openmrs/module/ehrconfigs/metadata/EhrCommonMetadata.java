@@ -107,6 +107,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String CHILD_FULLY_IMMUNIZED = "0c355d56-0276-11eb-80f6-cb51ab9e11cb"; //id in old afyaehms is 52
 		
+		public static final String PAYMENT_CATEGORY_SUB_TYPE = "972a32aa-6159-11eb-bc2d-9785fed39154"; // covers the options payment
+		
 		//Already existing in kenyaEMR, just use the constant directly
 		public static final String NEXT_OF_KIN_INFORMANT_NAME_TYPE = "830bef6d-b01f-449d-9f8d-ac0fede8dbd3"; //id in old afyaehms is 15
 		
@@ -313,6 +315,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    1.0, _EhrPersonAttributeType.PATIENT_NUMBER_NOK));
 		install(personAttributeType("Child Fully Immunized", "Stored property whether a child has completed immunization",
 		    String.class, null, false, 1.0, _EhrPersonAttributeType.CHILD_FULLY_IMMUNIZED));
+		install(personAttributeType("Payment sub category",
+		    "Stored property that is picked after a payment category is picked", String.class, null, false, 1.0,
+		    _EhrPersonAttributeType.PAYMENT_CATEGORY_SUB_TYPE));
 		//Installing encounter types
 		install(encounterType("RADIOLOGYENCOUNTER", "This define encounters with radiology/ultrasounds",
 		    _EhrEncounterTypes.RADIOLOGYENCOUNTER));
