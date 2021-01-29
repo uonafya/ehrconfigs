@@ -109,6 +109,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String PAYMENT_CATEGORY_SUB_TYPE = "972a32aa-6159-11eb-bc2d-9785fed39154"; // covers the options payment
 		
+		public static final String MODE_SUMMARY_DETAILS = "ae603d68-6206-11eb-9e5b-733e5624a1ed";// hold all the summary details for the transations
+		
 		//Already existing in kenyaEMR, just use the constant directly
 		public static final String NEXT_OF_KIN_INFORMANT_NAME_TYPE = "830bef6d-b01f-449d-9f8d-ac0fede8dbd3"; //id in old afyaehms is 15
 		
@@ -318,6 +320,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(personAttributeType("Payment sub category",
 		    "Stored property that is picked after a payment category is picked", String.class, null, false, 1.0,
 		    _EhrPersonAttributeType.PAYMENT_CATEGORY_SUB_TYPE));
+		install(personAttributeType("Summary details", "Stored property that stores summary deatils", String.class, null,
+		    false, 1.0, _EhrPersonAttributeType.MODE_SUMMARY_DETAILS));
 		//Installing encounter types
 		install(encounterType("RADIOLOGYENCOUNTER", "This define encounters with radiology/ultrasounds",
 		    _EhrEncounterTypes.RADIOLOGYENCOUNTER));
