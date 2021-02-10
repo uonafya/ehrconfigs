@@ -400,8 +400,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE, "1.0", _EhrForms.ONCOLOGY_DISCONTINUATION_FORM));
 		install(form("Oncology Followup form", "Followup form for oncology", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP, "1.0",
 		    _EhrForms.ONCOLOGY_FOLLOWUP_FORM));
-		install(form("Oncology Screening form", "Screening form for oncology", _EhrEncounterTypes.ONCOLOGY_SCREENING, "1.0",
-		    _EhrForms.ONCOLOGY_SCREENING_FORM));
+		install(form("Cancer Screening and early diagnosis", "Cancer Screening and early diagnosis form",
+		    _EhrEncounterTypes.ONCOLOGY_SCREENING, "1.0", _EhrForms.ONCOLOGY_SCREENING_FORM));
 		install(form("Family cancer history form", "Family cancer history form for oncology",
 		    _EhrEncounterTypes.FAMILY_CANCER_HISTORY, "1.0", _EhrForms.FAMILY_CANCER_HISTORY));
 		
