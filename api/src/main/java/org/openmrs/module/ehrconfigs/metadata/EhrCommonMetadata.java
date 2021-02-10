@@ -194,6 +194,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String ONCOLOGY_SCREENING = "e24209cc-0a1d-11eb-8f2a-bb245320c623";
 		
+		public static final String ONCOLOGY_TRAUMA_ENCOUNTER_TYPE = "d029ec12-6bae-11eb-b775-0f590ebc4940";
+		
 		public static final String FAMILY_CANCER_HISTORY = "b9c51a7e-0e24-11eb-9559-13c33ac53eec";
 	}
 	
@@ -226,6 +228,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String ONCOLOGY_FOLLOWUP_FORM = "884df5d6-08cc-11eb-a31e-27b10c64a0a7";
 		
 		public static final String ONCOLOGY_SCREENING_FORM = "be5c5602-0a1d-11eb-9e20-37d2e56925ee";
+		
+		public static final String ONCOLOGY_TRAUMA_FORM = "03f8d332-6baf-11eb-b344-93a63e368991";
 		
 		public static final String FAMILY_CANCER_HISTORY = "dd0e4f3c-0e24-11eb-aa70-bb2cf351b19b";
 		
@@ -366,6 +370,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.TRANSFER));
 		install(encounterType("ANCENCOUNTER", "ANC encounter type", _EhrEncounterTypes.ANCENCOUNTER));
 		install(encounterType("PNCENCOUNTER", "PNC encounter type", _EhrEncounterTypes.PNCENCOUNTER));
+		install(encounterType("Trauma", "Trauma encounter type", _EhrEncounterTypes.ONCOLOGY_TRAUMA_ENCOUNTER_TYPE));
 		
 		//visit types to be applied
 		install(encounterType("FACILITYVISIT",
@@ -411,6 +416,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.ONCOLOGY_SCREENING, "1.0", _EhrForms.ONCOLOGY_SCREENING_FORM));
 		install(form("Family cancer history form", "Family cancer history form for oncology",
 		    _EhrEncounterTypes.FAMILY_CANCER_HISTORY, "1.0", _EhrForms.FAMILY_CANCER_HISTORY));
+		install(form("Cancer trauma form", "Cancer trauma form", _EhrEncounterTypes.ONCOLOGY_TRAUMA_ENCOUNTER_TYPE, "1.0",
+		    _EhrForms.ONCOLOGY_TRAUMA_FORM));
 		
 		//NCD metadata starts here
 		//Encounter types
