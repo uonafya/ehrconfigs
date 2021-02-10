@@ -9,11 +9,13 @@
  */
 package org.openmrs.module.ehrconfigs.metadata;
 
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.form;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.patientIdentifierType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
 
@@ -240,6 +242,11 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 	}
 	
+	public static final class _EhrIdenifiers {
+		
+		public static final String BIRTH_CERTIFICATE_NUMBER = "6930e8ce-6ba6-11eb-9e03-6f68aa00888f";
+	}
+	
 	@Override
 	public void install() throws Exception {
 		//Installing person attribute types
@@ -427,6 +434,11 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
 		install(form("NCD Foot clinic", "NCD Foot examination and treatment",
 		    _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOOT_CLINIC));
+		
+		//identifier installation
+		install(patientIdentifierType("Birth certificate number",
+		    "Assigned to every person at birth, it is unique in Kenyan setting", ".{1,15}", "At most 15 characters long",
+		    null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.BIRTH_CERTIFICATE_NUMBER));
 		
 	}
 }
