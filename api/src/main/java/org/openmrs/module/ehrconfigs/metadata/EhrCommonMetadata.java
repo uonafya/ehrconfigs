@@ -219,7 +219,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String EHR_REPORTS_PROGRAM = "7a822d3e-8d40-11eb-92cc-5f145f16bd2e"; //for pluging ehraddon reports on the KenyaEMR reports page
 		
-		public static final String EHR_REPORTS_PROGRAM_CONCEPT = "68bfa3f3-1fc7-4d9d-bb41-e897c3c430ef"; //holder concept
+		public static final String EHR_REPORTS_PROGRAM_CONCEPT = "5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //holder concept
 		
 	}
 	
@@ -397,8 +397,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.CWC_TRIAGE_ENCOUNTER_TYPE));
 		
 		//programs
-		install(program("EHR Adon Reports program", "EHR reports program", _EhrPrograms.EHR_REPORTS_PROGRAM,
-		    _EhrPrograms.EHR_REPORTS_PROGRAM_CONCEPT));
+		install(program("EHR Adon Reports program", "EHR reports program", _EhrPrograms.EHR_REPORTS_PROGRAM_CONCEPT,
+		    _EhrPrograms.EHR_REPORTS_PROGRAM));
+
 		install(program("Antenatal Care Program", "ANC Program", _EhrPrograms.ANC_PROGRAM_CONCEPT, _EhrPrograms.ANC_PROGRAM));
 		install(program("Postnatal Care Program", "PNC Program", _EhrPrograms.PNC_PROGRAM_CONCEPT, _EhrPrograms.PNC_PROGRAM));
 		install(program("Child Welfare Program", "CW Program", _EhrPrograms.CWC_PROGRAM_CONCEPT, _EhrPrograms.CWC_PROGRAM));
