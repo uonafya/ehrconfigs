@@ -3,7 +3,7 @@
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
  * obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
  * the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
- *
+ * <p>
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
@@ -217,6 +217,10 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String ONCOLOGY_PROGRAM = "64d6b82c-08a9-11eb-b236-077a7c74158b";
 		
+		public static final String EHR_REPORTS_PROGRAM = "7a822d3e-8d40-11eb-92cc-5f145f16bd2e"; //for pluging ehraddon reports on the KenyaEMR reports page
+		
+		public static final String EHR_REPORTS_PROGRAM_CONCEPT = "68bfa3f3-1fc7-4d9d-bb41-e897c3c430ef"; //holder concept
+		
 	}
 	
 	public static final class _EhrForms {
@@ -243,6 +247,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String NCD_INITIAL = "edd8c072-18fb-11eb-9c05-839296c291c4";
 		
 		public static final String NCD_FOOT_CLINIC = "099d5e12-18fc-11eb-86f3-231df7469c4e";
+		
+		//EHR report form
+		public static final String EHR_ADDON_TEMP_FORM = "66c4664a-8d45-11eb-9ab1-3359b033ed37";
 		
 	}
 	
@@ -390,6 +397,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.CWC_TRIAGE_ENCOUNTER_TYPE));
 		
 		//programs
+		install(program("EHR Adon Reports program", "EHR reports program", _EhrPrograms.EHR_REPORTS_PROGRAM,
+		    _EhrPrograms.EHR_REPORTS_PROGRAM_CONCEPT));
 		install(program("Antenatal Care Program", "ANC Program", _EhrPrograms.ANC_PROGRAM_CONCEPT, _EhrPrograms.ANC_PROGRAM));
 		install(program("Postnatal Care Program", "PNC Program", _EhrPrograms.PNC_PROGRAM_CONCEPT, _EhrPrograms.PNC_PROGRAM));
 		install(program("Child Welfare Program", "CW Program", _EhrPrograms.CWC_PROGRAM_CONCEPT, _EhrPrograms.CWC_PROGRAM));
@@ -439,8 +448,12 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
 		install(form("NCD DM HTN INITIAL", "NCD DM HTN Initial Encounter Form",
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
-		install(form("NCD Foot clinic", "NCD Foot examination and treatment",
-		    _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOOT_CLINIC));
+		/**
+		 * Installs EHR addon form, a dummy form to help plug EHR reports as a program in kenyaEMR -
+		 * reports page
+		 */
+		install(form("EHR addon reports", "EHR addon reports temp form", _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE,
+		    "" + "1.0", _EhrForms.EHR_ADDON_TEMP_FORM));
 		
 		//identifier installation
 		install(patientIdentifierType("Birth certificate number",
