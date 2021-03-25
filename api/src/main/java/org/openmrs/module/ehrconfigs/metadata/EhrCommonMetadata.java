@@ -397,7 +397,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.CWC_TRIAGE_ENCOUNTER_TYPE));
 		
 		//programs
-		install(program("EHR Adon Reports program", "EHR reports program", _EhrPrograms.EHR_REPORTS_PROGRAM_CONCEPT,
+		install(program("EHR Reports", "EHR reports program", _EhrPrograms.EHR_REPORTS_PROGRAM_CONCEPT,
 		    _EhrPrograms.EHR_REPORTS_PROGRAM));
 
 		install(program("Antenatal Care Program", "ANC Program", _EhrPrograms.ANC_PROGRAM_CONCEPT, _EhrPrograms.ANC_PROGRAM));
