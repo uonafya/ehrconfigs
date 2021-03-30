@@ -15,9 +15,11 @@ import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.form;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.idSet;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.patientIdentifierType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.role;
 
 @Component
 public class EhrCommonMetadata extends AbstractMetadataBundle {
@@ -257,6 +259,17 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String BIRTH_CERTIFICATE_NUMBER = "6930e8ce-6ba6-11eb-9e03-6f68aa00888f";
 	}
+
+	public static final class _Roles {
+		public static final String MCH_TRIAGE_USER_ANC_QUEUE = "a46c6cd7-9ce3-4ade-99c8-0e395cab6c57";
+		public static final String MCH_TRIAGE_USER_PNC_QUEUE = "20e3222e-9a05-44bc-a95d-7333d85ade82";
+		public static final String MCH_TRIAGE_USER_FP_QUEUE = "8fa718ef-550a-4d71-8ff9-a61174e9e65f";
+		public static final String MCH_TRIAGE_USER_CWC_QUEUE = "1c54b4e5-ac8a-4ac3-bff2-a87192c9557f";
+	}
+
+	public static final class _Privileges {
+
+	}
 	
 	@Override
 	public void install() throws Exception {
@@ -460,6 +473,11 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(patientIdentifierType("Birth certificate number",
 		    "Assigned to every person at birth, it is unique in Kenyan setting", ".{1,15}", "At most 15 characters long",
 		    null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.BIRTH_CERTIFICATE_NUMBER));
-		
+		//installing roles
+		install(role("MCH traige user for ANC", "MCH Triage user role for ANC queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_ANC_QUEUE));
+		install(role("MCH traige user for PNC", "MCH Triage user role for PNC queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_PNC_QUEUE));
+		install(role("MCH traige user for FP", "MCH Triage user role for FP queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_FP_QUEUE));
+		install(role("MCH traige user for CWC", "MCH Triage user role for CWC queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_CWC_QUEUE));
+
 	}
 }
