@@ -474,10 +474,10 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    "Assigned to every person at birth, it is unique in Kenyan setting", ".{1,15}", "At most 15 characters long",
 		    null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.BIRTH_CERTIFICATE_NUMBER));
 		//installing roles
-		install(role("MCH traige user for ANC", "MCH Triage user role for ANC queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_ANC_QUEUE));
-		install(role("MCH traige user for PNC", "MCH Triage user role for PNC queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_PNC_QUEUE));
-		install(role("MCH traige user for FP", "MCH Triage user role for FP queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_FP_QUEUE));
-		install(role("MCH traige user for CWC", "MCH Triage user role for CWC queue", (idSet("API Privileges (View and Edit)")), null, _Roles.MCH_TRIAGE_USER_CWC_QUEUE));
+		install(role("MCH traige user for ANC", "MCH Triage user role for ANC queue", (idSet("API Privileges (View and Edit)")), null));
+		install(role("MCH traige user for PNC", "MCH Triage user role for PNC queue", (idSet("API Privileges (View and Edit)")), null));
+		install(role("MCH traige user for FP", "MCH Triage user role for FP queue", (idSet("API Privileges (View and Edit)")), null));
+		install(role("MCH traige user for CWC", "MCH Triage user role for CWC queue", (idSet("API Privileges (View and Edit)")), null));
 
 	}
 }
