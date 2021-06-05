@@ -138,8 +138,8 @@
 	</pluginRepositories>
 
     <properties>
-        <openmrsPlatformVersion>1.11.6</openmrsPlatformVersion>
-		<hospitalcoreVersion>1.0.0-SNAPSHOT</hospitalcoreVersion>
+        <openmrsPlatformVersion>1.12.0</openmrsPlatformVersion>
+		<hospitalcoreVersion>1.0.0</hospitalcoreVersion>
 		<metadatadeployVersion>1.3</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
 		<kenyaemrVersion>17.0.3</kenyaemrVersion>
