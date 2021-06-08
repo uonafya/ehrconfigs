@@ -13,7 +13,6 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
-
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.form;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.idSet;
@@ -21,6 +20,7 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.patientI
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.personAttributeType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.role;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.visitType;
 
 @Component
 public class EhrCommonMetadata extends AbstractMetadataBundle {
@@ -383,14 +383,15 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Trauma", "Trauma encounter type", _EhrEncounterTypes.ONCOLOGY_TRAUMA_ENCOUNTER_TYPE));
 		
 		//visit types to be applied
-		install(encounterType("FACILITYVISIT",
+		install(visitType("FACILITYVISIT",
 		    "Patient visits the clinic/hospital (as opposed to a home visit, or telephone contact)",
 		    _VistTypes.FACILITY_VISIT));
-		install(encounterType("INITIALMCHCLINICVISIT", "Initial Visit to the MCH Clinic",
+		install(visitType("INITIALMCHCLINICVISIT", "Initial Visit to the MCH Clinic",
 		    _VistTypes.INITIAL_MCH_CLINIC_VISIT));
-		install(encounterType("RETURNANCCLINICVISIT", "Return ANC Clinic Visit", _VistTypes.RETURN_ANC_CLINIC_VISIT));
-		install(encounterType("RETURNPNCCLINICVISIT", "Return PNC Clinic Visit", _VistTypes.RETURN_PNC_CLINIC_VISIT));
-		install(encounterType("RETURNCWCCLINICVISIT", "Return CWC Clinic Visit", _VistTypes.RETURN_CWC_CLINIC_VISIT));
+		install(visitType("RETURNANCCLINICVISIT", "Return ANC Clinic Visit", _VistTypes.RETURN_ANC_CLINIC_VISIT));
+		install(visitType("RETURNPNCCLINICVISIT", "Return PNC Clinic Visit", _VistTypes.RETURN_PNC_CLINIC_VISIT));
+		install(visitType("RETURNCWCCLINICVISIT", "Return CWC Clinic Visit", _VistTypes.RETURN_CWC_CLINIC_VISIT));
+
 		install(encounterType("ANCTRIAGEENCOUNTER", "ANC triage encounter type",
 		    _EhrEncounterTypes.ANC_TRIAGE_ENCOUNTER_TYPE));
 		install(encounterType("PNCTRIAGEENCOUNTER", "PNC triage encounter type",
