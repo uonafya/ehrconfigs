@@ -18,9 +18,9 @@
 	<url>https://wiki.openmrs.org/x/FQ4z</url>
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-ehrconfigs.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-ehrconfigs.git</developerConnection>
-		<url>https://github.com/openmrs/openmrs-module-ehrconfigs/</url>
+		<connection>scm:git:https://github.com/uonafya/ehrconfigs.git</connection>
+		<developerConnection>scm:git:https://github.com/uonafya/ehrconfigs.git</developerConnection>
+		<url>https://github.com/uonafya/ehrconfigs.git</url>
 		<tag>HEAD</tag>
 	</scm>
 
