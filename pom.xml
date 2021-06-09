@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,7 +9,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>ehrconfigs</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>EHR Configurations</name>
 	<description>This modules provide basic configurations for the entire system and related objects</description>
@@ -18,9 +17,9 @@
 	<url>https://wiki.openmrs.org/x/FQ4z</url>
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-ehrconfigs.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-ehrconfigs.git</developerConnection>
-		<url>https://github.com/openmrs/openmrs-module-ehrconfigs/</url>
+		<connection>scm:git:https://github.com/uonafya/ehrconfigs.git</connection>
+		<developerConnection>scm:git:https://github.com/uonafya/ehrconfigs.git</developerConnection>
+		<url>https://github.com/uonafya/ehrconfigs.git</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -115,7 +114,7 @@
 					<configuration>
 						<noDeploy>true</noDeploy>
 						<flowInitContext>
-							<developBranchName>qa</developBranchName>
+							<developBranchName>master</developBranchName>
 						</flowInitContext>
 					</configuration>
 				</plugin>
