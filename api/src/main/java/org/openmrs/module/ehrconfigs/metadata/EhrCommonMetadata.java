@@ -23,6 +23,7 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.program;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.role;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.visitType;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.privilege;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.globalProperty;
 
 @Component
 public class EhrCommonMetadata extends AbstractMetadataBundle {
@@ -480,6 +481,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(patientIdentifierType("Birth certificate number",
 		    "Assigned to every person at birth, it is unique in Kenyan setting", ".{1,15}", "At most 15 characters long",
                 null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.BIRTH_CERTIFICATE_NUMBER));
+		//global property
+        install(globalProperty("fptab.includedInPNC","To determine whether to include family planning tab in pnc if same clinician is serving both pnc and fp patients","false"));
 
 		//installing MCH Privileges
         install(privilege(_Privileges.MCH_CLINIC,"Access MCH Clinic"));
