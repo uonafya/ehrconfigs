@@ -25,7 +25,6 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 	 */
 	public void started() {
 		//make sure list of durgs are poopulated
-		EhrDrugUpload.uploadDrugs();
 		log.info("Started EHR Configurtaions");
 	}
 	

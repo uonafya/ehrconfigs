@@ -1,10 +1,13 @@
-package org.openmrs.module.ehrconfigs;
+package org.openmrs.module.ehrconfigs.task;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openmrs.Drug;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
+import org.openmrs.scheduler.tasks.AbstractTask;
 import org.openmrs.util.OpenmrsClassLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +15,30 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 
-public class EhrDrugUpload {
+public class CopyDrugsTask extends AbstractTask {
+
+    private static final Logger log = LoggerFactory.getLogger(CopyDrugsTask.class);
+
+    @Override
+    public void execute() {
+        if (!isExecuting) {
+            if (log.isDebugEnabled()) {
+                log.debug("Copying the drugs to the openmrs data model");
+            }
+
+            startExecuting();
+            try {
+                uploadDrugs();
+            }
+            catch (Exception e) {
+                log.error("Error while copying drugs ", e);
+            }
+            finally {
+                stopExecuting();
+            }
+        }
+
+    }
 
     public static void uploadDrugs() {
         ConceptService conceptService = Context.getConceptService();
@@ -47,5 +73,4 @@ public class EhrDrugUpload {
             e.printStackTrace();
         }
     }
-
 }
