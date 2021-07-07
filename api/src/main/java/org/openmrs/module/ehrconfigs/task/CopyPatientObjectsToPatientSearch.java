@@ -67,7 +67,9 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 			//log.error("Starting with patient>>" + patient.getPatientId());
 			givenName = patient.getGivenName();
 			familyName = patient.getFamilyName();
-			middleName = patient.getMiddleName();
+			if(patient.getMiddleName() != null) {
+				middleName = patient.getMiddleName();
+			}
 			fullname = givenName + " " + middleName + " " + familyName;
 			birtDate = new Timestamp(patient.getBirthdate().getTime());
 			patientIdentifier = patient.getPatientIdentifier();

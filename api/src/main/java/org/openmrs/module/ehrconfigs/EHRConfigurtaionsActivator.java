@@ -24,6 +24,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 	 * @see #started()
 	 */
 	public void started() {
+		//make sure list of durgs are poopulated
 		log.info("Started EHR Configurtaions");
 	}
 	
