@@ -73,6 +73,20 @@
             <column name="uuid" value="f23e758a-dcd2-11eb-948e-c3a8fbc86891" />
         </insert>
     </changeSet>
-
+    <changeSet id="ehrconfigs-202107111012" author="ningosi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM scheduler_task_config WHERE uuid='f23e758a-dcd2-11eb-948e-c3a8fbc86891';
+            </sqlCheck>
+        </preConditions>
+        <comment>Turnng off the automatc Copy EHR drugs scheduller - only to be turned on when needed</comment>
+        <sql>
+            SET SQL_SAFE_UPDATES = 0;
+            SET FOREIGN_KEY_CHECKS = 0;
+            UPDATE scheduler_task_config SET start_on_startup = 0 WHERE uuid = 'f23e758a-dcd2-11eb-948e-c3a8fbc86891';
+            SET FOREIGN_KEY_CHECKS = 1;
+            SET SQL_SAFE_UPDATES = 1;
+        </sql>
+    </changeSet>
  
 </databaseChangeLog>
