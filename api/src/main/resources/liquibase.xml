@@ -88,5 +88,21 @@
             SET SQL_SAFE_UPDATES = 1;
         </sql>
     </changeSet>
+
+    <changeSet id="ehrconfigs-202107122328" author="ningosi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM scheduler_task_config WHERE uuid='ca3c92a7-a312-4a5f-b7f5-fabf4b6122d4';
+            </sqlCheck>
+        </preConditions>
+        <comment>Increase the repeat interval of Refresh ETL Tables to 18 hours, only to run after normal working hours</comment>
+        <sql>
+            SET SQL_SAFE_UPDATES = 0;
+            SET FOREIGN_KEY_CHECKS = 0;
+            UPDATE scheduler_task_config SET repeat_interval = 64800 WHERE uuid = 'ca3c92a7-a312-4a5f-b7f5-fabf4b6122d4';
+            SET FOREIGN_KEY_CHECKS = 1;
+            SET SQL_SAFE_UPDATES = 1;
+        </sql>
+    </changeSet>
  
 </databaseChangeLog>
