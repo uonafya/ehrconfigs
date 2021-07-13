@@ -41,7 +41,18 @@ public class EndOutPatientVisitsThatAreOver24Hours extends AbstractTask {
         VisitType outPatient = visitService.getVisitTypeByUuid("3371a4d4-f66f-4454-a86d-92c7b3da990c");
         List<Visit> getVisits = visitService.getVisits(Arrays.asList(outPatient), null, null, null, null, null, null, null, null, false, false);
         for(Visit visit: getVisits) {
-
+            if(visit.getStartDatetime() != null && visit.getStopDatetime() == null && getIfOver24Hours(visit.getStartDatetime(), new Date())) {
+                visit.setStopDatetime(new Date());
+                visitService.saveVisit(visit);
+            }
         }
+    }
+
+    private boolean getIfOver24Hours(Date d1, Date d2) {
+        boolean found = false;
+        if((((d2.getTime() - d1.getTime())/1000) >= 86400)) {
+            found = true;
+        }
+        return found;
     }
 }
