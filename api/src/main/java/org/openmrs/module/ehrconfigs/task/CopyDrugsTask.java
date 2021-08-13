@@ -58,7 +58,7 @@ public class CopyDrugsTask extends AbstractTask {
                 if(StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(concept.trim()) && conceptService.getDrug(name) == null) {
                     Drug drug = new Drug();
                     drug.setName(name);
-                    drug.setConcept(conceptService.getConcept(concept.trim()));
+                    drug.setConcept(conceptService.getConcept(Integer.parseInt(concept.trim())));
                     drug.setCreator(Context.getAuthenticatedUser());
                     drug.setDateCreated(new Date());
 
