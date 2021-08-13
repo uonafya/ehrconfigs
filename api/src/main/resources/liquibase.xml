@@ -127,5 +127,21 @@
             <column name="uuid" value="609fc248-e351-11eb-91ca-1b13b272e8a7" />
         </insert>
     </changeSet>
+
+    <changeSet id="ehrconfigs-202108131538" author="ningosi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM scheduler_task_config WHERE uuid='afd0441e-ece9-11ea-949b-6f6e36727cf1';
+            </sqlCheck>
+        </preConditions>
+        <comment>Reduce the intervals that is needed for the patients to be transferred to the patient_search table</comment>
+        <sql>
+            SET SQL_SAFE_UPDATES = 0;
+            SET FOREIGN_KEY_CHECKS = 0;
+            UPDATE scheduler_task_config SET repeat_interval = 1 WHERE uuid = 'afd0441e-ece9-11ea-949b-6f6e36727cf1';
+            SET FOREIGN_KEY_CHECKS = 1;
+            SET SQL_SAFE_UPDATES = 1;
+        </sql>
+    </changeSet>
  
 </databaseChangeLog>
