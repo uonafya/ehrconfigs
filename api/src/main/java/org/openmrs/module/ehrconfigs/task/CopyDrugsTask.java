@@ -55,10 +55,10 @@ public class CopyDrugsTask extends AbstractTask {
                 String[] records = line.split(cvsSplitBy);
                 name = records[0];
                 concept = records[1];
-                if(StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(concept) && conceptService.getDrug(name) == null) {
+                if(StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(concept.trim()) && conceptService.getDrug(name) == null) {
                     Drug drug = new Drug();
                     drug.setName(name);
-                    drug.setConcept(conceptService.getConcept(concept));
+                    drug.setConcept(conceptService.getConcept(concept.trim()));
                     drug.setCreator(Context.getAuthenticatedUser());
                     drug.setDateCreated(new Date());
 
