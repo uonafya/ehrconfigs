@@ -9,7 +9,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>ehrconfigs</artifactId>
-	<version>1.0.8-SNAPSHOT</version>
+	<version>1.0.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>EHR Configurations</name>
 	<description>This modules provide basic configurations for the entire system and related objects</description>
