@@ -79,7 +79,7 @@ Clindamycin ,73546
 Clopidogrel,73602
 Clotrimazole Pessaries,73624
 Cloxacillin ,73628
-Sodium Gromoglycate,74046
+Sodium Cromoglycate,74046
 Cyclopentolate,74117
 Dapsone ,74250
 Dexamethasone ,74609
@@ -90,8 +90,8 @@ Digoxin,74860
 Dihydrocodeine,74874
 Diloxanide Furoate,74917
 Domperidone,75161
-Doxycycline ,75222
-Ebastin,75459
+Doxycycline,75222
+Ebastine,75459
 Enalapril,75633
 Enoxaparin ,75687
 Ephedrine ,75720
@@ -126,7 +126,7 @@ Hydroxychloroquine,77784
 Hydroxychloroquine Sulphate,77785
 Hydroxycarbamide,77795
 Ibuprofen,77897
-Indomethacin,78010
+Indometacin,78010
 Insulin (Actrapid) ,78056
 Lantus Insulin (Insulin Glargine),78064
 Isorsobide Dinitrate ,78305
@@ -322,3 +322,203 @@ Vitamin D3 ,86345
 Xtraderm Ointment,105166
 Zulu Mr(Aceclofenac+Pcm+Chlorzoxazone),103232
 Zulu(Aceclofenac+Pcm),103232
+Maxim,103615
+Raxol ,74185
+Nervicra,86341
+Hexanious,73263
+Mycota Powder,79831
+Relcer Gel,83925
+Relcer Gel Syrup,83925
+Rubem Gel,83925
+Ruben Cream,83925
+Seretide Inhaler,83653
+Streranious Solution,83653
+Tears Naturalle,80384
+Throat Lozenges Tabs,103241
+Acyclovir,70245
+Beclometasone + Sabutamol inhaler(oculast),71916
+Bupivacaine hydrochloride 0.5% and dextrose 8% (heavy),72506
+Cefuroxime axetil,73044
+Cetirizine dihydrochloride,73137
+Clorinazole cream,73624
+cotrimoxazole paediatric suspension,105281
+Eltoxin,85080
+zinc undecylenate,86689
+Hydrocortisone Ointment,77714
+Hydrocortisone Sodium for injection,77725
+Ketamine hydrochloride injection,78468
+Lidococaine injection,78849
+Oral Rehydration salt + zinc sulphate co-pack,351
+Paediatric Phytomenadione 2mg for Oral/IM/IV use,82074
+Phenobarbital Sodium Bp injection,81953
+Phenytomenadione injection for oral/IM/IV use,82024
+Saline Nasal Drops,80804
+Soluble Insulin ,78056
+Sterile lubricatinf jelly water soluble,154358
+"Syrup of iron each containing vit B1,B6, nicotinamide, feric ammonim citrate",104648
+Thipental for IV use only,85015
+Timolol maleate aphthalmic solution,85134
+Tinidazole,85151
+Tramadol,85275
+Tramadol HCL injection,85276
+Tranexamic acid injection for single IV use only,85286
+Tropicamide 1% mydricyl eye drops,85597
+Fluconazole,76488
+Ketoconazole,78476
+Nystatin Oral Drops 1,80945
+Loperamide,79037
+Amitriptlyne,931
+Phenytoin,82023
+Benzyl Penicillne Inj,72077
+Flucloxacillin Inj,76464
+Glibeclamide,77071
+Metfomin,79651
+Insulin(mixtrad Inj),78056
+Soluble insuIlin Inj,78056
+Griesofulvin,77164
+Clotrimazole Cream,73624
+Clotrimazole Pessaries,73624
+Albendazole,70439
+Cetricine,73474
+Chlorpheniramine,913
+Promethazine,82667
+Zefcolin,73008
+Loratidine ,79053
+Hctz,77696
+Adalat 1,80637
+Artemether/ Lumefantrine20mg 120mg(6 tabs),1447
+Artemether/ Lumefantrine20mg 120mg(12 tabs),1447
+Artemether/ Lumefantrine20mg 120mg(18 tabs),1447
+Artemether/ Lumefantrine20mg 120mg(24 tabs),1447
+Carbamezapine,72822
+Aminophyline  Inj,71101
+Salbutamol inhaler,798
+Salbutamol solution,798
+Salbutamol Tab,798
+Adrenaline inj,154365
+Dextrose 50%,161250
+Sodium Chloride 0.9%,84047
+Magnesium Trycillicate,79236
+H pylori kit,83075
+Anti Rabies inj 200,413
+Tetnus inj 1,84879
+Predinisolon,82446
+Silver Sulfadicine ,83920
+Roxithromycin,83546
+Ofloxacin and Ornidazole,81022
+Lornoxicam,79063
+Test drug,1000468
+Ulgicid,83925
+Midazolam Inj,79853
+Bupivacaine Inj,72506
+Buscopan,431
+Maloxicam,79532
+Mefanamic Acid,79501
+Hydrocrt Cream,77714
+Buscopan Inj,431
+Neorobione Forte,86341
+Dulcolax,72223
+Codeine Sulphate,73667
+Ampiclox,294
+Ampiclox Susp,294
+Ampiclox Neonatal,294
+Cephtriaxon Inj,73041
+Chlopheniramine Syrup,103701
+Salbutamol Syrup,798
+Gentamicine E/E Eardrops,100
+Teo ,84893
+Doxycicline,75222
+Gentamicine,100
+Augmentin Syrup,450
+Amitriptlyne,931
+Flucloxacillin Inj,76464
+Glibeclamide,77071
+Insulin(mixtrad Inj),78056
+INSULIN BIPHASIC,78056
+Multi vitamins syrup 1,86353
+Multi Vitamins 1,86353
+Bacille Camille -Guerin Vaccine,71902
+Inactivated polio Vaccine,82243
+ZEEFEE,104682
+CHLORPHENAMINE MALEATE,913
+Magnesium Sulphate,79224
+LOW OSMOLARITY ORS sachet,351
+LEVONORGESTREL,78796
+Etonogestrel 68 mg (1 rod + trocar),76022
+Atovalstatin,71665
+calcium chloride,72662
+Dexamine methosane inj,104425
+Enemax Solution,84090
+Haemaccel solution,82284
+KY Jelly Solution,162138
+Lidocaine Injection,78849
+Naloxine injection,80367
+Nitroglycerin sublingual,80704
+Oral glucose  powder,77054
+Phenobarbitone injection,81951
+Potassium injection,82340
+Ranitidine injection,83075
+Tranexamic Acid IV,85286
+Amoxicillin & Clavulanic acid,450
+Ergometrine,75801
+Darrow Solution,104745
+Fentanyl,76272
+Pilocarpine eye drop,82082
+Silver nitrate sticks,83919
+Timolol eye drop,85132
+Artemether and lumefantrine,1447
+Metronidazole and diloxanide,104492
+Ecnidazole,83751
+Sulfadoxine and pyrimethamine,924
+Bacavir and lamivudine,103166
+Lopinavir and ritonavir,794
+Tenofovir and lamivudine,161364
+calcium lactate,72686
+Mefenamic acid,79501
+Hemolok solution,76336
+Dihydroxycholecalciferol,74889
+Gabapentin,76750
+Iron dextran,78230
+Multivitamin,461
+Amitryptilline hydrochloride,931
+Captopril,72806
+Aripiprazole,71533
+Benzhexol hydrochloride,85463
+Lorsatan,103231
+Vitamin B 12 cyanocobalamine,86340
+Lorsatan and hydrochlorthiazide,103231
+Betadine mouthwash,82384
+Kontab,72389
+Triamcinolone,85356
+Evonorgestrel,76022
+Sunscreen lotion,73636
+Telmisartan and hydrochlothazine,104843
+Cetrimide and chlorhexidine gluconate,104160
+Steranios solution,77064
+Lidquid paraffin,81568
+Carbimazole,72848
+Clomiphen citrate,73591
+Norethisterone,80784
+Cholestyramine,73357
+Micronema,83054
+Lactulose solution,78632
+Metochilorpramide hcl,79756
+Pantoprazole,81550
+Conazole eye drop,104563
+Betaxolol eye drop,72139
+Metyl cellulose,79792
+Ketorolac eye drop,78481
+Amethocaine ,84888
+Siodium cromoglycate,104395
+Emadistine ,75605
+Zuclopenthixol,86767
+Pancuronium bromide,81502
+Beclametason,71916
+Metyldopa,79723
+Lidocaine and hydrocotrisone,777
+Fluphenthixol decanoate,76556
+Calamine lotion,493
+Lubricating gel,162138
+Absolute ethanol,75953
+Atropine sulphate,71681
+Silver sulfadiazine and chlorhexidine gluconate,83920

@@ -88,5 +88,76 @@
             SET SQL_SAFE_UPDATES = 1;
         </sql>
     </changeSet>
+
+    <changeSet id="ehrconfigs-202107122328" author="ningosi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM scheduler_task_config WHERE uuid='ca3c92a7-a312-4a5f-b7f5-fabf4b6122d4';
+            </sqlCheck>
+        </preConditions>
+        <comment>Increase the repeat interval of Refresh ETL Tables to 18 hours, only to run after normal working hours</comment>
+        <sql>
+            SET SQL_SAFE_UPDATES = 0;
+            SET FOREIGN_KEY_CHECKS = 0;
+            UPDATE scheduler_task_config SET repeat_interval = 64800 WHERE uuid = 'ca3c92a7-a312-4a5f-b7f5-fabf4b6122d4';
+            SET FOREIGN_KEY_CHECKS = 1;
+            SET SQL_SAFE_UPDATES = 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="ehrconfigs-202107122338" author="ningosi" dbms="mysql">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM scheduler_task_config
+                WHERE schedulable_class = 'org.openmrs.module.ehrconfigs.task.EndOutPatientVisitsThatAreOver24Hours'
+                And name = 'End outpatient visits'
+            </sqlCheck>
+        </preConditions>
+        <comment>Ending outpatient vists that are over 24 hours long</comment>
+        <insert tableName="scheduler_task_config">
+            <column name="name" value="End outpatient visits" />
+            <column name="description" value="Ending outpatient vists that are over 24 hours long" />
+            <column name="schedulable_class" value="org.openmrs.module.ehrconfigs.task.EndOutPatientVisitsThatAreOver24Hours" />
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
+            <column name="start_time" valueDate="2018-01-20T23:59:59" />
+            <column name="repeat_interval" value="86400" />
+            <column name="start_on_startup" value="1" />
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP" />
+            <column name="created_by" value="1" />
+            <column name="uuid" value="609fc248-e351-11eb-91ca-1b13b272e8a7" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="ehrconfigs-202108131538" author="ningosi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM scheduler_task_config WHERE uuid='afd0441e-ece9-11ea-949b-6f6e36727cf1';
+            </sqlCheck>
+        </preConditions>
+        <comment>Reduce the intervals that is needed for the patients to be transferred to the patient_search table</comment>
+        <sql>
+            SET SQL_SAFE_UPDATES = 0;
+            SET FOREIGN_KEY_CHECKS = 0;
+            UPDATE scheduler_task_config SET repeat_interval = 1 WHERE uuid = 'afd0441e-ece9-11ea-949b-6f6e36727cf1';
+            SET FOREIGN_KEY_CHECKS = 1;
+            SET SQL_SAFE_UPDATES = 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="ehrconfigs-202109032138" author="ningosi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                SELECT COUNT(*) FROM scheduler_task_config WHERE uuid='afd0441e-ece9-11ea-949b-6f6e36727cf1';
+            </sqlCheck>
+        </preConditions>
+        <comment>Transfer patient search to manual to improve on overral system performance</comment>
+        <sql>
+            SET SQL_SAFE_UPDATES = 0;
+            SET FOREIGN_KEY_CHECKS = 0;
+            UPDATE scheduler_task_config SET repeat_interval = 1 WHERE uuid = 'afd0441e-ece9-11ea-949b-6f6e36727cf1';
+            SET FOREIGN_KEY_CHECKS = 1;
+            SET SQL_SAFE_UPDATES = 1;
+        </sql>
+    </changeSet>
  
 </databaseChangeLog>
