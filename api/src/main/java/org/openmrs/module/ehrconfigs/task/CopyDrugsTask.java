@@ -63,6 +63,7 @@ public class CopyDrugsTask extends AbstractTask {
                     drug.setDateCreated(new Date());
 
                     //save the drug in the data model
+                   // System.out.println("The name to be saved is >>>"+name+" and concept is >>"+concept);
                     conceptService.saveDrug(drug);
 
                 }
