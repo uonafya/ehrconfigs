@@ -183,7 +183,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String NCD_ADMISSION_ENCOUNTER_TYPE = "4664a5b0-18f9-11eb-8a5a-2bee5937c71b";
 		
-		public static final String NCD_FOOT_CLINIC_ENCOUNTER_TYPE = "af5dbd36-18f9-11eb-ae6b-7f4c0920f004";
+		public static final String NCD_SCREENING_ENCOUNTER_TYPE = "af5dbd36-18f9-11eb-ae6b-7f4c0920f004";
 		
 		////////
 		public static final String PNC_TRIAGE_ENCOUNTER_TYPE = "fcaec384-fac5-11ea-8aeb-fffc453fcc77";
@@ -254,7 +254,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String NCD_INITIAL = "edd8c072-18fb-11eb-9c05-839296c291c4";
 		
-		public static final String NCD_FOOT_CLINIC = "099d5e12-18fc-11eb-86f3-231df7469c4e";
+		public static final String NCD_SCREENING = "099d5e12-18fc-11eb-86f3-231df7469c4e";
 		
 		//EHR report form
 		public static final String EHR_ADDON_TEMP_FORM = "66c4664a-8d45-11eb-9ab1-3359b033ed37";
@@ -467,24 +467,17 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE));
 		install(encounterType("DM HTN discontinue patient", "DM HTN discontinue patient from care from this facility",
 		    _EhrEncounterTypes.NCD_DISCONTINUE_ENCOUNTER_TYPE));
-		install(encounterType("DM HTN admit patient", "DM HTN admit patient",
-		    _EhrEncounterTypes.NCD_ADMISSION_ENCOUNTER_TYPE));
-		install(encounterType("DM HTN foot clinic", "DM HTN foot clinic", _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE));
+		install(encounterType("DM HTN Screening", "DM HTN Screening", _EhrEncounterTypes.NCD_SCREENING_ENCOUNTER_TYPE));
+
 		//forms
-		install(form("NCD admit Patient", "Admit patient into this facility with NCD related complications",
-		    _EhrEncounterTypes.NCD_ADMISSION_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_ADMISSION));
-		install(form("NCD DM HTN FOLLOW UP", "NCD Clinical Follow Up Form",
+		install(form("NCD DM HTN Follow up", "NCD Clinical Follow Up Form",
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
 		install(form("NCD Discontinue Patient", "NCD discontinue patient from care from this facility",
-		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
-		install(form("NCD DM HTN INITIAL", "NCD DM HTN Initial Encounter Form",
+		    _EhrEncounterTypes.NCD_DISCONTINUE_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
+		install(form("NCD DM HTN Initial", "NCD DM HTN Initial Encounter Form",
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
-		/**
-		 * Installs EHR addon form, a dummy form to help plug EHR reports as a program in kenyaEMR -
-		 * reports page
-		 */
-		install(form("EHR addon reports", "EHR addon reports temp form", _EhrEncounterTypes.NCD_FOOT_CLINIC_ENCOUNTER_TYPE,
-		    "" + "1.0", _EhrForms.EHR_ADDON_TEMP_FORM));
+		install(form("NCD DM HTN Screening", "NCD DM HTN Screening Encounter Form",
+				_EhrEncounterTypes.NCD_SCREENING_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_SCREENING));
 		
 		//identifier installation
 		install(patientIdentifierType("Birth certificate number",
