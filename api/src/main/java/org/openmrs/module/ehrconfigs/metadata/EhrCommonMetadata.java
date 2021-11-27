@@ -228,7 +228,11 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String EHR_REPORTS_PROGRAM = "7a822d3e-8d40-11eb-92cc-5f145f16bd2e"; //for pluging ehraddon reports on the KenyaEMR reports page
 		
 		public static final String EHR_REPORTS_PROGRAM_CONCEPT = "5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //holder concept
-		
+
+		public static final String EHR_NCD_PROGRAM_UUID = "8b4f6a38-4f5e-11ec-a4c2-a75a2e13cdaa"; //holder concept
+
+		public static final String EHR_NCD_PROGRAM_CONCEPT_UUID = "144544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; //holder concept
+
 	}
 	
 	public static final class _EhrForms {
@@ -436,6 +440,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		//oncology
 		install(program("Oncology Program", "Oncology program", _EhrPrograms.ONCOLOGY_PROGRAM_CONCEPT,
 		    _EhrPrograms.ONCOLOGY_PROGRAM));
+		install(program("NCD Program", "NCD program", _EhrPrograms.EHR_NCD_PROGRAM_CONCEPT_UUID,
+				_EhrPrograms.EHR_NCD_PROGRAM_UUID));
 		//oncology encounter types
 		install(encounterType("Oncology Initial", "Initial oncology encounter type", _EhrEncounterTypes.ONCOLOGY_INITIAL));
 		install(encounterType("Oncology Discontinue", "Discontinue oncology encounter type",
