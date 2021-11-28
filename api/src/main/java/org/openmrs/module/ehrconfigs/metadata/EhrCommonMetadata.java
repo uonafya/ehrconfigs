@@ -268,6 +268,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 	public static final class _EhrIdenifiers {
 		
 		public static final String BIRTH_CERTIFICATE_NUMBER = "6930e8ce-6ba6-11eb-9e03-6f68aa00888f";
+		public static final String PATIENT_NHIF_NUMBER = "38e3c640-5021-11ec-86a0-fb3bee471720";
 	}
 
 	public static final class _Privileges{
@@ -489,6 +490,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(patientIdentifierType("Birth certificate number",
 		    "Assigned to every person at birth, it is unique in Kenyan setting", ".{1,15}", "At most 15 characters long",
                 null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.BIRTH_CERTIFICATE_NUMBER));
+		install(patientIdentifierType("Patient NHIF Number",
+				"Assigned to every patient who contribute to NHIF", ".{1,15}", "At most 15 characters long",
+				null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.PATIENT_NHIF_NUMBER));
 		//global property
         install(globalProperty("fptab.includedInPNC","To determine whether to include family planning tab in pnc if same clinician is serving both pnc and fp patients","false"));
 
