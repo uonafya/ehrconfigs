@@ -12,6 +12,7 @@ package org.openmrs.module.ehrconfigs;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.ehrconfigs.utils.CodedConceptsConversion;
 
 /**
  * This class contains the logic that is run every time this module is either started or shutdown
@@ -24,7 +25,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 	 * @see #started()
 	 */
 	public void started() {
-		//make sure list of durgs are poopulated
+		//make sure all the concepts have been set properly to the required data types
+		CodedConceptsConversion.doActualConversion();
 		log.info("Started EHR Configurtaions");
 	}
 	
