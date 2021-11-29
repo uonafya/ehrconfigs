@@ -23,6 +23,8 @@ public class CodedConceptsConversion {
             concept.setDatatype(conceptService.getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID));
             concept.setChangedBy(Context.getAuthenticatedUser());
             concept.setDateChanged(new Date());
+            //save the concept back into the data model
+            conceptService.saveConcept(concept);
         }
     }
 }
