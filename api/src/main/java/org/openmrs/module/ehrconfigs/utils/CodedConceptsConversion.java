@@ -13,7 +13,12 @@ import java.util.List;
 public class CodedConceptsConversion {
 
     public static List<String> convertIntoCodedValues() {
-        return Arrays.asList("162810AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        return Arrays.asList(
+                "162810AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161166AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "164051AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
     }
 
     public static void doActualConversion() {
