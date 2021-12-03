@@ -418,7 +418,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.TRANSFER));
 		install(encounterType("ANCENCOUNTER", "ANC encounter type", _EhrEncounterTypes.ANCENCOUNTER));
 		install(encounterType("PNCENCOUNTER", "PNC encounter type", _EhrEncounterTypes.PNCENCOUNTER));
-		install(encounterType("Trauma", "Treatment encounter type", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE));
+		install(encounterType("Treatment", "Treatment encounter type", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE));
 		
 		//visit types to be applied
 		install(visitType("FACILITYVISIT",
@@ -470,7 +470,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.ONCOLOGY_SCREENING, "1.0", _EhrForms.ONCOLOGY_SCREENING_FORM));
 		install(form("Family cancer history form", "Family cancer history form for oncology",
 		    _EhrEncounterTypes.FAMILY_CANCER_HISTORY, "1.0", _EhrForms.FAMILY_CANCER_HISTORY));
-		install(form("Cancer trauma form", "Cancer trauma form", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE, "1.0",
+		install(form("Cancer treatment form", "Cancer treatment form", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE, "1.0",
 		    _EhrForms.ONCOLOGY_TREATMENT_FORM));
 		
 		//NCD metadata starts here
