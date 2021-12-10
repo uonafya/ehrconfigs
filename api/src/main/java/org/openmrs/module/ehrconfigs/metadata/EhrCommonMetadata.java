@@ -424,7 +424,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		    _EhrEncounterTypes.TRANSFER));
 		install(encounterType("ANCENCOUNTER", "ANC encounter type", _EhrEncounterTypes.ANCENCOUNTER));
 		install(encounterType("PNCENCOUNTER", "PNC encounter type", _EhrEncounterTypes.PNCENCOUNTER));
-		//install(encounterType("Trauma", "Trauma encounter type", _EhrEncounterTypes.ONCOLOGY_TRAUMA_ENCOUNTER_TYPE));
+		install(encounterType("Treatment", "Treatment encounter type", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE));
 		
 		//visit types to be applied
 		install(visitType("FACILITYVISIT",
@@ -468,7 +468,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		//oncology forms
 		install(form("Oncology Initial enrollment form", "Initial form for oncology enrollment",
 		    _EhrEncounterTypes.ONCOLOGY_INITIAL, "1.0", _EhrForms.ONCOLOGY_ENROLLMENT_FORM));
-		install(form("Oncology  Discontinutaion form", "Discontinuation  form for oncology",
+		install(form("Oncology  Discontinuation form", "Discontinuation  form for oncology",
 		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE, "1.0", _EhrForms.ONCOLOGY_DISCONTINUATION_FORM));
 		install(form("Oncology Followup form", "Followup form for oncology", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP, "1.0",
 		    _EhrForms.ONCOLOGY_FOLLOWUP_FORM));
