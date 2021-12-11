@@ -1,7 +1,6 @@
 package org.openmrs.module.ehrconfigs.utils;
 
 import org.openmrs.Concept;
-import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
@@ -17,7 +16,9 @@ public class CodedConceptsConversion {
                 "162810AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "161166AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "164051AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "161199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "161199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "116688AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "148346AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
