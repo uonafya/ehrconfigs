@@ -454,7 +454,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		//oncology
 		install(program("Oncology Program", "Oncology program", _EhrPrograms.ONCOLOGY_PROGRAM_CONCEPT,
 		    _EhrPrograms.ONCOLOGY_PROGRAM));
-		install(program("NCD Program", "NCD program", _EhrPrograms.EHR_NCD_PROGRAM_CONCEPT_UUID,
+		install(program("DM/HTN Program", "DM and HTN program", _EhrPrograms.EHR_NCD_PROGRAM_CONCEPT_UUID,
 				_EhrPrograms.EHR_NCD_PROGRAM_UUID));
 		//oncology encounter types
 		install(encounterType("Oncology Initial", "Initial oncology encounter type", _EhrEncounterTypes.ONCOLOGY_INITIAL));
