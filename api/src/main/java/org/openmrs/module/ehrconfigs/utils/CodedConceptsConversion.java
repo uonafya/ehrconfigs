@@ -39,7 +39,8 @@ public class CodedConceptsConversion {
 
     private static List<String> conceptsToConvertIntoQuestion() {
         return Arrays.asList(
-                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "112930AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
