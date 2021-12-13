@@ -493,15 +493,15 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("GBV form", "GBV Screening form", _EhrEncounterTypes.EHR_GBV));
 
 		//forms
-		install(form("NCD DM HTN Follow up", "NCD Clinical Follow Up Form",
+		install(form("DM HTN Follow up Form", "DM HTN Clinical Follow Up Form",
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
-		install(form("NCD Discontinue Patient", "NCD discontinue patient from care from this facility",
+		install(form("DM HTN Discontinue Patient", "DM HTN discontinue patient from care from this facility",
 		    _EhrEncounterTypes.DMHTN_DISCONTINUE_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
-		install(form("NCD DM HTN Initial", "NCD DM HTN Initial Encounter Form",
+		install(form("DM HTN Initial Form", "DM HTN DM HTN Initial Encounter Form",
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
-		install(form("NCD DM HTN Screening", "NCD DM HTN Screening Encounter Form",
+		install(form("DM HTN Screening Form", "DM HTN DM HTN Screening Encounter Form",
 				_EhrEncounterTypes.DMHTN_SCREENING_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_SCREENING));
-		install(form("DMHTN program", "DMHTN program Encounter Form",
+		install(form("DMHTN program Form", "DMHTN program Encounter Form",
 				_EhrEncounterTypes.DMHTN_PROGRAM_ENCOUNTER_TYPE, "1.0", _EhrForms.DMHTN_PROGRAM_FORM));
 
 		//GBV
