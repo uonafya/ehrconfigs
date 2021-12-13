@@ -38,7 +38,9 @@ public class CodedConceptsConversion {
                 "c8cb4aac-be8d-49f1-a98b-2165c3e21ab1",
                 "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "c0f775f5-bcc3-4900-a39e-35069b3a08ef"
+                "c0f775f5-bcc3-4900-a39e-35069b3a08ef",
+                "1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "1379AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
@@ -57,11 +59,17 @@ public class CodedConceptsConversion {
         ConceptService conceptService = Context.getConceptService();
         Concept serviceOrdered = conceptService.getConceptByUuid("31AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         for(String uuids: addedSetMembersUuids()) {
-            serviceOrdered.addSetMember(conceptService.getConceptByUuid(uuids));
-            serviceOrdered.setChangedBy(Context.getAuthenticatedUser());
-            serviceOrdered.setDateChanged(new Date());
-            //save the concept back into the data model
-            conceptService.saveConcept(serviceOrdered);
+            //check whether this concept is a member of this out concept
+            Concept partOf = conceptService.getConceptByUuid(uuids);
+            for(Concept setMembers : serviceOrdered.getSetMembers()) {
+                if (!setMembers.equals(partOf)) {
+                    serviceOrdered.addSetMember(conceptService.getConceptByUuid(uuids));
+                    serviceOrdered.setChangedBy(Context.getAuthenticatedUser());
+                    serviceOrdered.setDateChanged(new Date());
+                    //save the concept back into the data model
+                    conceptService.saveConcept(serviceOrdered);
+                }
+            }
         }
 
     }
