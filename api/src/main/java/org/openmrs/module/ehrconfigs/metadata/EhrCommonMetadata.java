@@ -179,11 +179,11 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE = "f1573d1c-18f8-11eb-a453-63d51e56f5cb";
 		
-		public static final String NCD_DISCONTINUE_ENCOUNTER_TYPE = "1f7ec412-18f9-11eb-8122-8f25a543787a";
+		public static final String DMHTN_DISCONTINUE_ENCOUNTER_TYPE = "1f7ec412-18f9-11eb-8122-8f25a543787a";
 		
-		public static final String NCD_ADMISSION_ENCOUNTER_TYPE = "4664a5b0-18f9-11eb-8a5a-2bee5937c71b";
+		public static final String DMHTN_PROGRAM_ENCOUNTER_TYPE = "4664a5b0-18f9-11eb-8a5a-2bee5937c71b";
 		
-		public static final String NCD_SCREENING_ENCOUNTER_TYPE = "af5dbd36-18f9-11eb-ae6b-7f4c0920f004";
+		public static final String DMHTN_SCREENING_ENCOUNTER_TYPE = "af5dbd36-18f9-11eb-ae6b-7f4c0920f004";
 		
 		////////
 		public static final String PNC_TRIAGE_ENCOUNTER_TYPE = "fcaec384-fac5-11ea-8aeb-fffc453fcc77";
@@ -251,7 +251,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String FAMILY_CANCER_HISTORY = "dd0e4f3c-0e24-11eb-aa70-bb2cf351b19b";
 		
 		//NCD forms
-		public static final String NCD_ADMISSION = "9836224a-18fb-11eb-b83c-232364035228";
+		public static final String DMHTN_PROGRAM_FORM = "9836224a-18fb-11eb-b83c-232364035228";
 		
 		public static final String NCD_FOLLOW_UP = "b3e07c84-18fb-11eb-bab2-6f7808a09aa6";
 		
@@ -425,7 +425,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("ANCENCOUNTER", "ANC encounter type", _EhrEncounterTypes.ANCENCOUNTER));
 		install(encounterType("PNCENCOUNTER", "PNC encounter type", _EhrEncounterTypes.PNCENCOUNTER));
 		install(encounterType("Treatment", "Treatment encounter type", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE));
-		
+
 		//visit types to be applied
 		install(visitType("FACILITYVISIT",
 		    "Patient visits the clinic/hospital (as opposed to a home visit, or telephone contact)",
@@ -486,19 +486,25 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("DM HTN Clinical Follow up", "DM HTN Follow up information",
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE));
 		install(encounterType("DM HTN discontinue patient", "DM HTN discontinue patient from care from this facility",
-		    _EhrEncounterTypes.NCD_DISCONTINUE_ENCOUNTER_TYPE));
-		install(encounterType("DM HTN Screening", "DM HTN Screening", _EhrEncounterTypes.NCD_SCREENING_ENCOUNTER_TYPE));
+		    _EhrEncounterTypes.DMHTN_DISCONTINUE_ENCOUNTER_TYPE));
+		install(encounterType("DM HTN Screening", "DM HTN Screening", _EhrEncounterTypes.DMHTN_SCREENING_ENCOUNTER_TYPE));
+		install(encounterType("DMHTN program", "DMHTN program encounter type", _EhrEncounterTypes.DMHTN_PROGRAM_ENCOUNTER_TYPE));
+		//GBV
 		install(encounterType("GBV form", "GBV Screening form", _EhrEncounterTypes.EHR_GBV));
 
 		//forms
 		install(form("NCD DM HTN Follow up", "NCD Clinical Follow Up Form",
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
 		install(form("NCD Discontinue Patient", "NCD discontinue patient from care from this facility",
-		    _EhrEncounterTypes.NCD_DISCONTINUE_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
+		    _EhrEncounterTypes.DMHTN_DISCONTINUE_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
 		install(form("NCD DM HTN Initial", "NCD DM HTN Initial Encounter Form",
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
 		install(form("NCD DM HTN Screening", "NCD DM HTN Screening Encounter Form",
-				_EhrEncounterTypes.NCD_SCREENING_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_SCREENING));
+				_EhrEncounterTypes.DMHTN_SCREENING_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_SCREENING));
+		install(form("DMHTN program", "DMHTN program Encounter Form",
+				_EhrEncounterTypes.DMHTN_PROGRAM_ENCOUNTER_TYPE, "1.0", _EhrForms.DMHTN_PROGRAM_FORM));
+
+		//GBV
 		install(form("GBV Screening", "GBV Screening Encounter Form",
 				_EhrEncounterTypes.EHR_GBV, "1.0", _EhrForms.EHR_GBV_ENROLLMENT));
 		
