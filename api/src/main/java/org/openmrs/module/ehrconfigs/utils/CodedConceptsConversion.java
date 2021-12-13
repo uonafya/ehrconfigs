@@ -21,7 +21,9 @@ public class CodedConceptsConversion {
                 "116688AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "148346AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "159364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "112930AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
@@ -36,15 +38,6 @@ public class CodedConceptsConversion {
                 "c0f775f5-bcc3-4900-a39e-35069b3a08ef"
         );
     }
-
-    private static List<String> conceptsToConvertIntoQuestion() {
-        return Arrays.asList(
-                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "112930AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        );
-    }
-
-
 
     public static void doActualConversion() {
         ConceptService conceptService = Context.getConceptService();
@@ -66,18 +59,6 @@ public class CodedConceptsConversion {
             serviceOrdered.setDateChanged(new Date());
             //save the concept back into the data model
             conceptService.saveConcept(serviceOrdered);
-        }
-
-    }
-    public static void addConceptsToConvertIntoQuestionClass() {
-        ConceptService conceptService = Context.getConceptService();
-        for(String uuids: conceptsToConvertIntoQuestion()) {
-            Concept conceptToQuestion = conceptService.getConceptByUuid(uuids);
-            conceptToQuestion.setConceptClass(conceptService.getConceptClassByUuid(ConceptClass.QUESTION_UUID));
-            conceptToQuestion.setChangedBy(Context.getAuthenticatedUser());
-            conceptToQuestion.setDateChanged(new Date());
-            //save the concept back into the data model
-            conceptService.saveConcept(conceptToQuestion);
         }
 
     }
