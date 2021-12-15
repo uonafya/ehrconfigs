@@ -12,12 +12,35 @@ import java.util.List;
 
 public class CodedConceptsConversion {
 
-    public static List<String> convertIntoCodedValues() {
+    private static List<String> convertIntoCodedValues() {
         return Arrays.asList(
                 "162810AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "161166AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "164051AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "161199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "161199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "116688AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "148346AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "159364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "112930AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "1482AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "142452AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "127639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+
+    private static List<String> addedSetMembersUuids() {
+        return Arrays.asList(
+                "eb458ded-1fa0-4c1b-92fa-322cada4aff2",
+                "0da0f5a5-15f8-4871-ba02-2aa82377223a",
+                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "c8cb4aac-be8d-49f1-a98b-2165c3e21ab1",
+                "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "c0f775f5-bcc3-4900-a39e-35069b3a08ef",
+                "1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "1379AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
@@ -31,5 +54,23 @@ public class CodedConceptsConversion {
             //save the concept back into the data model
             conceptService.saveConcept(concept);
         }
+    }
+    public static void addSetsToServiceOrderedConcept() {
+        ConceptService conceptService = Context.getConceptService();
+        Concept serviceOrdered = conceptService.getConceptByUuid("31AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        for(String uuids: addedSetMembersUuids()) {
+            //check whether this concept is a member of this out concept
+            Concept partOf = conceptService.getConceptByUuid(uuids);
+            for(Concept setMembers : serviceOrdered.getSetMembers()) {
+                if (!setMembers.equals(partOf)) {
+                    serviceOrdered.addSetMember(conceptService.getConceptByUuid(uuids));
+                    serviceOrdered.setChangedBy(Context.getAuthenticatedUser());
+                    serviceOrdered.setDateChanged(new Date());
+                    //save the concept back into the data model
+                    conceptService.saveConcept(serviceOrdered);
+                }
+            }
+        }
+
     }
 }

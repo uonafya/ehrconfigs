@@ -179,11 +179,11 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE = "f1573d1c-18f8-11eb-a453-63d51e56f5cb";
 		
-		public static final String NCD_DISCONTINUE_ENCOUNTER_TYPE = "1f7ec412-18f9-11eb-8122-8f25a543787a";
+		public static final String DMHTN_DISCONTINUE_ENCOUNTER_TYPE = "1f7ec412-18f9-11eb-8122-8f25a543787a";
 		
-		public static final String NCD_ADMISSION_ENCOUNTER_TYPE = "4664a5b0-18f9-11eb-8a5a-2bee5937c71b";
+		public static final String DMHTN_PROGRAM_ENCOUNTER_TYPE = "4664a5b0-18f9-11eb-8a5a-2bee5937c71b";
 		
-		public static final String NCD_SCREENING_ENCOUNTER_TYPE = "af5dbd36-18f9-11eb-ae6b-7f4c0920f004";
+		public static final String DMHTN_SCREENING_ENCOUNTER_TYPE = "af5dbd36-18f9-11eb-ae6b-7f4c0920f004";
 		
 		////////
 		public static final String PNC_TRIAGE_ENCOUNTER_TYPE = "fcaec384-fac5-11ea-8aeb-fffc453fcc77";
@@ -205,6 +205,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String ONCOLOGY_TREATMENT_ENCOUNTER_TYPE = "d029ec12-6bae-11eb-b775-0f590ebc4940";
 		
 		public static final String FAMILY_CANCER_HISTORY = "b9c51a7e-0e24-11eb-9559-13c33ac53eec";
+		public static final String EHR_GBV = "bec91024-5433-11ec-8ddd-bf8f24d733fa";
 	}
 	
 	public static final class _EhrPrograms {
@@ -250,7 +251,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String FAMILY_CANCER_HISTORY = "dd0e4f3c-0e24-11eb-aa70-bb2cf351b19b";
 		
 		//NCD forms
-		public static final String NCD_ADMISSION = "9836224a-18fb-11eb-b83c-232364035228";
+		public static final String DMHTN_PROGRAM_FORM = "9836224a-18fb-11eb-b83c-232364035228";
 		
 		public static final String NCD_FOLLOW_UP = "b3e07c84-18fb-11eb-bab2-6f7808a09aa6";
 		
@@ -262,6 +263,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		//EHR report form
 		public static final String EHR_ADDON_TEMP_FORM = "66c4664a-8d45-11eb-9ab1-3359b033ed37";
+
+		//GBV  forms
+		public static final String EHR_GBV_ENROLLMENT = "66ed9f50-5433-11ec-979c-17759fbd2edb";
 		
 	}
 	
@@ -280,6 +284,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
         public static final String NCD_APP = "App: ncdapp.ncd";
         public static final String EHR_REGISTRATION = "App: kenyaemr.registration";
         public static final String EHR_REPORTS = "App: kenyaemr.reports";
+        public static final String EHR_GBV = "App: patientqueueapp.gbv";
 
     }
 
@@ -297,6 +302,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 	    public static final String EHR_REGISTRATION = "Able to access the registration app only";
 	    public static final String EHR_NCD = "Able to access the NCD app only";
 	    public static final String EHR_REPORTS = "Able to access the reports app only";
+	    public static final String EHR_GBV = "Able to access the gbv app";
     }
 	
 	@Override
@@ -419,7 +425,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("ANCENCOUNTER", "ANC encounter type", _EhrEncounterTypes.ANCENCOUNTER));
 		install(encounterType("PNCENCOUNTER", "PNC encounter type", _EhrEncounterTypes.PNCENCOUNTER));
 		install(encounterType("Treatment", "Treatment encounter type", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE));
-		
+
 		//visit types to be applied
 		install(visitType("FACILITYVISIT",
 		    "Patient visits the clinic/hospital (as opposed to a home visit, or telephone contact)",
@@ -448,7 +454,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		//oncology
 		install(program("Oncology Program", "Oncology program", _EhrPrograms.ONCOLOGY_PROGRAM_CONCEPT,
 		    _EhrPrograms.ONCOLOGY_PROGRAM));
-		install(program("NCD Program", "NCD program", _EhrPrograms.EHR_NCD_PROGRAM_CONCEPT_UUID,
+		install(program("DM/HTN Program", "DM and HTN program", _EhrPrograms.EHR_NCD_PROGRAM_CONCEPT_UUID,
 				_EhrPrograms.EHR_NCD_PROGRAM_UUID));
 		//oncology encounter types
 		install(encounterType("Oncology Initial", "Initial oncology encounter type", _EhrEncounterTypes.ONCOLOGY_INITIAL));
@@ -462,7 +468,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		//oncology forms
 		install(form("Oncology Initial enrollment form", "Initial form for oncology enrollment",
 		    _EhrEncounterTypes.ONCOLOGY_INITIAL, "1.0", _EhrForms.ONCOLOGY_ENROLLMENT_FORM));
-		install(form("Oncology  Discontinutaion form", "Discontinuation  form for oncology",
+		install(form("Oncology  Discontinuation form", "Discontinuation  form for oncology",
 		    _EhrEncounterTypes.ONCOLOGY_DISCONTINUE, "1.0", _EhrForms.ONCOLOGY_DISCONTINUATION_FORM));
 		install(form("Oncology Followup form", "Followup form for oncology", _EhrEncounterTypes.ONCOLOGY_FOLLOWUP, "1.0",
 		    _EhrForms.ONCOLOGY_FOLLOWUP_FORM));
@@ -480,18 +486,27 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("DM HTN Clinical Follow up", "DM HTN Follow up information",
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE));
 		install(encounterType("DM HTN discontinue patient", "DM HTN discontinue patient from care from this facility",
-		    _EhrEncounterTypes.NCD_DISCONTINUE_ENCOUNTER_TYPE));
-		install(encounterType("DM HTN Screening", "DM HTN Screening", _EhrEncounterTypes.NCD_SCREENING_ENCOUNTER_TYPE));
+		    _EhrEncounterTypes.DMHTN_DISCONTINUE_ENCOUNTER_TYPE));
+		install(encounterType("DM HTN Screening", "DM HTN Screening", _EhrEncounterTypes.DMHTN_SCREENING_ENCOUNTER_TYPE));
+		install(encounterType("DMHTN program", "DMHTN program encounter type", _EhrEncounterTypes.DMHTN_PROGRAM_ENCOUNTER_TYPE));
+		//GBV
+		install(encounterType("GBV form", "GBV Screening form", _EhrEncounterTypes.EHR_GBV));
 
 		//forms
-		install(form("NCD DM HTN Follow up", "NCD Clinical Follow Up Form",
+		install(form("DM HTN Follow up Form", "DM HTN Clinical Follow Up Form",
 		    _EhrEncounterTypes.DIABETIC_CLINICAL_FOLLOW_UP_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_FOLLOW_UP));
-		install(form("NCD Discontinue Patient", "NCD discontinue patient from care from this facility",
-		    _EhrEncounterTypes.NCD_DISCONTINUE_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
-		install(form("NCD DM HTN Initial", "NCD DM HTN Initial Encounter Form",
+		install(form("DM HTN Discontinue Patient", "DM HTN discontinue patient from care from this facility",
+		    _EhrEncounterTypes.DMHTN_DISCONTINUE_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_DISCONTINUE));
+		install(form("DM HTN Initial Form", "DM HTN DM HTN Initial Encounter Form",
 		    _EhrEncounterTypes.DM_HTN_INITIAL_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_INITIAL));
-		install(form("NCD DM HTN Screening", "NCD DM HTN Screening Encounter Form",
-				_EhrEncounterTypes.NCD_SCREENING_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_SCREENING));
+		install(form("DM HTN Screening Form", "DM HTN DM HTN Screening Encounter Form",
+				_EhrEncounterTypes.DMHTN_SCREENING_ENCOUNTER_TYPE, "1.0", _EhrForms.NCD_SCREENING));
+		install(form("DMHTN program Form", "DMHTN program Encounter Form",
+				_EhrEncounterTypes.DMHTN_PROGRAM_ENCOUNTER_TYPE, "1.0", _EhrForms.DMHTN_PROGRAM_FORM));
+
+		//GBV
+		install(form("GBV Screening", "GBV Screening Encounter Form",
+				_EhrEncounterTypes.EHR_GBV, "1.0", _EhrForms.EHR_GBV_ENROLLMENT));
 		
 		//identifier installation
 		install(patientIdentifierType("Birth certificate number",
@@ -510,6 +525,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
         install(privilege(_Privileges.MATERNITY_TRIAGE_APP,"Access Maternity Triage App"));
         install(privilege(_Privileges.PAC_APP,"Access PAC Room"));
         install(privilege(_Privileges.NCD_APP,"Access NCD application"));
+        install(privilege(_Privileges.EHR_GBV,"Access GBV application"));
 
 		//installing MCH roles
 		install(role("MCH traige user for ANC", "MCH Triage user role for ANC queue", (idSet("API Privileges (View and Edit)")), null));
@@ -533,6 +549,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 				idSet(_Privileges.EHR_REGISTRATION)));
 		install(role(_Roles.EHR_REPORTS,"Access reports application",idSet(SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
 				idSet(_Privileges.EHR_REPORTS)));
+		install(role(_Roles.EHR_GBV,"Access gbv application",idSet(SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
+				idSet(_Privileges.EHR_GBV)));
 
 		//make sure the OpenMRS_ID does not have the check digit to allow patients to be saved
 		install(patientIdentifierType("OpenMRS ID", "Medical Record Number generated by OpenMRS for every patient",
