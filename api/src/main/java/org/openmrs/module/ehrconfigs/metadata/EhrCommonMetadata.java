@@ -57,7 +57,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		
 		public static final String FILE_NUMBER = "858781dc-282f-11eb-8741-8ff5ddd45b7c"; //id 43 in old afyaehms
 		
-		public static final String WAIVER_NUMBER = "a804c03e-f1bc-11ea-git ae43-dfa0f52ad887"; //id in old afyaehms is 32
+		public static final String WAIVER_NUMBER = "a804c03e-f1bc-11ea-ae43-dfa0f52ad887"; //id in old afyaehms is 32
 		
 		public static final String EXEMPTION_NUMBER = "a22892ce-f1d2-11ea-a512-138a123d324a"; //id in old afyaehms is 36
 		
