@@ -517,6 +517,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 				null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.PATIENT_NHIF_NUMBER));
 		//global property
         install(globalProperty("fptab.includedInPNC","To determine whether to include family planning tab in pnc if same clinician is serving both pnc and fp patients","false"));
+        //install the billable service value
+        install(globalProperty("billing.rootServiceConceptId","Order type ID from Order_type table of openmrs to determine which record is of type Service Order","31"));
 
 
 		//installing MCH Privileges

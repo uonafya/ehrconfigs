@@ -3,6 +3,8 @@ package org.openmrs.module.ehrconfigs.utils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.GlobalProperty;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 
@@ -26,7 +28,9 @@ public class CodedConceptsConversion {
                 "112930AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "1482AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "142452AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "127639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "127639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "e799649c-6508-4660-9d9d-4df3449df20e",
+                "1185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
@@ -36,7 +40,6 @@ public class CodedConceptsConversion {
                 "0da0f5a5-15f8-4871-ba02-2aa82377223a",
                 "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "c8cb4aac-be8d-49f1-a98b-2165c3e21ab1",
-                "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "c0f775f5-bcc3-4900-a39e-35069b3a08ef",
                 "1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -58,19 +61,18 @@ public class CodedConceptsConversion {
     public static void addSetsToServiceOrderedConcept() {
         ConceptService conceptService = Context.getConceptService();
         Concept serviceOrdered = conceptService.getConceptByUuid("31AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        for(String uuids: addedSetMembersUuids()) {
-            //check whether this concept is a member of this out concept
-            Concept partOf = conceptService.getConceptByUuid(uuids);
-            for(Concept setMembers : serviceOrdered.getSetMembers()) {
-                if (!setMembers.equals(partOf)) {
+        //for(Concept setMembers : serviceOrdered.getSetMembers()) {
+            for(String uuids: addedSetMembersUuids()) {
+                Concept partOf = conceptService.getConceptByUuid(uuids);
+                //if (!setMembers.getConceptId().equals(partOf.getConceptId())) {
                     serviceOrdered.addSetMember(conceptService.getConceptByUuid(uuids));
                     serviceOrdered.setChangedBy(Context.getAuthenticatedUser());
                     serviceOrdered.setDateChanged(new Date());
                     //save the concept back into the data model
                     conceptService.saveConcept(serviceOrdered);
-                }
+                //}
             }
-        }
+        //}
 
     }
 }
