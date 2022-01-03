@@ -28,6 +28,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//make sure all the concepts have been set properly to the required data types
 		CodedConceptsConversion.doActualConversion();
 		CodedConceptsConversion.addSetsToServiceOrderedConcept();
+		CodedConceptsConversion.addSetsToDosingUnits();
 		log.info("Started EHR Configurtaions");
 	}
 	
