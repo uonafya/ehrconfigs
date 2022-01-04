@@ -29,7 +29,8 @@ public class CodedConceptsConversion {
                 "142452AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "127639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "e799649c-6508-4660-9d9d-4df3449df20e",
-                "1185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "1185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
@@ -75,6 +76,28 @@ public class CodedConceptsConversion {
         );
     }
 
+    private static List<String> addedSetMembersUuidsToUrinalysisOrder() {
+        return Arrays.asList(
+                "e8710a77-23c0-4a27-bf6b-559ff4d4a0d4",
+                "56AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+    private static List<String> addedSetMembersUuidsToOvaTest() {
+        return Arrays.asList(
+                "824a7421-210c-4b7a-818f-b82e0b361d95",
+                "fc27856d-d8c1-4db3-a7a8-6623dd30a4a7",
+                "4d025f49-a660-4f28-b6a1-087101e4f03b",
+                "8412007b-201c-49b6-839e-4b7f55102142",
+                "925da9ee-f436-445f-ada3-a71b7131222d",
+                "6d351243-7792-4498-930a-daf365723573",
+                "62eff937-603f-41a0-89ae-098759ce110e",
+                "beb0f91d-f2c6-4a04-a480-c04af2cb0945",
+                "784f2e5c-068d-4e4c-aa6f-a8026135b600",
+                "598673d3-d185-4290-8e09-a68668a36b69",
+                "fdef603d-4cef-4eaa-acf3-3d6408110804"
+        );
+    }
+
     public static void doActualConversion() {
         ConceptService conceptService = Context.getConceptService();
         for(String string: convertIntoCodedValues()) {
@@ -86,15 +109,15 @@ public class CodedConceptsConversion {
             conceptService.saveConcept(concept);
         }
     }
-    public static void addSetsToServiceOrderedConcept() {
+    public static void doGeneralSetConversionAndSetup(String conceptSetUuid, List<String> stringList){
         ConceptService conceptService = Context.getConceptService();
-        Concept serviceOrdered = conceptService.getConceptByUuid("31AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept setConcept = conceptService.getConceptByUuid(conceptSetUuid);
         List<Integer> setConceptIdsFromSetMembers = new ArrayList<Integer>();
         List<Integer>  setMembersToBeAdded = new ArrayList<Integer>();
-        for(ConceptSet conceptSet1: serviceOrdered.getConceptSets()) {
+        for(ConceptSet conceptSet1: setConcept.getConceptSets()) {
             setConceptIdsFromSetMembers.add(conceptSet1.getConcept().getConceptId());
         }
-        for(String uuids: addedSetMembersUuidsToSrviceOrdered()) {
+        for(String uuids: stringList) {
             Concept partOf = conceptService.getConceptByUuid(uuids);
             if(partOf != null) {
                 setMembersToBeAdded.add(partOf.getConceptId());
@@ -104,40 +127,27 @@ public class CodedConceptsConversion {
         //if the element is already available, just skip
         for (Integer index : setMembersToBeAdded) {
             if(!setConceptIdsFromSetMembers.contains(index)) {
-                serviceOrdered.addSetMember(conceptService.getConcept(index));
-                serviceOrdered.setChangedBy(Context.getAuthenticatedUser());
-                serviceOrdered.setDateChanged(new Date());
+                setConcept.addSetMember(conceptService.getConcept(index));
+                setConcept.setChangedBy(Context.getAuthenticatedUser());
+                setConcept.setDateChanged(new Date());
                 //save the concept back into the data model
-                conceptService.saveConcept(serviceOrdered);
+                conceptService.saveConcept(setConcept);
             }
         }
 
     }
+    public static void addSetsToServiceOrderedConcept() {
+        doGeneralSetConversionAndSetup("31AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", addedSetMembersUuidsToSrviceOrdered());
+    }
 
     public static void addSetsToDosingUnits() {
-        ConceptService conceptService = Context.getConceptService();
-        Concept dosingUnits = conceptService.getConceptByUuid("162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        List<Integer> setConceptIdsFromSetMembers = new ArrayList<Integer>();
-        List<Integer>  setMembersToBeAdded = new ArrayList<Integer>();
-        for(ConceptSet conceptSet1: dosingUnits.getConceptSets()) {
-            setConceptIdsFromSetMembers.add(conceptSet1.getConcept().getConceptId());
-        }
-        for(String uuids: addedSetMembersUuidsToDosingUnits()) {
-            Concept partOf = conceptService.getConceptByUuid(uuids);
-            if(partOf != null) {
-                setMembersToBeAdded.add(partOf.getConceptId());
-            }
-        }
-        //loop through the list to be added vs what is available already
-        //if the element is already available, just skip
-        for (Integer index : setMembersToBeAdded) {
-            if(!setConceptIdsFromSetMembers.contains(index)) {
-                dosingUnits.addSetMember(conceptService.getConcept(index));
-                dosingUnits.setChangedBy(Context.getAuthenticatedUser());
-                dosingUnits.setDateChanged(new Date());
-                //save the concept back into the data model
-                conceptService.saveConcept(dosingUnits);
-            }
-        }
+        doGeneralSetConversionAndSetup("162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", addedSetMembersUuidsToDosingUnits());
+    }
+
+    public static void addSetsToUrinalysisOrder() {
+        doGeneralSetConversionAndSetup("ce5068f1-0ecc-43a8-95c4-cf876dec79bc", addedSetMembersUuidsToUrinalysisOrder());
+    }
+    public static void addSetsToOvaOrder() {
+        doGeneralSetConversionAndSetup("716AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", addedSetMembersUuidsToOvaTest());
     }
 }

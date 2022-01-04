@@ -29,6 +29,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		CodedConceptsConversion.doActualConversion();
 		CodedConceptsConversion.addSetsToServiceOrderedConcept();
 		CodedConceptsConversion.addSetsToDosingUnits();
+		CodedConceptsConversion.addSetsToUrinalysisOrder();
+		CodedConceptsConversion.addSetsToOvaOrder();
 		log.info("Started EHR Configurtaions");
 	}
 	
