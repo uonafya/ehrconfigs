@@ -2,7 +2,9 @@ package org.openmrs.module.ehrconfigs.utils;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptSet;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 
@@ -98,6 +100,14 @@ public class CodedConceptsConversion {
         );
     }
 
+    private static List<String> getUuidConceptsToChageToMmolL() {
+        return Arrays.asList(
+                "160912AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "887AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "d0d107f7-9452-4129-a209-b9a4d1b46d4a"
+                );
+    }
+
     public static void doActualConversion() {
         ConceptService conceptService = Context.getConceptService();
         for(String string: convertIntoCodedValues()) {
@@ -150,4 +160,14 @@ public class CodedConceptsConversion {
     public static void addSetsToOvaOrder() {
         doGeneralSetConversionAndSetup("716AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", addedSetMembersUuidsToOvaTest());
     }
+    public static void changeTestsUnits() {
+        ConceptService conceptService = Context.getConceptService();
+        AdministrationService administrationService = Context.getAdministrationService();
+        for(String string: getUuidConceptsToChageToMmolL()) {
+            Concept concept = conceptService.getConceptByUuid(string);
+            administrationService.executeSQL("UPDATE concept_numeric SET units='Mmol/L' WHERE concept_id="+concept.getConceptId(), false);
+        }
+
+    }
+
 }
