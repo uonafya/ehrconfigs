@@ -81,7 +81,8 @@ public class CodedConceptsConversion {
     private static List<String> addedSetMembersUuidsToUrinalysisOrder() {
         return Arrays.asList(
                 "e8710a77-23c0-4a27-bf6b-559ff4d4a0d4",
-                "56AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                "56AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "c7af0007-3193-4770-9e0c-76ce046cf7fc"
         );
     }
     private static List<String> addedSetMembersUuidsToOvaTest() {
