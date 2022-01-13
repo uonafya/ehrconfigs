@@ -1,8 +1,8 @@
 package org.openmrs.module.ehrconfigs.utils;
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptSet;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
@@ -25,7 +25,6 @@ public class CodedConceptsConversion {
                 "148346AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "159364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "112930AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "1482AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "142452AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -44,6 +43,16 @@ public class CodedConceptsConversion {
                 "c8cb4aac-be8d-49f1-a98b-2165c3e21ab1",
                 "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "c0f775f5-bcc3-4900-a39e-35069b3a08ef"
+        );
+    }
+
+    private static List<String> radiologyDepartmentTests() {
+        return Arrays.asList(
+                "f65ecf8b-add3-4c58-9697-48cd9cdbbe43",
+                "163591AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161165AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "846AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "163004AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         );
     }
 
@@ -109,6 +118,54 @@ public class CodedConceptsConversion {
                 );
     }
 
+    private static List<String> getUuidConceptsToAntenatalCareProgram() {
+        return Arrays.asList(
+                "299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "21AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "300AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161470AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "1356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+
+    private static List<String> getUuidConceptsToUrinePhysicalExamination() {
+        return Arrays.asList(
+                "be405745-bac7-4ead-a3aa-7c2fa91d7e9d",
+                "163684AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161440AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "163682AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "1875AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "162096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161439AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "161442AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "163680AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "159734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "159733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+
+    private static List<String> getUuidConceptsToStoolForOvaandCyst() {
+        return Arrays.asList(
+                "1368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "716AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "182AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "709AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+
+    private static List<String> getUuidConceptsToUrineMicroscopyDeposits() {
+        return Arrays.asList(
+                "165561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "163686AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "c55d1bcf-5e79-44f3-ac8c-de99cb7bebc3",
+                "6ed1b116-6d67-4995-8515-6470cc6b88a0",
+                "163693AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "a34cbd53-0cca-40b3-a9ec-c34be876a2b6"
+        );
+    }
+
     public static void doActualConversion() {
         ConceptService conceptService = Context.getConceptService();
         for(String string: convertIntoCodedValues()) {
@@ -169,6 +226,60 @@ public class CodedConceptsConversion {
             administrationService.executeSQL("UPDATE concept_numeric SET units='Mmol/L' WHERE concept_id="+concept.getConceptId(), false);
         }
 
+    }
+    /////////Add the Antenatal Care Profile member sets here///////////////////////
+    public static void addSetsToAntenatalCareProfileOrder() {
+        doGeneralSetConversionAndSetup("fa2b4427-820c-46d3-bf91-7fca6b7cfcbe", getUuidConceptsToAntenatalCareProgram());
+    }
+
+    public static void addSetsToUrinePhysicalExamination() {
+        doGeneralSetConversionAndSetup("e8710a77-23c0-4a27-bf6b-559ff4d4a0d4", getUuidConceptsToUrinePhysicalExamination());
+    }
+
+    public static void addSetsToStoolForOvaandCyst() {
+        doGeneralSetConversionAndSetup("a02587cb-82dd-4ee3-90db-0c3f16f247c0", getUuidConceptsToStoolForOvaandCyst());
+    }
+
+    public static void addSetsToUrineMicroscopyDeposits() {
+        doGeneralSetConversionAndSetup("c7af0007-3193-4770-9e0c-76ce046cf7fc", getUuidConceptsToUrineMicroscopyDeposits());
+    }
+
+    public static void addAnswersToQuestions(String conceptQuestionUuid, List<String> stringListAnswers){
+        ConceptService conceptService = Context.getConceptService();
+        Concept question = conceptService.getConceptByUuid(conceptQuestionUuid);
+        Concept conceptAnswer;
+        List<Integer> answersToAquestion = new ArrayList<Integer>();
+        //pick all the answers for this question
+
+        for(ConceptAnswer answer : question.getAnswers()){
+            //poppulate a list
+            answersToAquestion.add(answer.getConcept().getConceptId());
+        }
+        for(String uuid: stringListAnswers) {
+            conceptAnswer = conceptService.getConceptByUuid(uuid);
+
+            if(!answersToAquestion.contains(conceptAnswer.getConceptId())) {
+                //add this as an answer to the question given
+                ConceptAnswer conceptAnswerObject = new ConceptAnswer();
+                conceptAnswerObject.setAnswerConcept(conceptAnswer);
+                conceptAnswerObject.setCreator(Context.getAuthenticatedUser());
+                conceptAnswerObject.setDateCreated(new Date());
+
+                //add the question to this answer
+                question.addAnswer(conceptAnswerObject);
+
+                //save only if there is no any other answer that has similar question and answer
+                //loop through all the answers for this question
+
+                conceptService.saveConcept(question);
+            }
+
+
+        }
+    }
+
+    public static void addAnswersToRadiologyDepartment() {
+        doGeneralSetConversionAndSetup("160463AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", radiologyDepartmentTests());
     }
 
 }
