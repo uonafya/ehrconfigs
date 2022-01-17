@@ -37,6 +37,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		CodedConceptsConversion.addSetsToStoolForOvaandCyst();
 		CodedConceptsConversion.addSetsToUrineMicroscopyDeposits();
 		CodedConceptsConversion.addAnswersToRadiologyDepartment();
+		CodedConceptsConversion.addAnswersToProcedurePerformed();
 		log.info("Started EHR Configurtaions");
 	}
 	
