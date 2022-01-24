@@ -26,6 +26,18 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 	 */
 	public void started() {
 		//make sure all the concepts have been set properly to the required data types
+		//runConfigurations();
+		log.info("Started EHR Configurtaions");
+	}
+	
+	/**
+	 * @see #shutdown()
+	 */
+	public void shutdown() {
+		log.info("Shutdown EHR Configurtaions");
+	}
+
+	private void runConfigurations() {
 		CodedConceptsConversion.doActualConversion();
 		CodedConceptsConversion.addSetsToServiceOrderedConcept();
 		CodedConceptsConversion.addSetsToDosingUnits();
@@ -38,14 +50,6 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		CodedConceptsConversion.addSetsToUrineMicroscopyDeposits();
 		CodedConceptsConversion.addAnswersToRadiologyDepartment();
 		CodedConceptsConversion.addAnswersToProcedurePerformed();
-		log.info("Started EHR Configurtaions");
-	}
-	
-	/**
-	 * @see #shutdown()
-	 */
-	public void shutdown() {
-		log.info("Shutdown EHR Configurtaions");
 	}
 	
 }
