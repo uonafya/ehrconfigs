@@ -507,6 +507,10 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		//GBV
 		install(form("GBV Screening", "GBV Screening Encounter Form",
 				_EhrEncounterTypes.EHR_GBV, "1.0", _EhrForms.EHR_GBV_ENROLLMENT));
+
+		//
+		install(form("EHR program enrollment", "EHR program enrollment Form",
+				_EhrEncounterTypes.EHR_GBV, "1.0", _EhrForms.EHR_ADDON_TEMP_FORM));
 		
 		//identifier installation
 		install(patientIdentifierType("Birth certificate number",
