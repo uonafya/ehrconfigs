@@ -372,4 +372,37 @@ public class CodedConceptsConversion {
         addAnswersToQuestions("1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", procedurePerformed());
     }
 
+    private static List<String> typhoidRDT() {
+        return Arrays.asList(
+                "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+    public static void addAnswersToTyphoidRDT() {
+        addAnswersToQuestions("165562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", typhoidRDT());
+    }
+
+    //concepts to be retired
+    private static List<String> conceptsToRetire() {
+        return Arrays.asList(
+                "7edfca4f-4690-45c8-8569-71e8b49f52f5"
+        );
+    }
+    public static void conceptsToRetireFromDb() {
+        ConceptService conceptService = Context.getConceptService();
+        for(String str:conceptsToRetire()) {
+            Concept concept = conceptService.getConceptByUuid(str);
+            if(concept != null) {
+                concept.setRetired(true);
+                concept.setRetiredBy(Context.getAuthenticatedUser());
+                concept.setRetireReason("Duplicate and unwanted concept, already provided by CIEL");
+                concept.setDateRetired(new Date());
+
+                //commit to the database
+                conceptService.saveConcept(concept);
+            }
+
+        }
+    }
+
 }
