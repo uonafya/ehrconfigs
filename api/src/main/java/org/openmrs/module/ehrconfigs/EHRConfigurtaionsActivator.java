@@ -50,6 +50,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		CodedConceptsConversion.addSetsToUrineMicroscopyDeposits();
 		CodedConceptsConversion.addAnswersToRadiologyDepartment();
 		CodedConceptsConversion.addAnswersToProcedurePerformed();
+		CodedConceptsConversion.addAnswersToTyphoidRDT();
+		CodedConceptsConversion.conceptsToRetireFromDb();
 	}
 	
 }
