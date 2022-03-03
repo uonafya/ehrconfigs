@@ -384,7 +384,7 @@ public class CodedConceptsConversion {
     //concepts to be retired
     private static List<String> conceptsToRetire() {
         return Arrays.asList(
-                "7edfca4f-4690-45c8-8569-71e8b49f52f5"
+                "7edfca4f-4690-45c8-8569-71e8b49f52f5", "5bc4313c-b70c-4c1a-ab30-6cacb0220160"
         );
     }
     public static void conceptsToRetireFromDb() {
