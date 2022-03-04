@@ -404,5 +404,8 @@ public class CodedConceptsConversion {
 
         }
     }
+    public static void addAnswersToSalmonellaTyphiRapidDiagnosisTest() {
+        addAnswersToQuestions("165562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", typhoidRDT());
+    }
 
 }
