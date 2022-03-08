@@ -53,6 +53,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		CodedConceptsConversion.addAnswersToTyphoidRDT();
 		CodedConceptsConversion.conceptsToRetireFromDb();
 		CodedConceptsConversion.addAnswersToSalmonellaTyphiRapidDiagnosisTest();
+		CodedConceptsConversion.conceptsToConvertToNaDataType();
 	}
 	
 }

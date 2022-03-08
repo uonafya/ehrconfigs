@@ -407,4 +407,22 @@ public class CodedConceptsConversion {
         addAnswersToQuestions("165562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", typhoidRDT());
     }
 
+    private static List<String> getUuidConceptsToChangeToNa() {
+        return Arrays.asList(
+                "5486AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "5488AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+
+    public static void conceptsToConvertToNaDataType() {
+        ConceptService conceptService = Context.getConceptService();
+        for(String str:getUuidConceptsToChangeToNa()) {
+            Concept concept = conceptService.getConceptByUuid(str);
+            if(concept != null) {
+                concept.setDatatype(conceptService.getConceptDatatypeByUuid(ConceptDatatype.N_A_UUID));
+                concept.setChangedBy(Context.getAuthenticatedUser());
+                concept.setDateChanged(new Date());
+            }
+        }
+    }
 }
