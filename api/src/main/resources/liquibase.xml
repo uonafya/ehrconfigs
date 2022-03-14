@@ -159,5 +159,34 @@
             SET SQL_SAFE_UPDATES = 1;
         </sql>
     </changeSet>
+    <changeSet id="ehrconfigs-202203141407" author="injiri">
+        <comment>Creating waiver_type table </comment>
+        <sql>
+            CREATE TABLE  IF NOT EXISTS `waiver_type`(
+            `waiver_id` int(11) NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `created_date` datetime DEFAULT NULL,
+            `retired` bit(1) DEFAULT NULL,
+            `retired_date` datetime DEFAULT NULL,
+            PRIMARY KEY (`waiver_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+        </sql>
+    </changeSet>
+    <changeSet id="ehrconfigs-202203141506" author="injiri">
+        <comment>Creating waiver_type_role table </comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS `waiver_type_role` (
+            `waiver_id` int(11) NOT NULL DEFAULT '0',
+            `role` varchar(50) NOT NULL DEFAULT '',
+            PRIMARY KEY (`role`,waiver_id),
+            KEY `waiver_type_role_to_waiver_type` (`waiver_id`),
+            CONSTRAINT `waive_role_definitions` FOREIGN KEY (`role`) REFERENCES `role` (`role`),
+            CONSTRAINT `waiver_type_role_to_waiver_type` FOREIGN KEY (`waiver_id`) REFERENCES `waiver_type` (`waiver_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+        </sql>
+    </changeSet>
  
 </databaseChangeLog>
