@@ -23,7 +23,7 @@
   		    http://www.springframework.org/schema/util
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:component-scan base-package="org.openmrs.module.ehrconfigs" />
+    <context:component-scan base-package="org.openmrs.module.ehrconfigs"/>
 
     <!-- Wraps EHRConfigurtaionsService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
@@ -34,7 +34,7 @@
                 <bean
                         class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
                     <property name="transactionManager">
-                        <ref bean="transactionManager" />
+                        <ref bean="transactionManager"/>
                     </property>
                     <property name="target">
                         <bean class="org.openmrs.module.ehrconfigs.api.impl.EHRConfigurtaionsServiceImpl">
@@ -42,7 +42,7 @@
                                 <bean
                                         class="org.openmrs.module.ehrconfigs.api.dao.EHRConfigurtaionsDao">
                                     <property name="sessionFactory">
-                                        <ref bean="sessionFactory" />
+                                        <ref bean="sessionFactory"/>
                                     </property>
                                 </bean>
                             </property>
@@ -50,13 +50,20 @@
                     </property>
                     <property name="preInterceptors">
                         <list>
-                            <ref bean="authorizationInterceptor" />
+                            <ref bean="authorizationInterceptor"/>
                         </list>
                     </property>
                     <property name="transactionAttributeSource">
                         <bean
-                                class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+                                class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
                     </property>
+                </bean>
+                <bean id="ehrconfigs.ehrconfigs" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+                    <constructor-arg value="ehrconfigs.home"/>
+                    <constructor-arg value="EhrConfigs"/>
+                    <constructor-arg value="ehrconfigs/ehrConfigurations.page"/>
+                    <constructor-arg value="financials:apps/revenue.png"/>
+                    <constructor-arg value="3000"/>
                 </bean>
             </list>
         </property>
