@@ -58,14 +58,14 @@
                                 class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
                     </property>
                 </bean>
-                <bean id="ehrconfigs.ehrconfigs" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
-                    <constructor-arg value="ehrconfigs.home"/>
-                    <constructor-arg value="EhrConfigs"/>
-                    <constructor-arg value="ehrconfigs/ehrConfigurations.page"/>
-                    <constructor-arg value="financials:apps/revenue.png"/>
-                    <constructor-arg value="3000"/>
-                </bean>
             </list>
         </property>
+    </bean>
+    <bean id="ehrconfigs.ehrconfigs" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+        <constructor-arg value="ehrconfigs.home"/>
+        <constructor-arg value="EhrConfigs"/>
+        <constructor-arg value="ehrconfigs/ehrConfigurations.page"/>
+        <constructor-arg value="financials:apps/revenue.png"/>
+        <constructor-arg value="3000"/>
     </bean>
 </beans>
