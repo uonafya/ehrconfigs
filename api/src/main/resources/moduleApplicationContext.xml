@@ -65,7 +65,7 @@
         <constructor-arg value="ehrconfigs.home"/>
         <constructor-arg value="EhrConfigs"/>
         <constructor-arg value="ehrconfigs/ehrConfigurations.page"/>
-        <constructor-arg value="financials:apps/revenue.png"/>
+        <constructor-arg value="ehrconfigs:apps/ehrconfigs.png"/>
         <constructor-arg value="3000"/>
     </bean>
 </beans>
