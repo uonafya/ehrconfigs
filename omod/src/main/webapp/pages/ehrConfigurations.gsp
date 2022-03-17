@@ -7,8 +7,8 @@
              href        : ui.pageLink("kenyaemr", "userHome")
             ],
             [
-                    label       : "Pharmacy Department Summaries",
-                    href        : ui.pageLink("financials", "financials", [section: "pharmacyRevenueSummaries"]),
+                    label       : "Waivers",
+                    href        : ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageWaivers"]),
                     active      : (selection == "section-manageWaivers"),
                     iconProvider: "financials",
                     icon        : "buttons/pharmacy_summary.png"
@@ -21,7 +21,7 @@
 
 <div class="ke-page-content">
 
-    <% if (section == "overview") { %>
+    <% if (section == "manageWaivers") { %>
     ${ui.includeFragment("ehrconfigs", "manageWaivers")}
     <% } %>
 </div>

@@ -1,10 +1,14 @@
 <%
+    ui.includeJavascript("financials", "jquery.dataTables.min.js")
+    ui.includeCss("financials", "jquery.dataTables.min.css")
     ui.includeJavascript("ehrconfigs", "emr.js")
 %>
 
 <script>
     var jq = jQuery;
     jq(function () {
+        jQuery("#details").DataTable();
+
         var waiverDialog = emr.setupConfirmationDialog({
             dialogOpts: {
                 overlayClose: false,
@@ -88,7 +92,7 @@
             <tr>
                 <td>${it.name}</td>
                 <td>${it.description}</td>
-                <td>${it.roles}</td>
+                <td>${it.userRole}</td>
                 <td>Action</td>
             </tr>
             <% } %>
@@ -121,7 +125,7 @@
                         <select name="role" id="role" style="width: 200px;">
                             <option disabled>--Please Select--</option>
                             <% waiverRoles.each { role -> %>
-                            <option value="${role.userId}">${role.name}</option>
+                            <option value="${role.role}">${role.role}</option>
                             <% } %>
                         </select>
 
