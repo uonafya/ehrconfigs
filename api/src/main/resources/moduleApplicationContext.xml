@@ -61,4 +61,11 @@
             </list>
         </property>
     </bean>
+    <bean id="ehrconfigs.ehrconfigs" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+        <constructor-arg value="ehrconfigs.home"/>
+        <constructor-arg value="EhrConfigs"/>
+        <constructor-arg value="ehrconfigs/ehrConfigurations.page"/>
+        <constructor-arg value="ehrconfigs:apps/ehrconfigs.png"/>
+        <constructor-arg value="3000"/>
+    </bean>
 </beans>
