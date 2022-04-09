@@ -172,7 +172,7 @@
 
     <properties>
         <openmrsPlatformVersion>2.3.3</openmrsPlatformVersion>
-		<hospitalcoreVersion>2.0.0</hospitalcoreVersion>
+		<hospitalcoreVersion>2.0.3-SNAPSHOT</hospitalcoreVersion>
 		<metadatadeployVersion>1.3</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
 		<kenyaemrVersion>17.0.3</kenyaemrVersion>

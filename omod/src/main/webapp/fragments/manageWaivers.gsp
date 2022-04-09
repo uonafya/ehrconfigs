@@ -1,23 +1,7 @@
-<%
-    ui.includeJavascript("ehrconfigs", "jquery-ui-1.9.2.custom.min.js")
-    ui.includeJavascript("financials", "jquery.dataTables.min.js")
-    ui.includeJavascript("ehrconfigs", "emr.js")
-    // simplemodal plugin: http://www.ericmmartin.com/projects/simplemodal/
-    ui.includeJavascript("ehrconfigs", "jquery.simplemodal.1.4.4.min.js")
-
-    ui.includeCss("ehrconfigs", "jquery-ui-1.9.2.custom.min.css")
-    ui.includeCss("financials", "jquery.dataTables.min.css")
-    ui.includeCss("ehrconfigs", "referenceapplication.css")
-    ui.includeCss("ehrconfigs", "onepcssgrid.css")
-    ui.includeCss("ehrconfigs", "custom.css")
-    ui.includeCss("patientdashboardapp", "patientdashboardapp.css")
-
-%>
-
 <script>
     var jq = jQuery;
     jq(function () {
-        jQuery("#details").DataTable();
+        jq("#details").DataTable();
 
         var waiverDialog = emr.setupConfirmationDialog({
             dialogOpts: {
@@ -32,6 +16,19 @@
                         return false;
                     }
                     // TODO call post method to save new waiver
+                    var name = jq('#waiverName').val();
+                    var description = jq('#waiverDescription').val();
+                    var userRole = jq('#role').val();
+                    jq.getJSON('${ui.actionLink("ehrconfigs", "manageWaivers", "createWaiverType")}',
+                        {
+                            'waiverName': name,
+                            'waiverDescription': description,
+                            'userRole': userRole
+                        }
+                    ).success(function (data) {
+                        alert("Saved  :" + data)
+                    });
+
                     waiverDialog.close();
                 },
                 cancel: function () {
@@ -80,13 +77,16 @@
     <div class="ke-panel-heading">Waiver Management</div>
 
     <div class="ke-panel-content" style="background-color: #F3F9FF;">
+        <div>
+            <button id="newWaiverType" class="task">New Type</button>
+        </div>
         <table id="details">
             <thead>
             <tr>
-                <td>#</td>
-                <td>Name</td>
+                <th>Name</th>
                 <th>Description</th>
                 <th>Required roles</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -107,9 +107,6 @@
             </tr>
             <% } %>
             </tbody>
-            <tr>
-                <button id="newWaiverType" class="task">New Type</button>
-            </tr>
         </table>
 
         <div id="waiver-dialog" class="dialog" style="display:none;">
@@ -123,16 +120,17 @@
                 <ul>
                     <li>
                         <label>Name<span>*</span></label>
-                        <input id="waiverName" type="text">
+                        <input id="waiverName" name="waiverName" type="text" style="width: 90%!important;">
                     </li>
                     <li>
                         <label>Description<span>*</span></label>
-                        <input id="waiverDescription" type="text" style="width: 60px!important;">
+                        <input id="waiverDescription" name="waiverDescription" type="text"
+                               style="width: 90%!important;">
                     </li>
 
                     <li>
                         <label>Associated user Role<span>*</span></label>
-                        <select name="role" id="role" style="width: 200px;">
+                        <select name="role" id="role" style="width: 90%!important;">
                             <option disabled>--Please Select--</option>
                             <% waiverRoles.each { role -> %>
                             <option value="${role.role}">${role.role}</option>
