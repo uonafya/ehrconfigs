@@ -31,7 +31,7 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 	
 	@Override
 	public void execute() {
-		List<Patient> patientList = Context.getPatientService().getAllPatients();
+		//List<Patient> patientList = Context.getPatientService().getAllPatients();
 		if (!isExecuting) {
 			if (log.isDebugEnabled()) {
 				log.debug("Copying patient object to patient search object to fit the hospital core searching");
@@ -40,9 +40,9 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 			startExecuting();
 			try {
 				//do all the work here
-				for (Patient patient : patientList) {
+				/*for (Patient patient : patientList) {
 					copyPatientObjectsToPatientSearchObjects(patient);
-				}
+				}*/
 			}
 			catch (Exception e) {
 				log.error("Error while copying patients to the respective destination ", e);
