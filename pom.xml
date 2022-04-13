@@ -66,6 +66,18 @@
 			<version>${legacyUiVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>kenyaui-api</artifactId>
+			<version>${kenyauiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>kenyacore-api</artifactId>
+			<version>${kenyacoreVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	</dependencyManagement>
 
@@ -160,11 +172,13 @@
 
     <properties>
         <openmrsPlatformVersion>2.3.3</openmrsPlatformVersion>
-		<hospitalcoreVersion>2.0.0</hospitalcoreVersion>
+		<hospitalcoreVersion>2.0.3-SNAPSHOT</hospitalcoreVersion>
 		<metadatadeployVersion>1.3</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
 		<kenyaemrVersion>17.0.3</kenyaemrVersion>
 		<uiframeworkVersion>3.8</uiframeworkVersion>
 		<legacyUiVersion>1.5.0</legacyUiVersion>
+		<kenyauiVersion>2.1.1</kenyauiVersion>
+		<kenyacoreVersion>2.4.1</kenyacoreVersion>
     </properties>
 </project>
