@@ -78,6 +78,7 @@ public class EhrPatientAdvice implements AfterReturningAdvice {
 				encounter.setCreator(Context.getAuthenticatedUser());
 				encounter.setDateCreated(new Date());
 				encounter.setPatient(patient);
+				encounter.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
 
 				VisitService visitService = Context.getVisitService();
 				Visit visit = new Visit();
