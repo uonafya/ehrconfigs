@@ -13,13 +13,19 @@
  */
 package org.openmrs.module.ehrconfigs.advice;
 
+import org.openmrs.Encounter;
 import org.openmrs.Patient;
+import org.openmrs.Visit;
+import org.openmrs.api.EncounterService;
+import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ehrconfigs.utils.EhrConfigsUtils;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.hospitalcore.model.PatientSearch;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.springframework.aop.AfterReturningAdvice;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 public class EhrPatientAdvice implements AfterReturningAdvice {
@@ -62,6 +68,32 @@ public class EhrPatientAdvice implements AfterReturningAdvice {
 				patientSearch.setAdmitted(false);
 				//save the search in the database
 				hospitalCoreService.savePatientSearch(patientSearch);
+				//create a visit for this patient as an outpatient
+
+				EncounterService encounterService = Context.getEncounterService();
+				Encounter encounter = new Encounter();
+				encounter.setEncounterType(encounterService.getEncounterTypeByUuid("de1f9d67-b73e-4e1b-90d0-036166fc6995"));
+				encounter.addProvider(EhrConfigsUtils.getDefaultEncounterRole(), EhrConfigsUtils.getProvider(Context.getAuthenticatedUser().getPerson()));
+				encounter.setEncounterDatetime(new Date());
+				encounter.setCreator(Context.getAuthenticatedUser());
+				encounter.setDateCreated(new Date());
+				encounter.setPatient(patient);
+
+				VisitService visitService = Context.getVisitService();
+				Visit visit = new Visit();
+				visit.setPatient(patient);
+				visit.setStartDatetime(new Date());
+				visit.setVisitType(visitService.getVisitTypeByUuid("3371a4d4-f66f-4454-a86d-92c7b3da990c"));
+				visit.setDateCreated(new Date());
+				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				visit.setCreator(Context.getAuthenticatedUser());
+
+				//save the visit in the database to be used on encounters
+				Visit savedVisit = visitService.saveVisit(visit);
+				//attach the visit to the encounter now
+				encounter.setVisit(savedVisit);
+				//save the encounter so that this patient can have a visit
+				encounterService.saveEncounter(encounter);
 			}
 	}
 
