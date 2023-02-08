@@ -14,27 +14,64 @@
 package org.openmrs.module.ehrconfigs.advice;
 
 import org.openmrs.Patient;
-import org.springframework.aop.MethodBeforeAdvice;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.ehrconfigs.utils.EhrConfigsUtils;
+import org.openmrs.module.hospitalcore.HospitalCoreService;
+import org.openmrs.module.hospitalcore.model.PatientSearch;
+import org.springframework.aop.AfterReturningAdvice;
+import java.sql.Timestamp;
 
-import java.lang.reflect.Method;
 
-public class EhrPatientAdvice implements MethodBeforeAdvice {
-	
-	@Override
-	public void before(Method method, Object[] args, Object o) throws Throwable {
-		if (method.getName().equals("savePatient")) {
-			
-		}
-	}
+public class EhrPatientAdvice implements AfterReturningAdvice {
 	
 	/**
 	 * Invoked before any call to save encounter
 	 * 
 	 * @param patient the patient
 	 */
-	protected void beforeSavePatient(Patient patient) {
-		if (patient != null) {
+	protected void afterSavePatient(Patient patient) {
 			// comapre the patient object and do the required
+			HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
+			String givenName = "";
+			String fullname = "";
+			String middleName = "";
+			String familyName = "";
+			Timestamp birtDate = null;
+			//get if this patient is already registered or NOT
+			if (patient != null && hospitalCoreService.getPatientByPatientId(patient.getPatientId()) == null) {
+				givenName = patient.getGivenName();
+				familyName = patient.getFamilyName();
+				if (patient.getMiddleName() != null) {
+					middleName = patient.getMiddleName();
+				}
+				fullname = givenName + " " + middleName + " " + familyName;
+				birtDate = new Timestamp(patient.getBirthdate().getTime());
+
+				PatientSearch patientSearch = new PatientSearch();
+				patientSearch.setPatientId(patient.getPatientId());
+				patientSearch.setIdentifier(EhrConfigsUtils.getPreferredPatientIdentifier(patient));
+				patientSearch.setFullname(fullname);
+				patientSearch.setGivenName(givenName);
+				patientSearch.setMiddleName(middleName);
+				patientSearch.setFamilyName(familyName);
+				patientSearch.setGender(patient.getGender());
+				patientSearch.setBirthdate(birtDate);
+				patientSearch.setAge(patient.getAge());
+				patientSearch.setPersonNameId(patient.getPersonName().getPersonNameId());
+				patientSearch.setDead(false);
+				patientSearch.setAdmitted(false);
+				//save the search in the database
+				hospitalCoreService.savePatientSearch(patientSearch);
+			}
+	}
+
+	@java.lang.Override
+	public void afterReturning(java.lang.Object o, java.lang.reflect.Method method, java.lang.Object[] args, java.lang.Object o1) throws Throwable {
+
+		if (method.getName().equals("savePatient")) { // handles both create and edit patient
+			Patient patient = (Patient) args[0];
+			afterSavePatient(patient);
 		}
+
 	}
 }

@@ -1,6 +1,6 @@
 uuid,Members,Answers,Fully specified name:fr,Fully specified name:en,Short name:fr,Short name:en,Data class,Data type,_version:1,_order:1000
 9c98af60-a300-11ed-aaaf-db1221408a07,,,RADIOLOGY XRAY DEFAULT FORM FILM GIVEN,RADIOLOGY XRAY DEFAULT FORM FILM GIVEN,RADIOLOGY XRAY DEFAULT FORM FILM GIVEN,RADIOLOGY XRAY DEFAULT FORM FILM GIVEN,Misc,N/A,,
 f71871be-a300-11ed-8404-6784815dbf3f,,,RADIOLOGY XRAY DEFAULT FORM FILM NOT GIVEN,RADIOLOGY XRAY DEFAULT FORM FILM NOT GIVEN,RADIOLOGY XRAY DEFAULT FORM FILM NOT GIVEN,RADIOLOGY XRAY DEFAULT FORM FILM NOT GIVEN,Misc,N/A,,
-92f16ff2-a6ba-11ed-afd1-6716a0f5633f,,,root canal treatment- extirpation,root canal treatment- extirpation,root canal treatment- extirpation,root canal treatment- extirpation,Radiology/Imaging Procedure,N/A,,
-9dcbfafa-a6ba-11ed-9883-d7673ddcfb73,,,root canal treatment- instrumentation,root canal treatment- instrumentation,root canal treatment- instrumentation,root canal treatment- instrumentation,Radiology/Imaging Procedure,N/A,,
-b183c8c0-a6ba-11ed-b164-87966c453478,,,root canal treatment- obturation,root canal treatment- obturation,root canal treatment- obturation,root canal treatment- obturation,Radiology/Imaging Procedure,N/A,,
+92f16ff2-a6ba-11ed-afd1-6716a0f5633f,,,root canal treatment- extirpation,root canal treatment- extirpation,root canal treatment- extirpation,root canal treatment- extirpation,Procedure,N/A,,
+9dcbfafa-a6ba-11ed-9883-d7673ddcfb73,,,root canal treatment- instrumentation,root canal treatment- instrumentation,root canal treatment- instrumentation,root canal treatment- instrumentation,Procedure,N/A,,
+b183c8c0-a6ba-11ed-b164-87966c453478,,,root canal treatment- obturation,root canal treatment- obturation,root canal treatment- obturation,root canal treatment- obturation,Procedure,N/A,,
