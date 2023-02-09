@@ -192,5 +192,17 @@
 
         </sql>
     </changeSet>
+    <changeSet id="f3e7881a-a871-11ed-a7f1-fb3a3e78b1d0" author="ningosi">
+        <preConditions onFail="MARK_RAN" onError="WARN">
+            <dbms type="mysql"/>
+        </preConditions>
+        <comment>Correcting some tests that were voided in concepts a case is Salmonella typhi rapid diagnostic test </comment>
+        <sql>
+            SET FOREIGN_KEY_CHECKS = 0;
+            UPDATE billing_billable_service SET concept_id=165562 WHERE concept_id=1000444;
+            UPDATE orders SET concept_id=165562 WHERE concept_id=1000444;
+            SET FOREIGN_KEY_CHECKS = 1;
+        </sql>
+    </changeSet>
  
 </databaseChangeLog>
