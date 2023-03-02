@@ -13,10 +13,9 @@
  */
 package org.openmrs.module.ehrconfigs.advice;
 
-import org.openmrs.Encounter;
-import org.openmrs.Patient;
-import org.openmrs.Visit;
+import org.openmrs.*;
 import org.openmrs.api.EncounterService;
+import org.openmrs.api.PersonService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ehrconfigs.utils.EhrConfigsUtils;
@@ -24,6 +23,7 @@ import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.hospitalcore.model.PatientSearch;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.springframework.aop.AfterReturningAdvice;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -36,6 +36,13 @@ public class EhrPatientAdvice implements AfterReturningAdvice {
 	 * @param patient the patient
 	 */
 	protected void afterSavePatient(Patient patient) {
+			//add a person attribute to be used for searching patients directly from the walk in queues
+			PersonService personService = Context.getPersonService();
+			PersonAttributeType patientRegistered = personService.getPersonAttributeTypeByUuid("d93b0954-b8d6-11ed-bc05-57dd7af60c15");
+
+			PersonAttribute personAttribute = new PersonAttribute();
+
+
 			// comapre the patient object and do the required
 			HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
 			String givenName = "";
@@ -45,6 +52,15 @@ public class EhrPatientAdvice implements AfterReturningAdvice {
 			Timestamp birtDate = null;
 			//get if this patient is already registered or NOT
 			if (patient != null && hospitalCoreService.getPatientByPatientId(patient.getPatientId()) == null) {
+
+				personAttribute.setAttributeType(patientRegistered);
+				personAttribute.setPerson(patient);
+				personAttribute.setValue("Registration");
+				personAttribute.setCreator(Context.getAuthenticatedUser());
+				personAttribute.setDateCreated(new Date());
+				patient.addAttribute(personAttribute);
+				personService.savePerson(patient);
+
 				givenName = patient.getGivenName();
 				familyName = patient.getFamilyName();
 				if (patient.getMiddleName() != null) {

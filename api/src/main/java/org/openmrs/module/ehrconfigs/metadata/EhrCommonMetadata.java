@@ -127,6 +127,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String PHONE_NUMBER = "b2c38640-2603-4629-aebd-3b54f33f1e3a"; //id in old afyaehms is 16
 
 		public static final String NATIONAL_ID_NUMBER = "73d34479-2f9e-4de3-a5e6-1f79a17459bb"; //id in old afyaehms is 20
+		public static final String PATIENT_REGISTRED = "d93b0954-b8d6-11ed-bc05-57dd7af60c15"; //used to synch patients at the wailkins and search queues
 
 		//
 	}
@@ -388,6 +389,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 				_EhrPersonAttributeType.PAYMENT_CATEGORY_SUB_TYPE));
 		install(personAttributeType("Summary details", "Stored property that stores summary deatils", String.class, null,
 				false, 1.0, _EhrPersonAttributeType.MODE_SUMMARY_DETAILS));
+		install(personAttributeType("Patient Registartion", "Tied to a patient when registartion is done", String.class, null,
+				false, 1.0, _EhrPersonAttributeType.PATIENT_REGISTRED));
 		//Installing encounter types
 		install(encounterType("RADIOLOGYENCOUNTER", "This define encounters with radiology/ultrasounds",
 				_EhrEncounterTypes.RADIOLOGYENCOUNTER));
