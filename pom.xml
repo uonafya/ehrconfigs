@@ -175,10 +175,10 @@
 		<hospitalcoreVersion>2.0.3-SNAPSHOT</hospitalcoreVersion>
 		<metadatadeployVersion>1.3</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
-		<kenyaemrVersion>17.0.3</kenyaemrVersion>
+		<kenyaemrVersion>18.5.1</kenyaemrVersion>
 		<uiframeworkVersion>3.8</uiframeworkVersion>
 		<legacyUiVersion>1.5.0</legacyUiVersion>
-		<kenyauiVersion>2.1.1</kenyauiVersion>
-		<kenyacoreVersion>2.4.1</kenyacoreVersion>
+		<kenyauiVersion>3.0.0</kenyauiVersion>
+		<kenyacoreVersion>3.0.1</kenyacoreVersion>
     </properties>
 </project>
