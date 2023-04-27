@@ -139,6 +139,14 @@
 			Prefix used for registration identifier
 		</description>
 	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.autoCheckIn</property>
+		<defaultValue>false</defaultValue>
+		<description>
+			Determine if a facility will need a patient to be checked in once registered
+		</description>
+	</globalProperty>
 	
 	<!-- Internationalization -->
 	<!-- All message codes should start with @MODULE_ID@.* -->
