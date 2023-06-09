@@ -29,6 +29,10 @@
                     label       : "Drug formulations",
                     href        : ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageDrugFormulations"]),
                     active      : (selection == "section-manageDrugFormulations"),
+            ],
+            [
+                    label: "Food Processing",
+                    href: ui.pageLink("ehrconfigs", "patientFoodProcessing")
             ]
     ]
 %>
