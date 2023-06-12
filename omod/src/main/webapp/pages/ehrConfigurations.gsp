@@ -32,7 +32,8 @@
             ],
             [
                     label: "Food Processing",
-                    href: ui.pageLink("ehrconfigs", "patientFoodProcessing")
+                    href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFoodProcess"]),
+                    active      : (selection == "section-manageFoodProcess"),
             ]
     ]
 %>
@@ -47,5 +48,8 @@
     <% } %>
     <% if (section == "manageDrugFormulations") { %>
     ${ui.includeFragment("ehrconfigs", "manageDrugFormulations")}
+    <% } %>
+    <% if (section == "manageFoodProcess") { %>
+    ${ui.includeFragment("ehrconfigs", "manageFoodProcess")}
     <% } %>
 </div>
