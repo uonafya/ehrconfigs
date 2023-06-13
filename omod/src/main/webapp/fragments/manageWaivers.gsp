@@ -26,7 +26,7 @@
                             'userRole': userRole
                         }
                     ).success(function (data) {
-                        alert("Saved  :" + data)
+                        console.log("Data saved", data);
                     });
 
                     waiverDialog.close();
@@ -37,7 +37,9 @@
             }
         });
 
-        jq("#newWaiverType").on("click", function (e) {
+        jQuery("#newWaiverType").on("click", function (e) {
+            alert("we got covered");
+            console.log("This button is reached by a click");
             e.preventDefault();
             waiverDialog.show();
         });
@@ -78,7 +80,9 @@
 
     <div class="ke-panel-content" style="background-color: #F3F9FF;">
         <div>
-            <button id="newWaiverType" class="task">New Type</button>
+            <button id="newWaiverType" class="task">
+                New Waiver Type
+            </button>
         </div>
         <table id="details">
             <thead>
@@ -109,41 +113,41 @@
             </tbody>
         </table>
 
-        <div id="waiver-dialog" class="dialog" style="display:none;">
-            <div class="dialog-header">
-                <i class="icon-folder-open"></i>
+    <div id="waiver-dialog" class="dialog" style="display:none;">
+        <div class="dialog-header">
+            <i class="icon-folder-open"></i>
 
-                <h3>New Waiver</h3>
-            </div>
-
-            <div class="dialog-content">
-                <ul>
-                    <li>
-                        <label>Name<span>*</span></label>
-                        <input id="waiverName" name="waiverName" type="text" style="width: 90%!important;">
-                    </li>
-                    <li>
-                        <label>Description<span>*</span></label>
-                        <input id="waiverDescription" name="waiverDescription" type="text"
-                               style="width: 90%!important;">
-                    </li>
-
-                    <li>
-                        <label>Associated user Role<span>*</span></label>
-                        <select name="role" id="role" style="width: 90%!important;">
-                            <option disabled>--Please Select--</option>
-                            <% waiverRoles.each { role -> %>
-                            <option value="${role.role}">${role.role}</option>
-                            <% } %>
-                        </select>
-
-                    </li>
-                </ul>
-
-                <label class="button confirm right">Confirm</label>
-                <label class="button cancel">Cancel</label>
-            </div>
+            <h3>New Waiver Type</h3>
         </div>
+
+        <div class="dialog-content">
+            <ul>
+                <li>
+                    <label>Name<span>*</span></label>
+                    <input id="waiverName" name="waiverName" type="text" style="width: 90%!important;">
+                </li>
+                <li>
+                    <label>Description<span>*</span></label>
+                    <input id="waiverDescription" name="waiverDescription" type="text"
+                           style="width: 90%!important;">
+                </li>
+
+                <li>
+                    <label>Associated user Role<span>*</span></label>
+                    <select name="role" id="role" style="width: 90%!important;">
+                        <option disabled>--Please Select--</option>
+                        <% waiverRoles.each { role -> %>
+                        <option value="${role.role}">${role.role}</option>
+                        <% } %>
+                    </select>
+
+                </li>
+            </ul>
+
+            <label class="button confirm right" id="saveWaiverType">Confirm</label>
+            <label class="button cancel">Cancel</label>
+        </div>
+    </div>
 
     </div>
 </div>

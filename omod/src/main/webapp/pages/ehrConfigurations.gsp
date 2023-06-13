@@ -19,16 +19,10 @@
              href        : ui.pageLink("kenyaemr", "userHome")
             ],
             [
-                    label       : "Waivers",
-                    href        : ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageWaivers"]),
-                    active      : (selection == "section-manageWaivers"),
-                    iconProvider: "financials",
-                    icon        : "buttons/pharmacy_summary.png"
-            ],
-            [
                     label       : "Drug formulations",
                     href        : ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageDrugFormulations"]),
                     active      : (selection == "section-manageDrugFormulations"),
+                    icon        : "buttons/pharmacy_summary.png"
             ],
             [
                     label: "Food Processing",
@@ -42,10 +36,6 @@
 </div>
 
 <div class="ke-page-content">
-
-    <% if (section == "manageWaivers") { %>
-    ${ui.includeFragment("ehrconfigs", "manageWaivers")}
-    <% } %>
     <% if (section == "manageDrugFormulations") { %>
     ${ui.includeFragment("ehrconfigs", "manageDrugFormulations")}
     <% } %>

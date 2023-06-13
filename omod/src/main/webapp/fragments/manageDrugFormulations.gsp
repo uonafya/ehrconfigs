@@ -19,7 +19,8 @@
                     jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "updateDrugFormulation")}',
                         {
                             'formulationName': jq("#formulationName").val().trim(),
-                            'dosage': jq("#dosage").val().trim()
+                            'dosage': jq("#dosage").val().trim(),
+                            'description': jq("#description").val().trim()
                         }
                     ).success(function (data) {
                         populateDrugFormulationsTable();
@@ -35,55 +36,8 @@
         jq("#newDrugFormulationBtn").on("click", function (e) {
             e.preventDefault();
             formulationsDialog.show();
-            populateDrugFormsOptions();
-            populateDosageOptions();
         });
-
-
     });
-
-    function populateDrugFormsOptions() {
-        jq('#formulationName').change();
-        jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "getAllInventoryDrugForms")}'
-        ).success(function (data) {
-            // console.log("Saved  :" + data.toString());
-            for (const x in data) {
-                jq('#formulationName').append("<option value='" + data[x] + "'>" + data[x] + "</option>");
-            }
-        });
-    }
-
-    function populateDosageOptions() {
-        jq('#dosage').empty();
-        jq('#mappedFormulation').text('');
-
-        var sourceValues = []
-        jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "getAllInventoryDrugDozages")}'
-        ).success(function (data) {
-            for (var i in data) {
-                var result = {label: data[i], value: data[i]};
-                sourceValues.push(result);
-            }
-        });
-
-        jq('#dosage').autocomplete({
-            source: sourceValues,
-            minLength: 2,
-            select: function (event, ui) {
-                event.preventDefault();
-                jq(this).val(ui.item.label);
-                if (jq('#formulationName').val() !== '') {
-                    jq('#mappedFormulation').text("Formulation :" + " " + jq('#formulationName').val() + ": " + jq('#dosage').val());
-                }
-            },
-            open: function () {
-                jq(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-            },
-            close: function () {
-                jq(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-            }
-        });
-    }
 
     function populateDrugFormulationsTable() {
         jq('#formulationsTable').DataTable().clear();
@@ -91,7 +45,7 @@
             jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "getAllDrugFormulationList")}')
                 .success(function (data) {
                     data.map((item) => {
-                        jq('#formulationsTblBody').append("<td>" + item.name + "</td><td>" + name.dozage + "</td><td>" + "</td><td>" + item.createdOn + "</td><td>" + item.createdBy + "</td>");
+                        jq('#formulationsTblBody').append("<td>" + item.name + "</td><td>" + name.dozage + "</td><td>" +"</td><td>"+ name.description +"</td><td>"+ "</td><td>" + item.createdOn + "</td><td>" + item.createdBy + "</td>");
                     });
                 });
 
@@ -133,8 +87,9 @@
         <table id="formulationsTable">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>Formulation Name</th>
                 <th>Dosage</th>
+                <th>Description</th>
                 <th>Date created</th>
                 <th>Created By</th>
             </tr>
@@ -155,18 +110,17 @@
                 <ul>
                     <li>
                         <label>Formulation<span>*</span></label>
-                        <select name="formulationName" id="formulationName" style="width: 90%!important;">
-                            <option disabled>--Please Select--</option>
-                        </select>
+                        <input type="text" name="formulationName" id="formulationName" style="width: 90%!important;" />
+
                     </li>
                     <li>
                         <label>Dosage<span>*</span></label>
 
-                        <input name="dosage" id="dosage" style="width: 90%!important;">
+                        <input type="text" name="dosage" id="dosage" style="width: 90%!important;">
 
                     </li>
                     <li>
-                        <label id="mappedFormulation"></label>
+                        <textarea col="30" rows="5" id="description" name="description"></textarea>
                     </li>
                 </ul>
 

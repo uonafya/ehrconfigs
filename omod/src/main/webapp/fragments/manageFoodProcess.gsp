@@ -16,103 +16,59 @@
                         return false;
                     }
                     // TODO call post method to save a new formulation
-                    jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "updateDrugFormulation")}',
+                    jq.getJSON('${ui.actionLink("laboratoryapp", "foodHandling", "addFoodHandlerTest")}',
                         {
-                            'formulationName': jq("#formulationName").val().trim(),
-                            'dosage': jq("#dosage").val().trim()
+                            'testName': jq("#testName").val().trim(),
+                            'conceptReference': jq("#conceptReference").val().trim(),
+                            'testDescription': jq("#testDescription").val().trim(),
                         }
                     ).success(function (data) {
-                        populateDrugFormulationsTable();
-                        formulationsDialog.close();
+                        populateFoodHandlingTableTable();
+                        window.reload();
+                        foodHandlingDialog.close();
                     });
                 },
                 cancel: function () {
-                    formulationsDialog.close();
+                    foodHandlingDialog.close();
                 }
             }
         });
 
-        jq("#newDrugFormulationBtn").on("click", function (e) {
+        jq("#newFoodHandlingBtn").on("click", function (e) {
             e.preventDefault();
-            formulationsDialog.show();
-            populateDrugFormsOptions();
-            populateDosageOptions();
+            foodHandlingDialog.show();
         });
-
-
     });
 
-    function populateDrugFormsOptions() {
-        jq('#formulationName').change();
-        jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "getAllInventoryDrugForms")}'
-        ).success(function (data) {
-            // console.log("Saved  :" + data.toString());
-            for (const x in data) {
-                jq('#formulationName').append("<option value='" + data[x] + "'>" + data[x] + "</option>");
-            }
-        });
-    }
 
-    function populateDosageOptions() {
-        jq('#dosage').empty();
-        jq('#mappedFormulation').text('');
-
-        var sourceValues = []
-        jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "getAllInventoryDrugDozages")}'
-        ).success(function (data) {
-            for (var i in data) {
-                var result = {label: data[i], value: data[i]};
-                sourceValues.push(result);
-            }
-        });
-
-        jq('#dosage').autocomplete({
-            source: sourceValues,
-            minLength: 2,
-            select: function (event, ui) {
-                event.preventDefault();
-                jq(this).val(ui.item.label);
-                if (jq('#formulationName').val() !== '') {
-                    jq('#mappedFormulation').text("Formulation :" + " " + jq('#formulationName').val() + ": " + jq('#dosage').val());
-                }
-            },
-            open: function () {
-                jq(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-            },
-            close: function () {
-                jq(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-            }
-        });
-    }
-
-    function populateDrugFormulationsTable() {
-        jq('#formulationsTable').DataTable().clear();
+    function populateFoodHandlingTableTable() {
+        jq('#foodHandlingTable').DataTable().clear();
         {
-            jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "getAllDrugFormulationList")}')
+            jq.getJSON('${ui.actionLink("laboratoryapp", "foodHandling", "getFoodHandlerTests")}')
                 .success(function (data) {
                     data.map((item) => {
-                        jq('#formulationsTblBody').append("<td>" + item.name + "</td><td>" + name.dozage + "</td><td>" + "</td><td>" + item.createdOn + "</td><td>" + item.createdBy + "</td>");
+                        jq('#foodHandlingTblBody').append("<td>" + item.testName + "</td><td>" + name.conceptReference + "</td><td>" + "</td><td>" + item.description + "</td><td>" + item.creator + "</td><td>"+ item.dateCreated + "</td>");
                     });
                 });
 
         }
-        jq('#formulationsTable').DataTable();
+        jq('#foodHandlingTable').DataTable();
     }
 
     function page_verified() {
         var error = 0;
 
-        if (jq("#formulationName").val().trim() === '') {
-            jq("#formulationName").addClass('red');
+        if (jq("#testName").val().trim() === '') {
+            jq("#testName").addClass('red');
             error++;
         } else {
-            jq("#formulationName").removeClass('red');
+            jq("#testName").removeClass('red');
         }
-        if (jq("#dosage").val().trim() === '') {
-            jq("#dosage").addClass('red');
+        if (jq("#conceptReference").val().trim() === '') {
+            jq("#conceptReference").addClass('red');
             error++;
         } else {
-            jq("#dosage").removeClass('red');
+            jq("#conceptReference").removeClass('red');
         }
 
         if (error === 0) {
@@ -134,10 +90,10 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Concept</th>
+                <th>Concept Reference</th>
+                <th>Description</th>
                 <th>Date created</th>
                 <th>Created By</th>
-                <th>Description</th>
             </tr>
             </thead>
             <tbody id="foodHandlingTblBody">
@@ -155,19 +111,17 @@
             <div class="dialog-content">
                 <ul>
                     <li>
-                        <label>Formulation<span>*</span></label>
-                        <select name="formulationName" id="formulationName" style="width: 90%!important;">
-                            <option disabled>--Please Select--</option>
-                        </select>
+                        <label>Test Name<span>*</span></label>
+                        <input type="text" name="testName" id="testName" style="width: 90%!important;" />
                     </li>
                     <li>
-                        <label>Dosage<span>*</span></label>
-
-                        <input name="dosage" id="dosage" style="width: 90%!important;">
+                        <label>Concept Reference<span>*</span></label>
+                        <input name="conceptReference" id="conceptReference" style="width: 90%!important;">
 
                     </li>
                     <li>
-                        <label id="mappedFormulation"></label>
+                        <label>Description</label>
+                        <textarea col="30" rows="5" id="testDescription" name="testDescription"></textarea>
                     </li>
                 </ul>
 
