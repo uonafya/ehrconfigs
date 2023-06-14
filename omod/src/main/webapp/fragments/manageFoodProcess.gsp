@@ -1,9 +1,6 @@
 <script>
     var jq = jQuery;
     jq(function () {
-        jq('#foodHandlingTable').DataTable();
-        populateFoodHandlingTableTable();
-
         var foodHandlingDialog = emr.setupConfirmationDialog({
             dialogOpts: {
                 overlayClose: false,
@@ -25,7 +22,6 @@
                         }
                     ).success(function (data) {
                         foodHandlingDialog.close();
-                        populateFoodHandlingTableTable();
                         location.reload();
                     });
                 },
@@ -65,20 +61,6 @@
         });
     });
 
-
-    function populateFoodHandlingTableTable() {
-        jq('#foodHandlingTable').DataTable().clear();
-        {
-            jq.getJSON('${ui.actionLink("laboratoryapp", "foodHandling", "getFoodHandlerTests")}')
-                .success(function (data) {
-                    data.map((item) => {
-                        jq('#foodHandlingTblBody').append("<tr><td>" + item.testName + "</td><td>" + name.conceptReference + "</td><td>" + "</td><td>" + item.description + "</td><td>" + item.creator + "</td><td>"+ item.dateCreated + "</td></tr>");
-                    });
-                });
-
-        }
-    }
-
     function page_verified() {
         var error = 0;
 
@@ -110,19 +92,9 @@
         <div>
             <button id="newFoodHandlingBtn" class="task">Add New Test</button>
         </div>
-        <table id="foodHandlingTable">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Concept Reference</th>
-                <th>Description</th>
-                <th>Date created</th>
-                <th>Created By</th>
-            </tr>
-            </thead>
-            <tbody id="foodHandlingTblBody">
-            </tbody>
-        </table>
+        <div>
+        ${ ui.includeFragment("laboratoryapp", "foodHandling") }
+        </div>
 
 
         <div id="new-food-handling-dialog" class="dialog" style="display:none;">
