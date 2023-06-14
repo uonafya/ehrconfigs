@@ -23,7 +23,7 @@
                             'description': jq("#description").val().trim()
                         }
                     ).success(function (data) {
-                        populateDrugFormulationsTable();
+                        location.reload();
                         formulationsDialog.close();
                     });
                 },
@@ -38,21 +38,6 @@
             formulationsDialog.show();
         });
     });
-
-    function populateDrugFormulationsTable() {
-        jq('#formulationsTable').DataTable().clear();
-        {
-            jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "getAllDrugFormulationList")}')
-                .success(function (data) {
-                    data.map((item) => {
-                        jq('#formulationsTblBody').append("<td>" + item.name + "</td><td>" + name.dozage + "</td><td>" +"</td><td>"+ name.description +"</td><td>"+ "</td><td>" + item.createdOn + "</td><td>" + item.createdBy + "</td>");
-                    });
-                });
-
-        }
-        jq('#formulationsTable').DataTable();
-    }
-
     function page_verified() {
         var error = 0;
 
@@ -84,19 +69,9 @@
         <div>
             <button id="newDrugFormulationBtn" class="task">Add New Formulation</button>
         </div>
-        <table id="formulationsTable">
-            <thead>
-            <tr>
-                <th>Formulation Name</th>
-                <th>Dosage</th>
-                <th>Description</th>
-                <th>Date created</th>
-                <th>Created By</th>
-            </tr>
-            </thead>
-            <tbody id="formulationsTblBody">
-            </tbody>
-        </table>
+        <div>
+           ${ ui.includeFragment("ehrinventoryapp", "drugFormulationDetails") }
+        </div>
 
 
         <div id="new-drug-formulation-dialog" class="dialog" style="display:none;">

@@ -414,6 +414,12 @@ public class CodedConceptsConversion {
         );
     }
 
+    private static List<String> getUuidConceptsToUnRetire() {
+        return Arrays.asList(
+                "162136AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
+
     public static void conceptsToConvertToNaDataType() {
         ConceptService conceptService = Context.getConceptService();
         for(String str:getUuidConceptsToChangeToNa()) {
@@ -422,6 +428,18 @@ public class CodedConceptsConversion {
                 concept.setDatatype(conceptService.getConceptDatatypeByUuid(ConceptDatatype.N_A_UUID));
                 concept.setChangedBy(Context.getAuthenticatedUser());
                 concept.setDateChanged(new Date());
+            }
+        }
+    }
+
+    public static void unRetireConcepts() {
+        ConceptService conceptService = Context.getConceptService();
+
+        for(String str:getUuidConceptsToUnRetire()) {
+            Concept concept = conceptService.getConceptByUuid(str);
+            if(concept != null) {
+                concept.setRetired(false);
+                conceptService.saveConcept(concept);
             }
         }
     }

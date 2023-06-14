@@ -26,7 +26,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 	 */
 	public void started() {
 		//make sure all the concepts have been set properly to the required data types
-		//runConfigurations();
+		runConfigurations();
 		log.info("Started EHR Configurtaions");
 	}
 	
@@ -38,22 +38,23 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 	}
 
 	private void runConfigurations() {
-		CodedConceptsConversion.doActualConversion();
-		CodedConceptsConversion.addSetsToServiceOrderedConcept();
-		CodedConceptsConversion.addSetsToDosingUnits();
-		CodedConceptsConversion.addSetsToUrinalysisOrder();
-		CodedConceptsConversion.addSetsToOvaOrder();
-		CodedConceptsConversion.changeTestsUnits();
-		CodedConceptsConversion.addSetsToAntenatalCareProfileOrder();
-		CodedConceptsConversion.addSetsToUrinePhysicalExamination();
-		CodedConceptsConversion.addSetsToStoolForOvaandCyst();
-		CodedConceptsConversion.addSetsToUrineMicroscopyDeposits();
-		CodedConceptsConversion.addAnswersToRadiologyDepartment();
-		CodedConceptsConversion.addAnswersToProcedurePerformed();
-		CodedConceptsConversion.addAnswersToTyphoidRDT();
-		CodedConceptsConversion.conceptsToRetireFromDb();
-		CodedConceptsConversion.addAnswersToSalmonellaTyphiRapidDiagnosisTest();
-		CodedConceptsConversion.conceptsToConvertToNaDataType();
+		//CodedConceptsConversion.doActualConversion();
+		//CodedConceptsConversion.addSetsToServiceOrderedConcept();
+		//CodedConceptsConversion.addSetsToDosingUnits();
+		//CodedConceptsConversion.addSetsToUrinalysisOrder();
+		//CodedConceptsConversion.addSetsToOvaOrder();
+		//CodedConceptsConversion.changeTestsUnits();
+		//CodedConceptsConversion.addSetsToAntenatalCareProfileOrder();
+		//CodedConceptsConversion.addSetsToUrinePhysicalExamination();
+		//CodedConceptsConversion.addSetsToStoolForOvaandCyst();
+		//CodedConceptsConversion.addSetsToUrineMicroscopyDeposits();
+		//CodedConceptsConversion.addAnswersToRadiologyDepartment();
+		//CodedConceptsConversion.addAnswersToProcedurePerformed();
+		//CodedConceptsConversion.addAnswersToTyphoidRDT();
+		//CodedConceptsConversion.conceptsToRetireFromDb();
+		//CodedConceptsConversion.addAnswersToSalmonellaTyphiRapidDiagnosisTest();
+		//CodedConceptsConversion.conceptsToConvertToNaDataType();
+		CodedConceptsConversion.unRetireConcepts();
 	}
 	
 }

@@ -28,6 +28,11 @@
                     label: "Food Processing",
                     href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFoodProcess"]),
                     active      : (selection == "section-manageFoodProcess"),
+            ],
+            [
+                    label: "Add Formulation To Drug",
+                    href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFormulationDrugAddition"]),
+                    active      : (selection == "section-manageFormulationDrugAddition"),
             ]
     ]
 %>
@@ -41,5 +46,8 @@
     <% } %>
     <% if (section == "manageFoodProcess") { %>
     ${ui.includeFragment("ehrconfigs", "manageFoodProcess")}
+    <% } %>
+    <% if (section == "manageFormulationDrugAddition") { %>
+    ${ui.includeFragment("ehrconfigs", "manageFormulationDrugAddition")}
     <% } %>
 </div>

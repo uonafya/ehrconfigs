@@ -14,7 +14,7 @@ public class EhrConfigurationsPageController {
         String selection = null;
 
         if (StringUtils.isEmpty(section)) {
-            section = "manageWaivers";
+            section = "manageDrugFormulations";
         }
         selection = "section-" + section;
 

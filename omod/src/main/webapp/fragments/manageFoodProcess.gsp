@@ -1,7 +1,8 @@
 <script>
     var jq = jQuery;
     jq(function () {
-        jq("#foodHandlingTable").DataTable();
+        jq('#foodHandlingTable').DataTable();
+        populateFoodHandlingTableTable();
 
         var foodHandlingDialog = emr.setupConfirmationDialog({
             dialogOpts: {
@@ -23,9 +24,9 @@
                             'testDescription': jq("#testDescription").val().trim(),
                         }
                     ).success(function (data) {
-                        populateFoodHandlingTableTable();
-                        window.reload();
                         foodHandlingDialog.close();
+                        populateFoodHandlingTableTable();
+                        location.reload();
                     });
                 },
                 cancel: function () {
@@ -38,6 +39,30 @@
             e.preventDefault();
             foodHandlingDialog.show();
         });
+     jq("#conceptReference").on("focus.autocomplete", function () {
+            jq(this).autocomplete({
+                source: function(request, response) {
+                        jq.getJSON('${ ui.actionLink("laboratoryapp", "foodHandling", "getTestsConcepts") }', {
+                          query: request.term
+                        }).success(function(data) {
+                          var results = [];
+                          for (var i in data) {
+                              var result = {
+                                label: data[i].displayString,
+                                value: data[i].uuid
+                              };
+                              results.push(result);
+                          }
+                          response(results);
+                        });
+                      },
+                      minLength: 3,
+                      select: function(event, ui) {
+                        event.preventDefault();
+                        jq(this).val(ui.item.label);
+                      }
+            });
+        });
     });
 
 
@@ -47,12 +72,11 @@
             jq.getJSON('${ui.actionLink("laboratoryapp", "foodHandling", "getFoodHandlerTests")}')
                 .success(function (data) {
                     data.map((item) => {
-                        jq('#foodHandlingTblBody').append("<td>" + item.testName + "</td><td>" + name.conceptReference + "</td><td>" + "</td><td>" + item.description + "</td><td>" + item.creator + "</td><td>"+ item.dateCreated + "</td>");
+                        jq('#foodHandlingTblBody').append("<tr><td>" + item.testName + "</td><td>" + name.conceptReference + "</td><td>" + "</td><td>" + item.description + "</td><td>" + item.creator + "</td><td>"+ item.dateCreated + "</td></tr>");
                     });
                 });
 
         }
-        jq('#foodHandlingTable').DataTable();
     }
 
     function page_verified() {
@@ -121,7 +145,7 @@
                     </li>
                     <li>
                         <label>Description</label>
-                        <textarea col="30" rows="5" id="testDescription" name="testDescription"></textarea>
+                        <textarea col="40" rows="5" id="testDescription" name="testDescription"></textarea>
                     </li>
                 </ul>
 

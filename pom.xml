@@ -78,6 +78,12 @@
 			<version>${kenyacoreVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>ehrinventory-api</artifactId>
+			<version>${inventoryVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	</dependencyManagement>
 
@@ -180,5 +186,6 @@
 		<legacyUiVersion>1.5.0</legacyUiVersion>
 		<kenyauiVersion>3.0.0</kenyauiVersion>
 		<kenyacoreVersion>3.0.1</kenyacoreVersion>
+		<inventoryVersion>2.0.1-SNAPSHOT</inventoryVersion>
     </properties>
 </project>
