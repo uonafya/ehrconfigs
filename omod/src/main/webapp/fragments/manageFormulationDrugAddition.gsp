@@ -14,11 +14,10 @@
                                 return false;
                             }
                             // TODO call post method to save a new formulation
-                            jq.getJSON('${ui.actionLink("laboratoryapp", "foodHandling", "addFoodHandlerTest")}',
+                            jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "attachFormulationToAnInventoryDrug")}',
                                 {
-                                    'testName': jq("#testName").val().trim(),
-                                    'conceptReference': jq("#conceptReference").val().trim(),
-                                    'testDescription': jq("#testDescription").val().trim(),
+                                    'inventoryDrugName': jq("#inventoryDrugName").val(),
+                                    'drugFormulationSlt': jq("#drugFormulationSlt").val()
                                 }
                             ).success(function (data) {
                                 inventoryDrugDialog.close();
@@ -64,9 +63,9 @@
                     {
                     }
                 ).success(function (data) {
-                    jq(this).each(data, function() {
-                        jq('#drugFormulationSlt').append('<option value="' + data.id + '">' + data.name + '</option>');
-                    });
+                    for (var index = 0; index <= data.length; index++) {
+                        jq('#drugFormulationSlt').append('<option value="' + data[index].id + '">' + data[index].name + '-' + data[index].dozage + '</option>');
+                    }
                 });
     });
     function page_verified() {
@@ -78,7 +77,7 @@
             } else {
                 jq("#inventoryDrugName").removeClass('red');
             }
-            if (jq("#drugFormulation").val().trim() === '') {
+            if (jq("#drugFormulation").val() === '') {
                 jq("#drugFormulation").addClass('red');
                 error++;
             } else {
