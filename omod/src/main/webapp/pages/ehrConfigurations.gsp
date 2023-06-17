@@ -19,20 +19,26 @@
              href        : ui.pageLink("kenyaemr", "userHome")
             ],
             [
-                    label       : "Drug formulations",
+                    label       : "Drug Categories",
+                    href        : ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageDrugCategories"]),
+                    active      : (selection == "section-manageDrugCategories"),
+                    icon        : "buttons/pharmacy_summary.png"
+            ],
+            [
+                    label       : "Drug and formulations",
                     href        : ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageDrugFormulations"]),
                     active      : (selection == "section-manageDrugFormulations"),
                     icon        : "buttons/pharmacy_summary.png"
             ],
             [
-                    label: "Food Processing",
-                    href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFoodProcess"]),
-                    active      : (selection == "section-manageFoodProcess"),
-            ],
-            [
                     label: "Add Formulation To Drug",
                     href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFormulationDrugAddition"]),
                     active      : (selection == "section-manageFormulationDrugAddition"),
+            ],
+            [
+                    label: "Food Processing",
+                    href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFoodProcess"]),
+                    active      : (selection == "section-manageFoodProcess"),
             ]
     ]
 %>
@@ -49,5 +55,8 @@
     <% } %>
     <% if (section == "manageFormulationDrugAddition") { %>
     ${ui.includeFragment("ehrconfigs", "manageFormulationDrugAddition")}
+    <% } %>
+    <% if (section == "manageDrugCategories") { %>
+    ${ui.includeFragment("ehrconfigs", "manageDrugCategories")}
     <% } %>
 </div>

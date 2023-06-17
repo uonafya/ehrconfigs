@@ -107,11 +107,11 @@
             <div class="dialog-content">
                 <ul>
                     <li>
-                        <label>Test Name<span>*</span></label>
+                        <label>Test Name<span style="color:red;">*</span></label>
                         <input type="text" name="testName" id="testName" style="width: 90%!important;" />
                     </li>
                     <li>
-                        <label>Concept Reference<span>*</span></label>
+                        <label>Concept Reference<span style="color:red;">*</span></label>
                         <input name="conceptReference" id="conceptReference" style="width: 90%!important;">
 
                     </li>
