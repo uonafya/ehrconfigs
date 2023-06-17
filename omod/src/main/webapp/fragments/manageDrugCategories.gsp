@@ -20,12 +20,12 @@
                                     'drugCategoryDesc': jq("#drugCategoryDesc").val()
                                 }
                             ).success(function (data) {
-                                inventoryDrugDialog.close();
+                                inventoryDrugCategoryDialog.close();
                                 location.reload();
                             });
                         },
                         cancel: function () {
-                            inventoryDrugDialog.close();
+                            inventoryDrugCategoryDialog.close();
                             location.reload();
                         }
                     }
