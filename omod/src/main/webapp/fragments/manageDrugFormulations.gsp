@@ -46,11 +46,13 @@
                         return false;
                     }
                     // TODO call post method to save a new formulation
-                    jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "updateNewDrug")}',
+                    var formulationValues = jq("#formulationForNewDrug").val();
+                    console.log("The values to be passed as array", formulationValues);
+                    jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "addNewInventoryDrug")}',
                         {
                             'newDrugName': jq("#newDrugName").val().trim(),
                             'conceptDrugName': jq("#conceptDrugName").val().trim(),
-                            'formulationForNewDrug': jq("#formulationForNewDrug").val(),
+                            'actualFormulationSelectValues': formulationValues,
                             'categoryForNewDrug': jq("#categoryForNewDrug").val()
                         }
                     ).success(function (data) {
@@ -225,6 +227,7 @@
                 <h3>Add New Drug</h3>
             </div>
              <div class="dialog-content">
+             <input type="hidden" name="actualFormulationSelectValues" id="actualFormulationSelectValues" />
              <ul>
                 <li>
                     <label>Drug Name<span styel="color:red">*</span></label>
