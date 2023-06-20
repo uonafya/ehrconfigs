@@ -39,7 +39,12 @@
                     label: "Food Processing",
                     href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFoodProcess"]),
                     active      : (selection == "section-manageFoodProcess"),
-            ]
+            ],
+            [
+                      label: "FacilityDetails",
+                      href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "facilityDetails"]),
+                      active      : (selection == "section-facilityDetails"),
+              ]
     ]
 %>
 <div class="ke-page-sidebar">
@@ -58,5 +63,8 @@
     <% } %>
     <% if (section == "manageDrugCategories") { %>
     ${ui.includeFragment("ehrconfigs", "manageDrugCategories")}
+    <% } %>
+    <% if (section == "facilityDetails") { %>
+    ${ui.includeFragment("ehrconfigs", "facilityDetails")}
     <% } %>
 </div>
