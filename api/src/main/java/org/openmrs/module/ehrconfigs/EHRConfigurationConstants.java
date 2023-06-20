@@ -15,4 +15,10 @@ public class EHRConfigurationConstants {
 	 * Global property names
 	 */
 	public static final String GP_PROPERTY_IPDWARD = "patientdashboard.IPDRootConcept";
+	public static final String GP_PROPERTY_COUNTY_CODE = "ehrconfigs.countyCode";
+	public static final String GP_PROPERTY_COUNTY_NAME = "ehrconfigs.countyName";
+	public static final String GP_PROPERTY_COUNTY_WEBSITE = "ehrconfigs.website";
+	public static final String GP_PROPERTY_COUNTY_ADDRESS = "ehrconfigs.address";
+	public static final String GP_PROPERTY_COUNTY_EMAIL = "ehrconfigs.email";
+	public static final String GP_PROPERTY_COUNTY_PHONE = "ehrconfigs.phone";
 }

@@ -147,6 +147,49 @@
 			Determine if a facility will need a patient to be checked in once registered
 		</description>
 	</globalProperty>
+
+	<globalProperty>
+		<property>${project.parent.artifactId}.countyCode</property>
+		<defaultValue>000</defaultValue>
+		<description>
+			Hold the county code
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.countyName</property>
+		<defaultValue>Random County</defaultValue>
+		<description>
+			Hold the county name
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.website</property>
+		<defaultValue>Random web address</defaultValue>
+		<description>
+			Hold the county web address
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.address</property>
+		<defaultValue>Random postal address</defaultValue>
+		<description>
+			Hold the county po box address
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.email</property>
+		<defaultValue>RandomCountyEmail@gmail.com</defaultValue>
+		<description>
+			Hold the county email
+		</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.phone</property>
+		<defaultValue>+25400000000</defaultValue>
+		<description>
+			Hold the county official phone number
+		</description>
+	</globalProperty>
 	
 	<!-- Internationalization -->
 	<!-- All message codes should start with @MODULE_ID@.* -->

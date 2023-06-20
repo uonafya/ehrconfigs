@@ -52,7 +52,7 @@
                         {
                             'newDrugName': jq("#newDrugName").val().trim(),
                             'conceptDrugName': jq("#conceptDrugName").val().trim(),
-                            'formulationForNewDrug': jq("#formulationForNewDrug,
+                            'formulationForNewDrug': jq("#formulationForNewDrug").val(),
                             'categoryForNewDrug': jq("#categoryForNewDrug").val()
                         }
                     ).success(function (data) {
