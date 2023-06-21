@@ -77,39 +77,38 @@
             <span class="button cancel">Cancel</span>
        </form>
 </div>
+<div style="float: left;">
+    <button id="editFacilityDetailsBtn" class="task">Edit Facility Details</button>
+</div>
 <div class="ke-panel-frame">
     <div class="ke-panel-heading">Facility Details</div>
 
     <div class="ke-panel-content">
-        <div style="float: left;">
-            <button id="editFacilityDetailsBtn" class="task">Edit Facility Details</button>
-        </div>
-        <ul>
-            <li>
-                <label>County Code</label>
-                ${countyCode}
-            </li>
-            <li>
-                <label for="countyName">County Name</label>
-                ${countyName}
-            </li>
-            <li>
-                <label>Website</label>
-                ${website}
-            </li>
-            <li>
-                <label>Address</label>
-                ${address}
-            </li>
-            <li>
-                <label>Email</label>
-                ${email}
-            </li>
-            <li>
-                <label>Phone</label>
-                ${phone}
-            </li>
-
-        </ul>
+        <table border="0" align="center">
+            <tr>
+                <td><label>County Code</label></td>
+                 <td>${countyCode}</td>
+            </tr>
+            <tr>
+               <td><label for="countyName">County Name</label></td>
+               <td>${countyName}</td>
+            </tr>
+            <tr>
+                <td><label>Website</label></td>
+                <td>${website}</td>
+            </tr>
+            <tr>
+                <td><label>Address</label></td>
+                <td>${address}</td>
+            </tr>
+            <tr>
+                <td><label>Email</label></td>
+                <td>${email}</td>
+            </tr>
+            <tr>
+                <td><label>Phone</label></td>
+                <td>${phone}</td>
+            </tr>
+        </table>
     </div>
 </div>

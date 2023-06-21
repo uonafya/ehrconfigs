@@ -15,7 +15,6 @@
                         jq().toastmessage('showErrorToast', 'Ensure fields marked in red have been properly filled before you continue')
                         return false;
                     }
-                    // TODO call post method to save a new formulation
                     jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "updateDrugFormulation")}',
                         {
                             'formulationName': jq("#formulationName").val().trim(),
@@ -32,7 +31,7 @@
                 }
             }
         });
-
+        var formulationValues = jq("#formulationForNewDrug").val();
         var drugDialog = emr.setupConfirmationDialog({
             dialogOpts: {
                 overlayClose: false,
@@ -45,14 +44,11 @@
                         jq().toastmessage('showErrorToast', 'Ensure fields marked in red have been properly filled before you continue')
                         return false;
                     }
-                    // TODO call post method to save a new formulation
-                    var formulationValues = jq("#formulationForNewDrug").val();
-                    console.log("The values to be passed as array", formulationValues);
                     jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "addNewInventoryDrug")}',
                         {
                             'newDrugName': jq("#newDrugName").val().trim(),
                             'conceptDrugName': jq("#conceptDrugName").val().trim(),
-                            'formulationForNewDrug': jq("#formulationForNewDrug").val(),
+                            'formulationForNewDrug': formulationValues,
                             'categoryForNewDrug': jq("#categoryForNewDrug").val()
                         }
                     ).success(function (data) {
@@ -106,6 +102,7 @@
                 jq('#formulationForNewDrug').append('<option value="' + data[index].id + '">' + data[index].name + '-' + data[index].dozage + '</option>');
             }
         });
+
         jq.getJSON('${ui.actionLink("ehrinventoryapp", "drugFormulationDetails", "fetchInventoryDrugs")}',
             {
             }
