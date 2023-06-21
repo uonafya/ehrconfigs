@@ -46,39 +46,36 @@
             <ul>
                 <li>
                     <label for="countyCode">County Code</label>
-                    <input name="countyCode" id="countyCode" type="text" />
+                    <input name="countyCode" id="countyCode" type="text" value="${countyCode}" />
                 </li>
                 <li>
                     <label for="countyName">County Name</label>
-                    <input name="countyName" id="countyName" type="text" />
+                    <input name="countyName" id="countyName" type="text" value="${countyName}""/>
                 </li>
                 <li>
                     <label for="website">Website</label>
-                    <input name="website" id="website" type="text" />
+                    <input name="website" id="website" type="text" value="${website}" />
                 </li>
 
                 <li>
                     <label for="address">Address</label>
-                    <input name="address" id="address" type="text" />
+                    <input name="address" id="address" type="text" value="${address}" />
                 </li>
 
                 <li>
                     <label for="email">Email</label>
-                    <input name="email" id="email" type="text" />
+                    <input name="email" id="email" type="text" value="${email}" />
                 </li>
 
                 <li>
                     <label for="phone">Phone</label>
-                    <input name="phone" id="phone" type="text" />
+                    <input name="phone" id="phone" type="text" value="${phone}" />
                 </li>
 
             </ul>
             <span class="button confirm right">Confirm</span>
             <span class="button cancel">Cancel</span>
        </form>
-</div>
-<div style="float: left;">
-    <button id="editFacilityDetailsBtn" class="task">Edit Facility Details</button>
 </div>
 <div class="ke-panel-frame">
     <div class="ke-panel-heading">Facility Details</div>
@@ -111,4 +108,7 @@
             </tr>
         </table>
     </div>
+</div>
+<div style="float: left;">
+    <button id="editFacilityDetailsBtn" class="task">Edit Facility Details</button>
 </div>
