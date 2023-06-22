@@ -237,7 +237,7 @@
                 </li>
                 <li>
                     <label>Formulation<span style="color:red">*</span></label>
-                    <select name="formulationForNewDrug" id="formulationForNewDrug" multiple="multiple">
+                    <select name="formulationForNewDrug" id="formulationForNewDrug">
                     </select>
                 </li>
                 <li>

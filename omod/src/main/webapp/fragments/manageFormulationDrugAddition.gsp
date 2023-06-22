@@ -111,11 +111,11 @@
             <div class="dialog-content">
                 <ul>
                     <li>
-                        <label>Drug Name<span>*</span></label>
+                        <label>Drug Name<span style="color:red">*</span></label>
                         <input type="text" name="inventoryDrugName" id="inventoryDrugName" style="width: 90%!important;" />
                     </li>
                     <li>
-                        <label>Drug Formulation<span>*</span></label>
+                        <label>Drug Formulation<span style="color:red">*</span></label>
                         <select name="drugFormulationSlt" id="drugFormulationSlt" style="width: 90%!important;">
                         </select>
 
