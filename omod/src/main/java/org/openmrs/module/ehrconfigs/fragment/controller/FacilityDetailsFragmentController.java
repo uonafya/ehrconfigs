@@ -31,40 +31,35 @@ public class FacilityDetailsFragmentController {
             @RequestParam(required = false, value = "website") String website
     ) {
         AdministrationService administrationService = Context.getAdministrationService();
-        List<GlobalProperty> globalPropertyList = new ArrayList<GlobalProperty>();
         if(StringUtils.isNotBlank(countyCode)){
-            GlobalProperty countyCodeGlobalProperty = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_CODE);
-            countyCodeGlobalProperty.setPropertyValue(countyCode);
-            globalPropertyList.add(countyCodeGlobalProperty);
+            GlobalProperty gpCountyCode = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_CODE);
+            gpCountyCode.setPropertyValue(countyCode);
+            administrationService.saveGlobalProperty(gpCountyCode);
         }
         if(StringUtils.isNotBlank(countyName)){
-            GlobalProperty countyNameGlobalProperty = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_NAME);
-            countyNameGlobalProperty.setPropertyValue(countyCode);
-            globalPropertyList.add(countyNameGlobalProperty);
+            GlobalProperty gpCountyName = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_NAME);
+            gpCountyName.setPropertyValue(countyName);
+            administrationService.saveGlobalProperty(gpCountyName);
         }
         if(StringUtils.isNotBlank(address)){
-            GlobalProperty addressGlobalProperty = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_ADDRESS);
-            addressGlobalProperty.setPropertyValue(countyCode);
-            globalPropertyList.add(addressGlobalProperty);
+            GlobalProperty gpAddress = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_ADDRESS);
+            gpAddress.setPropertyValue(address);
+            administrationService.saveGlobalProperty(gpAddress);
         }
         if(StringUtils.isNotBlank(email)){
-            GlobalProperty emailGlobalProperty = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_EMAIL);
-            emailGlobalProperty.setPropertyValue(countyCode);
-            globalPropertyList.add(emailGlobalProperty);
+            GlobalProperty gpEmail = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_EMAIL);
+            gpEmail.setPropertyValue(email);
+            administrationService.saveGlobalProperty(gpEmail);
         }
         if(StringUtils.isNotBlank(phone)){
-            GlobalProperty phoneGlobalProperty = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_PHONE);
-            phoneGlobalProperty.setPropertyValue(countyCode);
-            globalPropertyList.add(phoneGlobalProperty);
+            GlobalProperty gpPhone = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_PHONE);
+            gpPhone.setPropertyValue(phone);
+            administrationService.saveGlobalProperty(gpPhone);
         }
         if(StringUtils.isNotBlank(website)){
-            GlobalProperty websiteGlobalProperty = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_WEBSITE);
-            websiteGlobalProperty.setPropertyValue(countyCode);
-            globalPropertyList.add(websiteGlobalProperty);
-        }
-
-        if(!globalPropertyList.isEmpty()) {
-            administrationService.saveGlobalProperties(globalPropertyList);
+            GlobalProperty gpWebsite = administrationService.getGlobalPropertyObject(EHRConfigurationConstants.GP_PROPERTY_COUNTY_WEBSITE);
+            gpWebsite.setPropertyValue(website);
+            administrationService.saveGlobalProperty(gpWebsite);
         }
     }
 }

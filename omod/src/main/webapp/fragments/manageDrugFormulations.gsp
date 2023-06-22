@@ -31,7 +31,6 @@
                 }
             }
         });
-        var formulationValues = jq("#formulationForNewDrug").val();
         var drugDialog = emr.setupConfirmationDialog({
             dialogOpts: {
                 overlayClose: false,
@@ -44,16 +43,18 @@
                         jq().toastmessage('showErrorToast', 'Ensure fields marked in red have been properly filled before you continue')
                         return false;
                     }
+                    var formulations = jq("#formulationForNewDrug").val();
+
                     jq.getJSON('${ui.actionLink("ehrinventoryapp", "inventoryConfiguration", "addNewInventoryDrug")}',
                         {
-                            'newDrugName': jq("#newDrugName").val().trim(),
-                            'conceptDrugName': jq("#conceptDrugName").val().trim(),
-                            'formulationForNewDrug': formulationValues,
-                            'categoryForNewDrug': jq("#categoryForNewDrug").val()
+                            newDrugName: jq("#newDrugName").val().trim(),
+                            conceptDrugName: jq("#conceptDrugName").val().trim(),
+                            formulationForNewDrug: jq("#multiple").val(),
+                            categoryForNewDrug: jq("#categoryForNewDrug").val(),
+                            reorderLevel: jq("#reorderLevel").val()
                         }
                     ).success(function (data) {
-                        location.reload();
-                        formulationsDialog.close();
+                       console.log("The details are ", data);
                     });
                 },
                 cancel: function () {
@@ -103,7 +104,7 @@
             }
         });
 
-        jq.getJSON('${ui.actionLink("ehrinventoryapp", "drugFormulationDetails", "fetchInventoryDrugs")}',
+        jq.getJSON('${ui.actionLink("ehrinventoryapp", "drugFormulationDetails", "fetchInventoryCategories")}',
             {
             }
         ).success(function (data) {
@@ -227,22 +228,26 @@
              <input type="hidden" name="actualFormulationSelectValues" id="actualFormulationSelectValues" />
              <ul>
                 <li>
-                    <label>Drug Name<span styel="color:red">*</span></label>
+                    <label>Drug Name<span style="color:red">*</span></label>
                     <input type="text" name="newDrugName" id="newDrugName" style="width: 90%!important;" />
                 </li>
                 <li>
-                    <label>Concept Drug<span styel="color:red">*</span></label>
+                    <label>Concept Drug<span style="color:red">*</span></label>
                     <input type="text" name="conceptDrugName" id="conceptDrugName" style="width: 90%!important;" />
                 </li>
                 <li>
-                    <label>Formulation<span styel="color:red">*</span></label>
-                    <select name="formulationForNewDrug" id="formulationForNewDrug" multiple>
+                    <label>Formulation<span style="color:red">*</span></label>
+                    <select name="formulationForNewDrug" id="formulationForNewDrug" multiple="multiple">
                     </select>
                 </li>
                 <li>
-                    <label>Drug Category<span styel="color:red">*</span></label>
+                    <label>Drug Category<span style="color:red">*</span></label>
                     <select name="categoryForNewDrug" id="categoryForNewDrug">
                     </select>
+                </li>
+                <li>
+                    <label>Reorder Level<span style="color:red">*</span></label>
+                    <input type="text" name="reorderLevel" id="reorderLevel" style="width: 90%!important;" />
                 </li>
                </ul>
              </div>
