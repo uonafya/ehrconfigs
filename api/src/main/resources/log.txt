@@ -1,0 +1,14 @@
+New Concepts added
+=================================
+ConceptID               UUID                                           NAME
+=======             ========================                           ============================================
+1000550             bfb8c2a0-e976-41fb-9709-d6750be57825                Medical examination food handler
+1000551             b76cb176-b67b-45c5-b335-e439d4fb5530                mental health adults consultation fee
+1000552             8bedeb0c-21fb-4a60-a761-287085d9fc95                mental health adults revisit fee
+1000553             0db22464-c64b-49e6-8e70-ddc49eb460d9                mental health under18 consultation fee
+1000554             3b6d7b9f-9cbb-4fa2-9772-26d33b2452c0                mental health under18 revisit fee
+
+
+
+
+

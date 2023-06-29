@@ -36,10 +36,6 @@ public class EhrConfigsUtils {
                 identifier = patientIdentifier.getIdentifier();
                 break;
             }
-            //check if there is a UPN
-            else if(patientIdentifier.getIdentifierType().equals(service.getPatientIdentifierTypeByUuid("f85081e2-b4be-4e48-b3a4-7994b69bb101"))){
-                identifier = patientIdentifier.getIdentifier();
-            }
             //use the OpenMRS ID
             else if(patientIdentifier.getIdentifierType().equals(service.getPatientIdentifierTypeByUuid("dfacd928-0370-4315-99d7-6ec1c9f7ae76"))){
                 identifier = patientIdentifier.getIdentifier();
