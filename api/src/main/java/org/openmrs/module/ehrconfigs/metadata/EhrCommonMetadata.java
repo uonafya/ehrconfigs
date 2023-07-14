@@ -207,6 +207,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 
 		public static final String FAMILY_CANCER_HISTORY = "b9c51a7e-0e24-11eb-9559-13c33ac53eec";
 		public static final String EHR_GBV = "bec91024-5433-11ec-8ddd-bf8f24d733fa";
+		public static final String EHR_DECEASED_ENCOUNTER_TYPE = "bf484793-1734-4f57-a6f1-b866545ca8df";
 	}
 
 	public static final class _EhrPrograms {
@@ -429,6 +430,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("ANCENCOUNTER", "ANC encounter type", _EhrEncounterTypes.ANCENCOUNTER));
 		install(encounterType("PNCENCOUNTER", "PNC encounter type", _EhrEncounterTypes.PNCENCOUNTER));
 		install(encounterType("Treatment", "Treatment encounter type", _EhrEncounterTypes.ONCOLOGY_TREATMENT_ENCOUNTER_TYPE));
+		install(encounterType("Deceased", "Deceased encounter type", _EhrEncounterTypes.EHR_DECEASED_ENCOUNTER_TYPE));
 
 		//visit types to be applied
 		install(visitType("FACILITYVISIT",

@@ -55,6 +55,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//CodedConceptsConversion.addAnswersToSalmonellaTyphiRapidDiagnosisTest();
 		//CodedConceptsConversion.conceptsToConvertToNaDataType();
 		CodedConceptsConversion.unRetireConcepts();
+		//CodedConceptsConversion.allowDecimalsInConcepts();
 	}
 	
 }

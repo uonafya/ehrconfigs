@@ -443,4 +443,23 @@ public class CodedConceptsConversion {
             }
         }
     }
+
+    private static List<String> getUuidConceptsToAllowDecimals() {
+        return Arrays.asList(
+                "d0d107f7-9452-4129-a209-b9a4d1b46d4a"
+        );
+    }
+
+    public static void allowDecimalsInConcepts() {
+        ConceptService conceptService = Context.getConceptService();
+
+        for(String str:getUuidConceptsToAllowDecimals()) {
+            AdministrationService administrationService = Context.getAdministrationService();
+            Concept concept = conceptService.getConceptByUuid(str);
+            if(concept != null && concept.isNumeric()) {
+                String insert = "INSERT INTO concept_numeric (concept_id, allow_decimal) VALUES ("+concept.getConceptId()+", true)";
+                administrationService.executeSQL(insert, false);
+            }
+        }
+    }
 }
