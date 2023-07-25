@@ -304,7 +304,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String PAC_APP = "Access Pac Room";
 		public static final String EHR_REGISTRATION = "Able to access the registration app only";
 		public static final String EHR_NCD = "Able to access the NCD app only";
-		public static final String EHR_REPORTS = "Able to access the reports app only";
+		public static final String EHR_REPORTS = "Able to access the HIV reports app only";
 		public static final String EHR_GBV = "Able to access the gbv app";
 	}
 
@@ -558,7 +558,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 				idSet(_Privileges.NCD_APP)));
 		install(role(_Roles.EHR_REGISTRATION,"Access registration application",idSet(SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
 				idSet(_Privileges.EHR_REGISTRATION)));
-		install(role(_Roles.EHR_REPORTS,"Access reports application",idSet(SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
+		install(role(_Roles.EHR_REPORTS,"Access HIV reports application",idSet(SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
 				idSet(_Privileges.EHR_REPORTS)));
 		install(role(_Roles.EHR_GBV,"Access gbv application",idSet(SecurityMetadata._Role.API_PRIVILEGES_VIEW_AND_EDIT),
 				idSet(_Privileges.EHR_GBV)));
