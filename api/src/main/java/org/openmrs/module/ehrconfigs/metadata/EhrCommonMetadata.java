@@ -309,7 +309,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String EHR_REPORTS = "Able to access the HIV reports app only";
 		public static final String EHR_GBV = "Able to access the gbv app";
 		public static final String EHR_CONFIGS = "Able to access the EHR Configs app";
-		public static final String EHR_ACCESS_FINANCE_REPORT_SECTION = "Can access finance list";
+		public static final String EHR_ACCESS_FINANCE_REPORT_SECTION = "Can access EHR Finance list";
 	}
 
 	@Override
