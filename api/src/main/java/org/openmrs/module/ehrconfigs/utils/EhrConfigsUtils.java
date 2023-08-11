@@ -7,8 +7,11 @@ import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class EhrConfigsUtils {
@@ -47,5 +50,15 @@ public class EhrConfigsUtils {
 
         return identifier;
 
+    }
+    public static Map<String, List<String>> listMap(List<Obs> obsList){
+
+        HashMap<String, List<String>> hashMap = new HashMap<String, List<String>>();
+        for(Obs obs:obsList ) {
+            if (!hashMap.containsKey(obs.getValueCoded().getDisplayString())) {
+                hashMap.put(obs.getValueCoded().getDisplayString(), Arrays.asList(obs.getValueCoded().getDisplayString()));
+            }
+        }
+        return hashMap;
     }
 }

@@ -528,7 +528,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 				"Assigned to every patient who contribute to NHIF", ".{1,15}", "At most 15 characters long",
 				null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.PATIENT_NHIF_NUMBER));
 		install(patientIdentifierType("Patient OPD Number",
-						"Assigned to every patient who goes through OPD", ".{1,15}", "At most 15 characters long",
+						"Assigned to every patient who goes through OPD", ".{1,30}", "At most 30 characters long",
 						null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.OPD_NUMBER));
 		//global property
 		install(globalProperty("fptab.includedInPNC","To determine whether to include family planning tab in pnc if same clinician is serving both pnc and fp patients","false"));
