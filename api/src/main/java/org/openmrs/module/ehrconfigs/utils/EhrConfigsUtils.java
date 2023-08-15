@@ -5,6 +5,7 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.ProviderService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.hospitalcore.model.OpdDrugOrder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,14 +52,79 @@ public class EhrConfigsUtils {
         return identifier;
 
     }
-    public static Map<String, List<String>> listMap(List<Obs> obsList){
+    public static Map<Integer, List<String>> listMap(List<Obs> obsList, String includeCoded){
 
-        HashMap<String, List<String>> hashMap = new HashMap<String, List<String>>();
-        for(Obs obs:obsList ) {
-            if (!hashMap.containsKey(obs.getValueCoded().getDisplayString())) {
-                hashMap.put(obs.getValueCoded().getDisplayString(), Arrays.asList(obs.getValueCoded().getDisplayString()));
+        HashMap<Integer, List<String>> hashMap = new HashMap<Integer, List<String>>();
+        ConceptClass diagnosisClass = Context.getConceptService().getConceptClassByUuid("8d4918b0-c2cc-11de-8d13-0010c6dffd0f");
+        List<String> newList = null;
+        Set<Integer> uniqueCodes = new HashSet<Integer>();
+        Integer conceptId = null;
+        for(Obs obs:obsList) {
+            if (obs.getValueCoded() != null && includeCoded.equals("yes") && obs.getValueCoded().getConceptClass().equals(diagnosisClass)) {
+                uniqueCodes.add(obs.getValueCoded().getConceptId());
+            }
+            else if(includeCoded.equals("no")) {
+                uniqueCodes.add(obs.getConcept().getConceptId());
             }
         }
+        if(includeCoded.equals("yes")) {
+            if (!uniqueCodes.isEmpty()) {
+                for (Integer valueId : uniqueCodes) {
+                    if (!hashMap.containsKey((valueId))) {
+                        newList = new ArrayList<String>();
+                        conceptId = valueId;
+                        for (Obs obs : obsList) {
+                            if (obs.getValueCoded() != null && obs.getValueCoded().getConceptId().equals(conceptId)) {
+                                newList.add(obs.getValueCoded().getDisplayString());
+                            }
+                        }
+                    }
+                    hashMap.put(conceptId, newList);
+                }
+            }
+        }
+        else if(includeCoded.equals("no")) {
+            if (!uniqueCodes.isEmpty()) {
+                for (Integer valueId : uniqueCodes) {
+                    if (!hashMap.containsKey((valueId))) {
+                        newList = new ArrayList<String>();
+                        conceptId = valueId;
+                        for (Obs obs : obsList) {
+                            if (obs.getConcept() != null && obs.getConcept().getConceptId().equals(conceptId)) {
+                                newList.add(obs.getConcept().getDisplayString());
+                            }
+                        }
+                    }
+                    hashMap.put(conceptId, newList);
+                }
+            }
+
+        }
         return hashMap;
+    }
+
+    public static Map<Integer, List<String>> listMapOfDrugPrescription(List<OpdDrugOrder> opdDrugOrderList){
+
+        HashMap<Integer, List<String>> hashMapOfDrugs = new HashMap<Integer, List<String>>();
+        List<String> drugStrings = null;
+        for(OpdDrugOrder order : opdDrugOrderList) {
+            Integer drugId = null;
+            if(order.getOrderStatus() == 1) {
+                drugId = order.getInventoryDrug().getId();
+                if(!hashMapOfDrugs.containsKey(drugId)) {
+                    drugStrings = new ArrayList<String>();
+                    for(OpdDrugOrder order1 : opdDrugOrderList) {
+                        if(order1.getOrderStatus() == 1 && order1.getInventoryDrug().getId().equals(drugId)) {
+                            drugStrings.add(order1.getInventoryDrug().getName());
+                        }
+                    }
+
+                }
+                hashMapOfDrugs.put(drugId, drugStrings);
+            }
+        }
+
+        return hashMapOfDrugs;
+
     }
 }
