@@ -60,7 +60,7 @@ public class EhrConfigsUtils {
         Set<Integer> uniqueCodes = new HashSet<Integer>();
         Integer conceptId = null;
         for(Obs obs:obsList) {
-            if (obs.getValueCoded() != null && includeCoded.equals("yes") && obs.getValueCoded().getConceptClass().equals(diagnosisClass)) {
+            if (obs.getValueCoded() != null && includeCoded.equals("yes") ) {
                 uniqueCodes.add(obs.getValueCoded().getConceptId());
             }
             else if(includeCoded.equals("no")) {
@@ -74,7 +74,7 @@ public class EhrConfigsUtils {
                         newList = new ArrayList<String>();
                         conceptId = valueId;
                         for (Obs obs : obsList) {
-                            if (obs.getValueCoded() != null && obs.getValueCoded().getConceptId().equals(conceptId)) {
+                            if (obs.getValueCoded() != null && obs.getValueCoded().getConceptId().equals(conceptId) && obs.getValueCoded().getConceptClass().equals(diagnosisClass)) {
                                 newList.add(obs.getValueCoded().getDisplayString());
                             }
                         }
