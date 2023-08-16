@@ -52,53 +52,57 @@ public class EhrConfigsUtils {
         return identifier;
 
     }
-    public static Map<Integer, List<String>> listMap(List<Obs> obsList, String includeCoded){
-
+    public static Map<Integer, List<String>> listMapDiagnosisAndProcedures(List<Obs> obsList){
         HashMap<Integer, List<String>> hashMap = new HashMap<Integer, List<String>>();
-        ConceptClass diagnosisClass = Context.getConceptService().getConceptClassByUuid("8d4918b0-c2cc-11de-8d13-0010c6dffd0f");
         List<String> newList = null;
         Set<Integer> uniqueCodes = new HashSet<Integer>();
         Integer conceptId = null;
         for(Obs obs:obsList) {
-            if (obs.getValueCoded() != null && includeCoded.equals("yes") ) {
+            if (obs.getValueCoded() != null) {
                 uniqueCodes.add(obs.getValueCoded().getConceptId());
             }
-            else if(includeCoded.equals("no")) {
+        }
+        if (!uniqueCodes.isEmpty()) {
+            for (Integer valueId : uniqueCodes) {
+                if (!hashMap.containsKey((valueId))) {
+                    newList = new ArrayList<String>();
+                    conceptId = valueId;
+                    for (Obs obs : obsList) {
+                        if (obs.getValueCoded() != null && obs.getValueCoded().getConceptId().equals(conceptId)) {
+                            newList.add(obs.getValueCoded().getDisplayString());
+                        }
+                    }
+                }
+                hashMap.put(conceptId, newList);
+            }
+        }
+
+        return hashMap;
+    }
+
+    public static Map<Integer, List<String>> listTestsAndQuestionsConcepts(List<Obs> obsList) {
+        HashMap<Integer, List<String>> hashMap = new HashMap<Integer, List<String>>();
+        List<String> newList = null;
+        Set<Integer> uniqueCodes = new HashSet<Integer>();
+        Integer conceptId = null;
+        for(Obs obs:obsList) {
+            if (obs.getConcept() != null) {
                 uniqueCodes.add(obs.getConcept().getConceptId());
             }
         }
-        if(includeCoded.equals("yes")) {
-            if (!uniqueCodes.isEmpty()) {
-                for (Integer valueId : uniqueCodes) {
-                    if (!hashMap.containsKey((valueId))) {
-                        newList = new ArrayList<String>();
-                        conceptId = valueId;
-                        for (Obs obs : obsList) {
-                            if (obs.getValueCoded() != null && obs.getValueCoded().getConceptId().equals(conceptId) && obs.getValueCoded().getConceptClass().equals(diagnosisClass)) {
-                                newList.add(obs.getValueCoded().getDisplayString());
-                            }
+        if (!uniqueCodes.isEmpty()) {
+            for (Integer valueId : uniqueCodes) {
+                if (!hashMap.containsKey((valueId))) {
+                    newList = new ArrayList<String>();
+                    conceptId = valueId;
+                    for (Obs obs : obsList) {
+                        if (obs.getConcept() != null && obs.getConcept().getConceptId().equals(conceptId)) {
+                            newList.add(obs.getConcept().getDisplayString());
                         }
                     }
-                    hashMap.put(conceptId, newList);
                 }
+                hashMap.put(conceptId, newList);
             }
-        }
-        else if(includeCoded.equals("no")) {
-            if (!uniqueCodes.isEmpty()) {
-                for (Integer valueId : uniqueCodes) {
-                    if (!hashMap.containsKey((valueId))) {
-                        newList = new ArrayList<String>();
-                        conceptId = valueId;
-                        for (Obs obs : obsList) {
-                            if (obs.getConcept() != null && obs.getConcept().getConceptId().equals(conceptId)) {
-                                newList.add(obs.getConcept().getDisplayString());
-                            }
-                        }
-                    }
-                    hashMap.put(conceptId, newList);
-                }
-            }
-
         }
         return hashMap;
     }
@@ -107,23 +111,25 @@ public class EhrConfigsUtils {
 
         HashMap<Integer, List<String>> hashMapOfDrugs = new HashMap<Integer, List<String>>();
         List<String> drugStrings = null;
+        Set<Integer> uniqueDrugIds = new HashSet<Integer>();
+        Integer key = null;
         for(OpdDrugOrder order : opdDrugOrderList) {
-            Integer drugId = null;
-            if(order.getOrderStatus() == 1) {
-                drugId = order.getInventoryDrug().getId();
-                if(!hashMapOfDrugs.containsKey(drugId)) {
+            uniqueDrugIds.add(order.getInventoryDrug().getId());
+        }
+        if(!uniqueDrugIds.isEmpty()) {
+            for (OpdDrugOrder order : opdDrugOrderList) {
+                    key = order.getInventoryDrug().getId();
+                if (!hashMapOfDrugs.containsKey(key)) {
                     drugStrings = new ArrayList<String>();
-                    for(OpdDrugOrder order1 : opdDrugOrderList) {
-                        if(order1.getOrderStatus() == 1 && order1.getInventoryDrug().getId().equals(drugId)) {
+                    for (OpdDrugOrder order1 : opdDrugOrderList) {
+                        if (order1.getInventoryDrug().getId().equals(key)) {
                             drugStrings.add(order1.getInventoryDrug().getName());
                         }
                     }
-
+                    hashMapOfDrugs.put(key, drugStrings);
                 }
-                hashMapOfDrugs.put(drugId, drugStrings);
             }
         }
-
         return hashMapOfDrugs;
 
     }
