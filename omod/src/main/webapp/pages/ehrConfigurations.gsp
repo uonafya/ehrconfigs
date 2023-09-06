@@ -44,6 +44,11 @@
                       label: "FacilityDetails",
                       href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "facilityDetails"]),
                       active      : (selection == "section-facilityDetails"),
+              ],
+            [
+                      label: "Morgue Units",
+                      href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "morgueUnits"]),
+                      active      : (selection == "section-morgueUnits"),
               ]
     ]
 %>
@@ -66,5 +71,8 @@
     <% } %>
     <% if (section == "facilityDetails") { %>
     ${ui.includeFragment("ehrconfigs", "facilityDetails")}
+    <% } %>
+    <% if (section == "morgueUnits") { %>
+    ${ui.includeFragment("ehrconfigs", "morgueUnits")}
     <% } %>
 </div>
