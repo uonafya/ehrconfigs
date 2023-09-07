@@ -8,7 +8,7 @@
                 overlayClose: false,
                 close: true
             },
-            selector: '#new-drug-dialog',
+            selector: '#new-unit-dialog',
             actions: {
                 confirm: function () {
                     if (!page_verified_drug()) {
@@ -83,7 +83,7 @@
             ${ ui.includeFragment("morgueapp", "morgueDetail") }
         </div>
 
-        <div id="new-drug-dialog" class="dialog" style="display:none;">
+        <div id="new-unit-dialog" class="dialog" style="display:none;">
             <div class="dialog-header">
                 <i class="icon-folder-open"></i>
 
@@ -102,7 +102,7 @@
                     <li>
                         <label>Status<span style="color:red">*</span></label>
                         <select id="retired" name="retired">
-                            <option value="o">Active</option>
+                            <option value="0">Active</option>
                             <option value="1">Inactive</option>
                         </select>
                     </li>
