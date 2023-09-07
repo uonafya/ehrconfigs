@@ -35,7 +35,17 @@ public class EhrConfigsUtils {
         String identifier = "";
         Set<PatientIdentifier> identifierSet = new HashSet<PatientIdentifier>(patient.getIdentifiers());
         for(PatientIdentifier patientIdentifier :identifierSet){
-            //check if there is a patient clinic number, use that and exit
+            //check if there is a patient OPD number, use that and exit
+            if(patientIdentifier.getIdentifierType().equals(service.getPatientIdentifierTypeByUuid("61A354CB-4F7F-489A-8BE8-09D0ACEDDC63"))) {
+                identifier = patientIdentifier.getIdentifier();
+                break;
+            }
+            //Patient Clinic Number
+            if(patientIdentifier.getIdentifierType().equals(service.getPatientIdentifierTypeByUuid("b4d66522-11fc-45c7-83e3-39a1af21ae0d"))) {
+                identifier = patientIdentifier.getIdentifier();
+                break;
+            }
+            //Patient NUPI
             if(patientIdentifier.getIdentifierType().equals(service.getPatientIdentifierTypeByUuid("b4d66522-11fc-45c7-83e3-39a1af21ae0d"))) {
                 identifier = patientIdentifier.getIdentifier();
                 break;
