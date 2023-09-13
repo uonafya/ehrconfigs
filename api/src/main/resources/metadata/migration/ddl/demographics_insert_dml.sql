@@ -1,3 +1,5 @@
+use openmrs;
+SET SQL_SAFE_UPDATES = 0;
 insert into kenyaemr_extended_patient_demographics(
     patient_id,
     uuid,
@@ -28,17 +30,17 @@ select
 FROM (
      select
             p.person_id,
-            p.uuid,
-            pn.given_name,
-            pn.middle_name,
-            pn.family_name,
-            p.gender,
-            p.birthdate,
-            p.dead,
-            p.date_created,
-            greatest(ifnull(p.date_changed,'0000-00-00 00:00:00'),ifnull(pn.date_changed,'0000-00-00 00:00:00')) as date_last_modified,
-            p.voided,
-            p.death_date
+            MAX(p.uuid) as uuid,
+            MAX(pn.given_name) as given_name,
+            MAX(pn.middle_name) AS middle_name,
+            MAX(pn.family_name) AS family_name,
+            MAX(p.gender) AS gender,
+            MAX(p.birthdate) AS birthdate,
+            MAX(p.dead) AS dead,
+            MAX(p.date_created) AS date_created,
+            greatest(ifnull(MAX(p.date_changed),'0000-00-00 00:00:00'),ifnull(MAX(pn.date_changed),'0000-00-00 00:00:00')) as date_last_modified,
+            MAX(p.voided) as voided,
+            MAX(p.death_date) as death_date
      from person p
             left join patient pa on pa.patient_id=p.person_id
             left join person_name pn on pn.person_id = p.person_id and pn.voided=0
@@ -73,7 +75,7 @@ select
        max(if(pat.uuid='bde64e04-026f-11eb-bb17-73c196be052b', pa.value, null)) as nhif_card_number,
        max(if(pat.uuid='88546440-0271-11eb-b43f-c392cfe8f5df', pa.value, null)) as student_id,
        max(if(pat.uuid='972a32aa-6159-11eb-bc2d-9785fed39154', pa.value, null)) as payment_sub_category,
-      greatest(ifnull(pa.date_changed,'0000-00-00'),pa.date_created) as latest_date
+      greatest(ifnull(MAX(pa.date_changed),'2019-01-01 00:00:00'),MAX(pa.date_created)) as latest_date
 from person_attribute pa
        inner join
          (
@@ -128,38 +130,38 @@ set d.phone_number=att.phone_number,
     d.nhif_card_number=att.nhif_card_number,
     d.student_id=att.student_id,
     d.payment_sub_category=att.payment_sub_category,
-    d.date_last_modified=if(att.latest_date > ifnull(d.date_last_modified,'0000-00-00'),att.latest_date,d.date_last_modified)
+    d.date_last_modified=if(att.latest_date > ifnull(d.date_last_modified,'0000-00-00 00:00:00'),att.latest_date,d.date_last_modified)
 ;
 
 
 update kenyaemr_extended_patient_demographics d
-join (select pi.patient_id,
-             coalesce (
+join
+(
+select pi.patient_id,
              max(if(pit.uuid='b4d66522-11fc-45c7-83e3-39a1af21ae0d',pi.identifier,null)) patient_clinic_number,
              max(if(pit.uuid='49af6cdc-7968-4abb-bf46-de10d7f4859f',pi.identifier,null)) national_id,
              max(if(pit.uuid='6428800b-5a8c-4f77-a285-8d5f6174e5fb',pi.identifier,null)) huduma_number,
-             max(if(pit.uuid='be9beef6-aacc-4e1f-ac4e-5babeaa1e303',pi.identifier,null)) Passport_number,
-             max(if(pit.uuid='68449e5a-8829-44dd-bfef-c9c8cf2cb9b2',pi.identifier,null)) Birth_cert_number,
+             max(if(pit.uuid='be9beef6-aacc-4e1f-ac4e-5babeaa1e303',pi.identifier,null)) passport_no,
+             max(if(pit.uuid='68449e5a-8829-44dd-bfef-c9c8cf2cb9b2',pi.identifier,null)) birth_cert_number,
              max(if(pit.uuid='dfacd928-0370-4315-99d7-6ec1c9f7ae76',pi.identifier,null)) openmrs_id,
              max(if(pit.uuid='ca125004-e8af-445d-9436-a43684150f8b',pi.identifier,null)) driving_license_no,
              max(if(pit.uuid='f85081e2-b4be-4e48-b3a4-7994b69bb101',pi.identifier,null)) national_unique_patient_identifier,
              max(if(pit.uuid='61A354CB-4F7F-489A-8BE8-09D0ACEDDC63',pi.identifier,null)) patient_opd_number,
-             greatest(ifnull(max(pi.date_changed),'0000-00-00'),max(pi.date_created)) as latest_date
+             greatest(ifnull(max(pi.date_changed),'2019-01-01 00:00:00'),max(pi.date_created)) as latest_date
       from patient_identifier pi
              join patient_identifier_type pit on pi.identifier_type=pit.patient_identifier_type_id
       where voided=0
       group by pi.patient_id) pid on pid.patient_id=d.patient_id
-set d.unique_patient_no=pid.upn,
-    d.national_id_no=pid.National_id,
-    d.huduma_no=pid.huduma_number,
-    d.passport_no=pid.passport_number,
-    d.birth_certificate_no=pid.Birth_cert_number,
+set d.national_id=pid.national_id,
+    d.huduma_number=pid.huduma_number,
+    d.passport_no=pid.passport_no,
+    d.birth_cert_number=pid.birth_cert_number,
     d.patient_clinic_number=pid.Patient_clinic_number,
     d.openmrs_id=pid.openmrs_id,
     d.driving_license_no=pid.driving_license_no,
     d.national_unique_patient_identifier=pid.national_unique_patient_identifier,
     d.patient_opd_number=pid.patient_opd_number,
-    d.date_last_modified=if(pid.latest_date > ifnull(d.date_last_modified,'0000-00-00'),pid.latest_date,d.date_last_modified)
+    d.date_last_modified=if(pid.latest_date > ifnull(d.date_last_modified,'0000-00-00 00:00:00'),pid.latest_date,d.date_last_modified)
 ;
 
 update kenyaemr_extended_patient_demographics d
@@ -176,5 +178,6 @@ join (select o.person_id as patient_id,
 set d.marital_status=pstatus.marital_status,
     d.education_level=pstatus.education_level,
     d.occupation=pstatus.occupation,
-    d.date_last_modified=if(pstatus.date_created > ifnull(d.date_last_modified,'0000-00-00'),pstatus.date_created,d.date_last_modified)
-;
+    d.date_last_modified=if(pstatus.date_created > ifnull(d.date_last_modified,'0000-00-00 00:00:00'),pstatus.date_created,d.date_last_modified);
+SET SQL_SAFE_UPDATES = 1;
+

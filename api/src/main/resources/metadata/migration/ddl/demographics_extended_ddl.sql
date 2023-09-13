@@ -26,7 +26,6 @@ next_of_kin_phone VARCHAR(100) DEFAULT NULL,
 next_of_kin_relationship VARCHAR(100) DEFAULT NULL,
 marital_status VARCHAR(50) DEFAULT NULL,
 education_level VARCHAR(50) DEFAULT NULL,
-education_level VARCHAR(50) DEFAULT NULL,
 paying_category_type VARCHAR(50) DEFAULT NULL,
 non_paying_category_type VARCHAR(50) DEFAULT NULL,
 special_scheme_category_type VARCHAR(50) DEFAULT NULL,
@@ -45,4 +44,4 @@ date_last_modified DATETIME,
 index(patient_id),
 index(Gender),
 index(DOB)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
