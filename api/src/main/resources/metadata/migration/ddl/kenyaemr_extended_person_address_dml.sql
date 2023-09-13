@@ -2,6 +2,7 @@ use openmrs;
 SET SQL_SAFE_UPDATES = 0;
 INSERT INTO kenyaemr_extended_person_address(
       uuid,
+      person_uuid,
       patient_id,
       county,
       sub_county,
@@ -15,6 +16,7 @@ INSERT INTO kenyaemr_extended_person_address(
     )
       select
         pa.uuid,
+        pt.uuid
         pa.person_id,
         coalesce(pa.country,pa.county_district) county,
         pa.state_province sub_county,

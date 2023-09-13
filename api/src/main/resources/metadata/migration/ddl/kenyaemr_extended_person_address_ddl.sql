@@ -1,5 +1,6 @@
 CREATE TABLE kenyaemr_extended_person_address (
     uuid CHAR(38) NOT NULL PRIMARY KEY,
+    person_uuid CHAR(38) NOT NULL,
     patient_id INT(11) NOT NULL ,
     county VARCHAR(100) DEFAULT NULL,
     sub_county VARCHAR(100) DEFAULT NULL,

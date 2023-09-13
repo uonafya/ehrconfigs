@@ -1,7 +1,8 @@
 use openmrs;
 SET SQL_SAFE_UPDATES = 0;
 INSERT INTO kenyaemr_extended_vitals(
-uuid,
+encounter_uuid,
+person_uuid,
 patient_id,
 visit_id,
 visit_date,
@@ -22,7 +23,8 @@ muac,
 voided
 )
 select
-max(e.uuid) as uuid,
+max(e.uuid) as encounter_uuid,
+max(p.uuid) as person_uuid
 e.patient_id,
 max(e.visit_id) as visit_id,
 date(max(e.encounter_datetime)) as visit_date,
