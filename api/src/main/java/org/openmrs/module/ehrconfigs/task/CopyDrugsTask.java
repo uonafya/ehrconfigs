@@ -41,6 +41,7 @@ public class CopyDrugsTask extends AbstractTask {
     }
 
     public static void uploadDrugs() {
+        System.out.println("Starting to IMPORT DRUGS");
         ConceptService conceptService = Context.getConceptService();
         InputStream drugsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/drugs.csv");
         String line = "";
@@ -56,6 +57,7 @@ public class CopyDrugsTask extends AbstractTask {
                 name = records[0];
                 concept = records[1];
                 if(StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(concept.trim()) && conceptService.getDrug(name) == null) {
+                    System.out.println("Drug NOT FOUND getting to create it");
                     Drug drug = new Drug();
                     drug.setName(name);
                     drug.setConcept(conceptService.getConcept(Integer.parseInt(concept.trim())));
