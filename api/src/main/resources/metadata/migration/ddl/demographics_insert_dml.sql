@@ -1,7 +1,7 @@
 use openmrs;
 SET SQL_SAFE_UPDATES = 0;
-insert into kenyaemr_extended_patient_demographics(
-    patient_id,
+insert into tr_migration.tr_demographics(
+    Person_Id,
     uuid,
     given_name,
     middle_name,
@@ -9,8 +9,6 @@ insert into kenyaemr_extended_patient_demographics(
     Gender,
     DOB,
     dead,
-    date_created,
-    date_last_modified,
     voided,
     death_date
     )
@@ -23,8 +21,6 @@ select
        p.gender,
        p.birthdate,
        p.dead,
-       p.date_created,
-       if((p.date_last_modified='0000-00-00 00:00:00' or p.date_last_modified=p.date_created),NULL,p.date_last_modified) as date_last_modified,
        p.voided,
        p.death_date
 FROM (
@@ -37,20 +33,18 @@ FROM (
             MAX(p.gender) AS gender,
             MAX(p.birthdate) AS birthdate,
             MAX(p.dead) AS dead,
-            MAX(p.date_created) AS date_created,
-            greatest(ifnull(MAX(p.date_changed),'0000-00-00 00:00:00'),ifnull(MAX(pn.date_changed),'0000-00-00 00:00:00')) as date_last_modified,
             MAX(p.voided) as voided,
             MAX(p.death_date) as death_date
      from person p
             left join patient pa on pa.patient_id=p.person_id
             left join person_name pn on pn.person_id = p.person_id and pn.voided=0
-     where p.voided=0
+     where p.voided=0 and p.birthdate is not null
      GROUP BY p.person_id
      ) p
 ON DUPLICATE KEY UPDATE given_name = p.given_name, middle_name=p.middle_name, family_name=p.family_name;
 
 -- update etl_patient_demographics with patient attributes: birthplace, citizenship, mother_name, phone number and kin's details
-update kenyaemr_extended_patient_demographics d
+update tr_migration.tr_demographics d
 left outer join
 (
 select
@@ -111,7 +105,7 @@ from person_attribute pa
         )
 where pa.voided=0
 group by pa.person_id
-) att on att.person_id = d.patient_id
+) att on att.person_id = d.person_id
 set d.phone_number=att.phone_number,
     d.next_of_kin=att.next_of_kin_name,
     d.next_of_kin_relationship=att.next_of_kin_relationship,
@@ -129,12 +123,9 @@ set d.phone_number=att.phone_number,
     d.exemption_number=att.exemption_number,
     d.nhif_card_number=att.nhif_card_number,
     d.student_id=att.student_id,
-    d.payment_sub_category=att.payment_sub_category,
-    d.date_last_modified=if(att.latest_date > ifnull(d.date_last_modified,'0000-00-00 00:00:00'),att.latest_date,d.date_last_modified)
-;
+    d.payment_sub_category=att.payment_sub_category;
 
-
-update kenyaemr_extended_patient_demographics d
+update tr_migration.tr_demographics d
 join
 (
 select pi.patient_id,
@@ -151,7 +142,7 @@ select pi.patient_id,
       from patient_identifier pi
              join patient_identifier_type pit on pi.identifier_type=pit.patient_identifier_type_id
       where voided=0
-      group by pi.patient_id) pid on pid.patient_id=d.patient_id
+      group by pi.patient_id) pid on pid.patient_id=d.person_id
 set d.national_id=pid.national_id,
     d.huduma_number=pid.huduma_number,
     d.passport_no=pid.passport_no,
@@ -160,24 +151,33 @@ set d.national_id=pid.national_id,
     d.openmrs_id=pid.openmrs_id,
     d.driving_license_no=pid.driving_license_no,
     d.national_unique_patient_identifier=pid.national_unique_patient_identifier,
-    d.patient_opd_number=pid.patient_opd_number,
-    d.date_last_modified=if(pid.latest_date > ifnull(d.date_last_modified,'0000-00-00 00:00:00'),pid.latest_date,d.date_last_modified)
-;
+    d.patient_opd_number=pid.patient_opd_number;
 
-update kenyaemr_extended_patient_demographics d
-join (select o.person_id as patient_id,
-             max(if(o.concept_id in(1054),cn.name,null))  as marital_status,
-             max(if(o.concept_id in(1712),cn.name,null))  as education_level,
-             max(if(o.concept_id in(1542),cn.name,null))  as occupation,
+update tr_migration.tr_demographics d
+join (select o.person_id as person_id,
+             max(if(o.concept_id in(1054),o.value_coded,null))  as marital_status,
+             max(if(o.concept_id in(1712),o.value_coded,null))  as education_level,
+             max(if(o.concept_id in(1542),o.value_coded,null))  as occupation,
              max(o.date_created) as date_created
                    from obs o
              join concept_name cn on cn.concept_id=o.value_coded and cn.concept_name_type='FULLY_SPECIFIED'
                                        and cn.locale='en'
       where o.concept_id in (1054,1712,1542) and o.voided=0
-      group by person_id) pstatus on pstatus.patient_id=d.patient_id
-set d.marital_status=pstatus.marital_status,
-    d.education_level=pstatus.education_level,
-    d.occupation=pstatus.occupation,
-    d.date_last_modified=if(pstatus.date_created > ifnull(d.date_last_modified,'0000-00-00 00:00:00'),pstatus.date_created,d.date_last_modified);
-SET SQL_SAFE_UPDATES = 1;
+      group by person_id) ps on ps.person_id=d.person_id
+set d.marital_status=ps.marital_status,
+    d.education_level=ps.education_level,
+    d.occupation=ps.occupation;
 
+use openmrs;
+update tr_migration.tr_demographics d
+join person_address pa ON pa.person_id=d.person_id
+set         d.county = coalesce(pa.country,pa.county_district),
+            d.sub_county = pa.state_province,
+            d.location = pa.address6,
+            d.ward = pa.address4,
+            d.sub_location =pa.address5,
+            d.village = pa.city_village,
+            d.postal_address = pa.address1,
+            d.land_mark = pa.address2;
+
+SET SQL_SAFE_UPDATES = 1;

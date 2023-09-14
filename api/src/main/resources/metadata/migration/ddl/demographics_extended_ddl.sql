@@ -1,6 +1,9 @@
 -- create table demographics_extended
-create table kenyaemr_extended_patient_demographics (
-patient_id INT(11) not null primary key,
+use tr_migration;
+DROP table IF EXISTS tr_demographics;
+create table tr_demographics (
+patient_id INT(11) DEFAULT NULL,
+Person_Id INT(11) not null primary key,
 uuid char(38),
 given_name VARCHAR(255),
 middle_name VARCHAR(255),
@@ -38,10 +41,19 @@ student_id VARCHAR(50) DEFAULT NULL,
 payment_sub_category VARCHAR(50) DEFAULT NULL,
 dead INT(11),
 death_date DATE DEFAULT NULL,
+county VARCHAR(100) DEFAULT NULL,
+sub_county VARCHAR(100) DEFAULT NULL,
+location VARCHAR(100) DEFAULT NULL,
+ward VARCHAR(100) DEFAULT NULL,
+sub_location VARCHAR(100) DEFAULT NULL,
+village VARCHAR(100) DEFAULT NULL,
+postal_address VARCHAR(100) DEFAULT NULL,
+land_mark VARCHAR(100) DEFAULT NULL,
+Exact_DOB int(11) DEFAULT NULL,
+Next_of_kin_address varchar(225) DEFAULT NULL,
+UPN varchar(225) DEFAULT NULL,
+Nearest_Health_Centre varchar(225) DEFAULT NULL,
 voided INT(11),
-date_created DATETIME NOT NULL,
-date_last_modified DATETIME,
 index(patient_id),
-index(Gender),
-index(DOB)
+index(Person_Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
