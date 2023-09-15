@@ -1,6 +1,5 @@
-use openmrs;
 SET SQL_SAFE_UPDATES = 0;
-insert into tr_migration.tr_demographics(
+insert into migration_tr.tr_demographics(
     Person_Id,
     uuid,
     given_name,
@@ -44,7 +43,7 @@ FROM (
 ON DUPLICATE KEY UPDATE given_name = p.given_name, middle_name=p.middle_name, family_name=p.family_name;
 
 -- update etl_patient_demographics with patient attributes: birthplace, citizenship, mother_name, phone number and kin's details
-update tr_migration.tr_demographics d
+update migration_tr.tr_demographics d
 left outer join
 (
 select
@@ -125,7 +124,7 @@ set d.phone_number=att.phone_number,
     d.student_id=att.student_id,
     d.payment_sub_category=att.payment_sub_category;
 
-update tr_migration.tr_demographics d
+update migration_tr.tr_demographics d
 join
 (
 select pi.patient_id,
@@ -153,7 +152,7 @@ set d.national_id=pid.national_id,
     d.national_unique_patient_identifier=pid.national_unique_patient_identifier,
     d.patient_opd_number=pid.patient_opd_number;
 
-update tr_migration.tr_demographics d
+update migration_tr.tr_demographics d
 join (select o.person_id as person_id,
              max(if(o.concept_id in(1054),o.value_coded,null))  as marital_status,
              max(if(o.concept_id in(1712),o.value_coded,null))  as education_level,
@@ -169,7 +168,7 @@ set d.marital_status=ps.marital_status,
     d.occupation=ps.occupation;
 
 use openmrs;
-update tr_migration.tr_demographics d
+update migration_tr.tr_demographics d
 join person_address pa ON pa.person_id=d.person_id
 set         d.county = coalesce(pa.country,pa.county_district),
             d.sub_county = pa.state_province,

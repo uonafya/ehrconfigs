@@ -1,7 +1,6 @@
 -- create table demographics_extended
-use tr_migration;
-DROP table IF EXISTS tr_demographics;
-create table tr_demographics (
+DROP table IF EXISTS migration_tr.tr_demographics;
+create table migration_tr.tr_demographics (
 patient_id INT(11) DEFAULT NULL,
 Person_Id INT(11) not null primary key,
 uuid char(38),
