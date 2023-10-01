@@ -102,7 +102,7 @@
                     <li>
                         <label>Status<span style="color:red">*</span></label>
                         <select id="retired" name="retired">
-                            <option value="o">Active</option>
+                            <option value="0">Active</option>
                             <option value="1">Inactive</option>
                         </select>
                     </li>
