@@ -277,6 +277,7 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String PATIENT_NHIF_NUMBER = "38e3c640-5021-11ec-86a0-fb3bee471720";
 		public static final String OPD_NUMBER = "61A354CB-4F7F-489A-8BE8-09D0ACEDDC63";
 		public static final String MORGUE_NUMBER = "3FF91B30-04B8-4B0D-98B3-9295122B5F84";
+		public static final String IPD_NUMBER = "CCBED3FA-B334-412C-BD4E-9B823C8DB0EF";
 	}
 
 	public static final class _Privileges{
@@ -534,6 +535,9 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(patientIdentifierType("Morgue Number",
 				"Assigned to every patient who goes through the morguw", ".{1,30}", "At most 30 characters long",
 				null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.MORGUE_NUMBER));
+		install(patientIdentifierType("IPD Number",
+				"Assigned to every patient who goes through the IPD", ".{1,30}", "At most 30 characters long",
+				null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _EhrIdenifiers.IPD_NUMBER));
 		//global property
 		install(globalProperty("fptab.includedInPNC","To determine whether to include family planning tab in pnc if same clinician is serving both pnc and fp patients","false"));
 
