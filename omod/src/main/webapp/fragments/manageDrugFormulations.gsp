@@ -49,12 +49,12 @@
                         {
                             newDrugName: jq("#newDrugName").val().trim(),
                             conceptDrugName: jq("#conceptDrugName").val().trim(),
-                            formulationForNewDrug: jq("#multiple").val(),
+                            formulationForNewDrug: jq("#formulationForNewDrug").val(),
                             categoryForNewDrug: jq("#categoryForNewDrug").val(),
                             reorderLevel: jq("#reorderLevel").val()
                         }
                     ).success(function (data) {
-                       console.log("The details are ", data);
+                       location.reload();
                     });
                 },
                 cancel: function () {
