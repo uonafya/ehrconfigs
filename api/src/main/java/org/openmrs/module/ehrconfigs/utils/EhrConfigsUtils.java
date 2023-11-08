@@ -148,7 +148,7 @@ public class EhrConfigsUtils {
 
     }
 
-    public Visit getLastVisitForPatient(Patient patient) {
+    public static Visit getLastVisitForPatient(Patient patient) {
         VisitService visitService = Context.getVisitService();
         Visit visit = null;
         if(!visitService.getActiveVisitsByPatient(patient).isEmpty()) {
