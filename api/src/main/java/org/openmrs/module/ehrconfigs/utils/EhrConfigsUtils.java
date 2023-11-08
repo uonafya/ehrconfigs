@@ -4,11 +4,15 @@ import org.openmrs.*;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.ProviderService;
+import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.model.OpdDrugOrder;
+import org.openmrs.module.hospitalcore.util.DateUtils;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -142,5 +146,30 @@ public class EhrConfigsUtils {
         }
         return hashMapOfDrugs;
 
+    }
+
+    public Visit getLastVisitForPatient(Patient patient) {
+        VisitService visitService = Context.getVisitService();
+        Visit visit = null;
+        if(!visitService.getActiveVisitsByPatient(patient).isEmpty()) {
+            visit = visitService.getActiveVisitsByPatient(patient).get(0);
+        }
+        else if(!visitService.getVisitsByPatient(patient).isEmpty()) {
+            visit = visitService.getVisitsByPatient(patient).get(0);
+        }
+        else {
+            //create a new visit and assigned/use it
+            Visit newVisit = new Visit();
+            newVisit.setPatient(patient);
+            newVisit.setCreator(Context.getAuthenticatedUser());
+            newVisit.setVisitType(visitService.getVisitTypeByUuid("3371a4d4-f66f-4454-a86d-92c7b3da990c"));
+            newVisit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+            newVisit.setDateCreated(new Date());
+            newVisit.setStartDatetime(DateUtils.getStartOfDay(new Date()));
+
+            //save the visit and assigned it to the used visit
+            visit = visitService.saveVisit(newVisit);
+        }
+        return visit;
     }
 }

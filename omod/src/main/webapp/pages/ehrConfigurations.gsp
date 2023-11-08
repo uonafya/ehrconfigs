@@ -33,22 +33,28 @@
             [
                     label: "Add Formulation To Drug",
                     href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFormulationDrugAddition"]),
-                    active      : (selection == "section-manageFormulationDrugAddition"),
+                    active      : (selection == "section-manageFormulationDrugAddition")
             ],
             [
                     label: "Food Processing",
                     href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "manageFoodProcess"]),
-                    active      : (selection == "section-manageFoodProcess"),
+                    active      : (selection == "section-manageFoodProcess")
             ],
             [
                       label: "FacilityDetails",
                       href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "facilityDetails"]),
-                      active      : (selection == "section-facilityDetails"),
+                      active      : (selection == "section-facilityDetails")
               ],
             [
                       label: "Morgue Units",
                       href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "morgueUnits"]),
-                      active      : (selection == "section-morgueUnits"),
+                      active      : (selection == "section-morgueUnits")
+              ],
+              [
+                      label: "IPD Wards",
+                      href: ui.pageLink("ehrconfigs", "ehrConfigurations", [section: "ipdWards"]),
+                      active      : (selection == "section-ipdWards"),
+                      icon        : "buttons/bed.png"
               ]
     ]
 %>
@@ -74,5 +80,8 @@
     <% } %>
     <% if (section == "morgueUnits") { %>
     ${ui.includeFragment("ehrconfigs", "morgueUnits")}
+    <% } %>
+    <% if (section == "ipdWards") { %>
+    ${ui.includeFragment("ehrconfigs", "ipdWards")}
     <% } %>
 </div>
