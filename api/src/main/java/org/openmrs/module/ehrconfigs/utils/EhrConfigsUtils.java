@@ -150,13 +150,13 @@ public class EhrConfigsUtils {
 
     public static Visit getLastVisitForPatient(Patient patient) {
         VisitService visitService = Context.getVisitService();
-        Visit visit = null;
+        Visit visit;
         if(!visitService.getActiveVisitsByPatient(patient).isEmpty()) {
             visit = visitService.getActiveVisitsByPatient(patient).get(0);
         }
-        else if(!visitService.getVisitsByPatient(patient).isEmpty()) {
+        /*else if(!visitService.getVisitsByPatient(patient).isEmpty()) {
             visit = visitService.getVisitsByPatient(patient).get(0);
-        }
+        }*/
         else {
             //create a new visit and assigned/use it
             Visit newVisit = new Visit();
@@ -171,5 +171,27 @@ public class EhrConfigsUtils {
             visit = visitService.saveVisit(newVisit);
         }
         return visit;
+    }
+
+    public static String getObsValues(Obs obs) {
+       String value = "";
+
+       if(obs.getValueCoded() != null) {
+           value = obs.getValueCoded().getDisplayString();
+       }
+       else if(obs.getValueText() != null) {
+           value = obs.getValueText();
+       }
+       else if(obs.getValueNumeric() != null) {
+           value = obs.getValueNumeric().toString();
+       }
+       else if(obs.getValueDatetime() != null) {
+           value = DateUtils.getDateFromDateAsString(obs.getValueDate(), "yyyy-mm-dd");
+       }
+       else if(obs.getValueDrug() != null) {
+           value = obs.getValueDrug().getDisplayName();
+       }
+       return value;
+
     }
 }
