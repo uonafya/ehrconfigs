@@ -208,6 +208,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		public static final String FAMILY_CANCER_HISTORY = "b9c51a7e-0e24-11eb-9559-13c33ac53eec";
 		public static final String EHR_GBV = "bec91024-5433-11ec-8ddd-bf8f24d733fa";
 		public static final String EHR_DECEASED_ENCOUNTER_TYPE = "bf484793-1734-4f57-a6f1-b866545ca8df";
+
+		public static final String EHR_REFERRAL_ENCOUNTER_TYPE = "ee366157-d40b-4204-8de8-c24262c65b5a";
 	}
 
 	public static final class _EhrPrograms {
@@ -455,6 +457,8 @@ public class EhrCommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("CWCENCOUNTER", "CWC encounter type", _EhrEncounterTypes.CWC_ENCOUNTER_TYPE));
 		install(encounterType("CWCTRIAGEENCOUNTER", "CWC triage encounter type",
 				_EhrEncounterTypes.CWC_TRIAGE_ENCOUNTER_TYPE));
+		install(encounterType("Referral encounter type", "EHR referral encounter type",
+				_EhrEncounterTypes.EHR_REFERRAL_ENCOUNTER_TYPE));
 
 		//programs
 		install(program("MOH Facility Reports", "EHR reports program", _EhrPrograms.EHR_REPORTS_PROGRAM_CONCEPT,
