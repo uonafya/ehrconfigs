@@ -38,13 +38,13 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 	}
 
 	private void runConfigurations() {
-		//CodedConceptsConversion.doActualConversion();
+		CodedConceptsConversion.doActualConversion();
 		//CodedConceptsConversion.addSetsToServiceOrderedConcept();
 		//CodedConceptsConversion.addSetsToDosingUnits();
 		//CodedConceptsConversion.addSetsToUrinalysisOrder();
 		//CodedConceptsConversion.addSetsToOvaOrder();
 		//CodedConceptsConversion.changeTestsUnits();
-		//CodedConceptsConversion.addSetsToAntenatalCareProfileOrder();
+		CodedConceptsConversion.addSetsToAntenatalCareProfileOrder();
 		//CodedConceptsConversion.addSetsToUrinePhysicalExamination();
 		//CodedConceptsConversion.addSetsToStoolForOvaandCyst();
 		//CodedConceptsConversion.addSetsToUrineMicroscopyDeposits();
