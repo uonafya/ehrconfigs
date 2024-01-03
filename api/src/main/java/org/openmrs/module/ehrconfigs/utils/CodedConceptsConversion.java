@@ -204,6 +204,13 @@ public class CodedConceptsConversion {
                 "d0d107f7-9452-4129-a209-b9a4d1b46d4a"
         );
     }
+    private static List<String> getUuidConceptsToAddressHivTest() {
+        return Arrays.asList(
+                "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        );
+    }
 
     private static List<String> getUuidConceptsToAntenatalCareProgram() {
         return Arrays.asList(
@@ -372,6 +379,9 @@ public class CodedConceptsConversion {
 
     public static void addAnswersToProcedurePerformed() {
         addAnswersToQuestions("1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", procedurePerformed());
+    }
+    public static void addAnswersToHivTest() {
+        addAnswersToQuestions("1356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", getUuidConceptsToAddressHivTest());
     }
     private static List<String> typhoidRDT() {
         return Arrays.asList(
