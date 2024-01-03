@@ -56,7 +56,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//CodedConceptsConversion.conceptsToConvertToNaDataType();
 		CodedConceptsConversion.unRetireConcepts();
 		//CodedConceptsConversion.allowDecimalsInConcepts();
-		CodedConceptsConversion.addAnswersToHivTest();
+		//CodedConceptsConversion.addAnswersToHivTest();
 	}
 	
 }
