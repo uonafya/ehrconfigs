@@ -23,7 +23,7 @@ public class CopyDrugsTask extends AbstractTask {
     public void execute() {
         if (!isExecuting) {
             if (log.isDebugEnabled()) {
-                log.debug("Copying the drugs to the openmrs data model");
+                log.debug("Copying the drugs to the OpenMRS data model");
             }
 
             startExecuting();
@@ -41,7 +41,6 @@ public class CopyDrugsTask extends AbstractTask {
     }
 
     public static void uploadDrugs() {
-        System.out.println("Starting to IMPORT DRUGS");
         ConceptService conceptService = Context.getConceptService();
         InputStream drugsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/drugs.csv");
         String line = "";
