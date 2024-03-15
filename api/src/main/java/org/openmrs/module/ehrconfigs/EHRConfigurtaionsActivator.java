@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.BaseModuleActivator;
 import org.openmrs.module.ehrconfigs.utils.CodedConceptsConversion;
+import org.openmrs.module.ehrconfigs.utils.PatientMigrationTracking;
 
 /**
  * This class contains the logic that is run every time this module is either started or shutdown
@@ -57,6 +58,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		CodedConceptsConversion.unRetireConcepts();
 		//CodedConceptsConversion.allowDecimalsInConcepts();
 		//       CodedConceptsConversion.addAnswersToHivTest();
+		PatientMigrationTracking.updatePatientIds();
+		PatientMigrationTracking.updatePatientTriageData();
 	}
 	
 }

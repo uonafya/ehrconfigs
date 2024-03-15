@@ -84,6 +84,12 @@
 			<version>${inventoryVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>idgen-api</artifactId>
+			<version>${idgenVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	</dependencyManagement>
 
@@ -187,5 +193,6 @@
 		<kenyauiVersion>3.0.0</kenyauiVersion>
 		<kenyacoreVersion>3.0.1</kenyacoreVersion>
 		<inventoryVersion>2.0.1-SNAPSHOT</inventoryVersion>
+		<idgenVersion>4.5.0</idgenVersion>
     </properties>
 </project>

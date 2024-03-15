@@ -39,5 +39,9 @@
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>kenyacore-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>idgen-api</artifactId>
+		</dependency>
 	</dependencies>
 </project>
