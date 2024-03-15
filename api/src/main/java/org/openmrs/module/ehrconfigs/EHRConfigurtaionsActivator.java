@@ -57,9 +57,12 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//CodedConceptsConversion.conceptsToConvertToNaDataType();
 		CodedConceptsConversion.unRetireConcepts();
 		//CodedConceptsConversion.allowDecimalsInConcepts();
-		//       CodedConceptsConversion.addAnswersToHivTest();
+		//CodedConceptsConversion.addAnswersToHivTest();
 		PatientMigrationTracking.updatePatientIds();
 		PatientMigrationTracking.updatePatientTriageData();
+		PatientMigrationTracking.updatePatientVisits();
+		PatientMigrationTracking.updateAvailableOpdNumbers();
+		PatientMigrationTracking.updatePatientEncounters();
 	}
 	
 }
