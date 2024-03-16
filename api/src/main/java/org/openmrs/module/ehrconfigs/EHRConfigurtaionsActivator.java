@@ -63,6 +63,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		PatientMigrationTracking.updatePatientVisits();
 		PatientMigrationTracking.updateAvailableOpdNumbers();
 		PatientMigrationTracking.updatePatientEncounters();
+		PatientMigrationTracking.updateOpdDrugOrder();
+		PatientMigrationTracking.updatePatientBillingServices();
 	}
 	
 }

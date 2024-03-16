@@ -16,12 +16,15 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.hospitalcore.IdentifierTypes;
+import org.openmrs.module.hospitalcore.InventoryCommonService;
 import org.openmrs.module.hospitalcore.PatientDashboardService;
 import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.IdentifierNumbersGenerator;
+import org.openmrs.module.hospitalcore.model.InventoryDrug;
 import org.openmrs.module.hospitalcore.model.MigrationEncounterTracking;
 import org.openmrs.module.hospitalcore.model.MigrationTracking;
 import org.openmrs.module.hospitalcore.model.MigrationVisitsTracking;
+import org.openmrs.module.hospitalcore.model.OpdDrugOrder;
 import org.openmrs.module.hospitalcore.model.TriagePatientData;
 import org.openmrs.module.hospitalcore.model.TriagePatientQueueLog;
 import org.openmrs.module.hospitalcore.util.DateUtils;
@@ -275,6 +278,131 @@ public class PatientMigrationTracking {
         }
 
 
+    }
+    public static void updateOpdDrugOrder() {
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_opd_drug_order_migration.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
+        Integer opd_drug_order_id = null;
+        Patient patient_id = null;
+        Encounter encounter_id = null;
+        Integer inventory_drug_id = null;
+        Integer formulation_id = null;
+        Integer frequency_concept_id = null;
+        Integer no_of_days = null;
+        String comments = "";
+        User created_by = Context.getAuthenticatedUser();
+        Date created_on = null;
+        Integer order_status = null;
+        Integer cancel_status = null;
+        String referral_ward_name = "";
+        String dosage = "";
+        Integer dosage_unit = null;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                opd_drug_order_id = Integer.valueOf(records[0]);
+                patient_id = getPatient(Integer.parseInt(records[1]));
+                encounter_id = getEncounter(Integer.parseInt(records[2]));
+                inventory_drug_id = Integer.valueOf(records[3]);
+                formulation_id = Integer.valueOf(records[4]);
+                frequency_concept_id = Integer.valueOf(records[5]);
+                no_of_days = Integer.valueOf(records[6]);
+                comments = records[7];
+                created_on = DateUtils.getDateFromString(records[9], "dd/MM/yyyy hh:mm:ss");
+                order_status = Integer.valueOf(records[10]);
+                cancel_status = Integer.valueOf(records[11]);
+                referral_ward_name = records[12];
+                dosage = records[13];
+                dosage_unit = Integer.valueOf(records[14]);
+
+                //Construct an OPD drug order object
+                OpdDrugOrder opdDrugOrder = new OpdDrugOrder();
+                opdDrugOrder.setOpdDrugOrderId(opd_drug_order_id);
+                opdDrugOrder.setPatient(patient_id);
+                opdDrugOrder.setEncounter(encounter_id);
+                opdDrugOrder.setInventoryDrug(Context.getService(InventoryCommonService.class).getDrugById(inventory_drug_id));
+                opdDrugOrder.setInventoryDrugFormulation(Context.getService(InventoryCommonService.class).getDrugFormulationById(formulation_id));
+                opdDrugOrder.setFrequency(Context.getConceptService().getConcept(frequency_concept_id));
+                opdDrugOrder.setNoOfDays(no_of_days);
+                opdDrugOrder.setComments(comments);
+                opdDrugOrder.setCreator(created_by);
+                opdDrugOrder.setCreatedOn(created_on);
+                opdDrugOrder.setOrderStatus(order_status);
+                opdDrugOrder.setCancelStatus(cancel_status);
+                opdDrugOrder.setReferralWardName(referral_ward_name);
+                opdDrugOrder.setDosage(dosage);
+                opdDrugOrder.setDosageUnit(Context.getConceptService().getConcept(dosage_unit));
+                //save an order
+                Context.getService(PatientDashboardService.class).saveOrUpdateOpdDrugOrder(opdDrugOrder);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void updatePatientBillingServices() {
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/billing_patient_service_billmigration.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
+        Integer patient_service_bill_id = null;
+        String description = "";
+        User creator = Context.getAuthenticatedUser();
+        String amount = "";
+        Integer printed = null;
+        Date created_date = null;
+        int voided = 0;
+        //Date voided_date = null;
+        Patient patient_id = null;
+        Integer receipt_id = null;
+        String comment = "";
+        Integer free_bill = null;
+        Integer actual_amount = null;
+        Integer waiver_amount = null;
+        String payment_mode = "";
+        Encounter encounter = null;
+        Integer discharge_status = null;
+        Integer admitted_days = null;
+        String patient_category = "";
+        Integer rebate_amount = null;
+        String category_number = "";
+        String patient_subcategory = "";
+        String transaction_code = "";
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                patient_service_bill_id = Integer.valueOf(records[0]);
+                description = records[1];
+                amount = records[3];
+                printed = Integer.valueOf(records[4]);
+                created_date = DateUtils.getDateFromString(records[5], "dd/MM/yyyy hh:mm:ss");
+                patient_id = getPatient(Integer.parseInt(records[8]));
+                receipt_id = Integer.valueOf(records[9]);
+                comment = records[10];
+                free_bill = Integer.valueOf(records[11]);
+                actual_amount = Integer.valueOf(records[12]);
+                waiver_amount = Integer.valueOf(records[13]);
+                payment_mode = records[14];
+                encounter = getEncounter(Integer.parseInt(records[15]));
+                discharge_status = Integer.valueOf(records[16]);
+                admitted_days = Integer.valueOf(records[17]);
+                patient_category = records[18];
+                rebate_amount = Integer.valueOf(records[19]);
+                category_number = records[20];
+                patient_subcategory = records[21];
+                transaction_code = records[22];
+
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static void updatePatientTriageData() {
 
