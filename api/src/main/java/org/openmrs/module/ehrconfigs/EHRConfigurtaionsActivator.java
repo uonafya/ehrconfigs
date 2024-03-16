@@ -58,13 +58,31 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		CodedConceptsConversion.unRetireConcepts();
 		//CodedConceptsConversion.allowDecimalsInConcepts();
 		//CodedConceptsConversion.addAnswersToHivTest();
+		System.out.println("Starting to update patient demographics");
 		PatientMigrationTracking.updatePatientIds();
+		System.out.println("Done updating patient demographics");
+		System.out.println("Start updating patient triage data");
 		PatientMigrationTracking.updatePatientTriageData();
+		System.out.println("Done updating patient triage data");
+		System.out.println("Starting updating patient Visit data");
 		PatientMigrationTracking.updatePatientVisits();
+		System.out.println("Done updating patient visit data");
+		System.out.println("Start updating patient OPD nummber data");
 		PatientMigrationTracking.updateAvailableOpdNumbers();
+		System.out.println("Done updating patient OPD number data");
+		System.out.println("Start updating patient Encounter data");
 		PatientMigrationTracking.updatePatientEncounters();
+		System.out.println("Done updating patient Encounter data");
+		System.out.println("Start updating patient OPD drug order data");
 		PatientMigrationTracking.updateOpdDrugOrder();
+		System.out.println("Done updating patient OPD Drug data");
+		System.out.println("Start updating patient billing data");
 		PatientMigrationTracking.updatePatientBillingServices();
+		System.out.println("Done updating patient billing data");
+		System.out.println("Start updating patient OPD test order data");
+		PatientMigrationTracking.updateOpdTestOrders();
+		System.out.println("Start importing OBS");
+		PatientMigrationTracking.updatePatientObsData();
 	}
 	
 }

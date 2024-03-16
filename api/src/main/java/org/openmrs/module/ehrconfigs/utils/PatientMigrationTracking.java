@@ -1,6 +1,7 @@
 package org.openmrs.module.ehrconfigs.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
@@ -20,12 +21,14 @@ import org.openmrs.module.hospitalcore.IdentifierTypes;
 import org.openmrs.module.hospitalcore.InventoryCommonService;
 import org.openmrs.module.hospitalcore.PatientDashboardService;
 import org.openmrs.module.hospitalcore.PatientQueueService;
+import org.openmrs.module.hospitalcore.model.BillableService;
 import org.openmrs.module.hospitalcore.model.IdentifierNumbersGenerator;
 import org.openmrs.module.hospitalcore.model.InventoryDrug;
 import org.openmrs.module.hospitalcore.model.MigrationEncounterTracking;
 import org.openmrs.module.hospitalcore.model.MigrationTracking;
 import org.openmrs.module.hospitalcore.model.MigrationVisitsTracking;
 import org.openmrs.module.hospitalcore.model.OpdDrugOrder;
+import org.openmrs.module.hospitalcore.model.OpdTestOrder;
 import org.openmrs.module.hospitalcore.model.PatientServiceBill;
 import org.openmrs.module.hospitalcore.model.TriagePatientData;
 import org.openmrs.module.hospitalcore.model.TriagePatientQueueLog;
@@ -127,6 +130,7 @@ public class PatientMigrationTracking {
                     patient.setDateCreated(new Date());
                     patient.addIdentifier(patientIdentifier);
                     patient.setGender(gender);
+                    patient.setBirthdate(DateUtils.getDateFromString(stripOffTimePartOnString(dob), "MM/dd/yyyy"));
                     //save the patient
                     Patient newPatient = Context.getPatientService().savePatient(patient);
                     //record the tracking history
@@ -181,9 +185,9 @@ public class PatientMigrationTracking {
                 old_visit_id = records[0];
                 patient = getPatient(Integer.parseInt(records[1]));
                 visittype = Context.getVisitService().getVisitTypeByUuid("3371a4d4-f66f-4454-a86d-92c7b3da990c");
-                date_started = DateUtils.getDateFromString(records[3], "dd/MM/yyyy hh:mm:ss");
-                date_stopped = DateUtils.getDateFromString(records[4], "dd/MM/yyyy hh:mm:ss");
-                date_created = DateUtils.getDateFromString(records[8], "dd/MM/yyyy hh:mm:ss");
+                date_started = DateUtils.getDateFromString(records[3], "yyyy-MM-dd hh:mm:ss");
+                date_stopped = DateUtils.getDateFromString(records[4], "yyyy-MM-dd hh:mm:ss");
+                date_created = DateUtils.getDateFromString(records[8], "yyyy-MM-dd hh:mm:ss");
                 location_id = Context.getService(KenyaEmrService.class).getDefaultLocation();
                 creator = Context.getAuthenticatedUser();
 
@@ -248,8 +252,8 @@ public class PatientMigrationTracking {
                 old_encounter_id = Integer.parseInt(records[0]);
                 encounter_type = getEncounterType(Integer.parseInt(records[1]));
                 patient = getPatient(Integer.parseInt(records[2]));
-                encounter_datetime = DateUtils.getDateFromString(records[5], "dd/MM/yyyy hh:mm:ss");
-                date_created = DateUtils.getDateFromString(records[7], "dd/MM/yyyy hh:mm:ss");
+                encounter_datetime = DateUtils.getDateFromString(records[5], "yyyy-MM-dd hh:mm:ss");
+                date_created = DateUtils.getDateFromString(records[7], "yyyy-MM-dd hh:mm:ss");
                 visit_id = getVisit(Integer.parseInt(records[14]));
 
                 Encounter encounter = new Encounter();
@@ -280,6 +284,73 @@ public class PatientMigrationTracking {
         }
 
 
+    }
+    public static void updateOpdTestOrders(){
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/opd_test_order_migration.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
+        Integer opd_order_id = null;
+        Patient patient_id = null;
+        Encounter encounter_id = null;
+        Concept concept_id = null;
+        Integer type_concept = null;
+        Concept value_coded = null;
+        User created_by = Context.getAuthenticatedUser();
+        Date created_on = null;
+        Integer billing_status = null;
+        Integer cancel_status = null;
+        BillableService billable_service_id = null;
+        Date schedule_date = null;
+        Integer indoor_status = null;
+        String referral_ward_name = null;
+        Integer service_type = null;
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                //start populating the object
+                opd_order_id = Integer.valueOf(records[0]);
+                patient_id = getPatient(Integer.parseInt(records[1]));
+                encounter_id = getEncounter(Integer.parseInt(records[2]));
+                concept_id = Context.getConceptService().getConcept(records[3]);
+                type_concept = Integer.valueOf(records[4]);
+                value_coded = Context.getConceptService().getConcept(records[5]);
+                created_on = DateUtils.getDateFromString(records[7], "yyyy-MM-dd hh:mm:ss");
+                billing_status = Integer.valueOf(records[8]);
+                cancel_status = Integer.valueOf(records[9]);
+                billable_service_id = Context.getService(BillingService.class).getServiceById(Integer.valueOf(records[10]));
+                schedule_date = DateUtils.getDateFromString(records[11], "yyyy-MM-dd hh:mm:ss");
+                indoor_status = Integer.valueOf(records[12]);
+                referral_ward_name = records[13];
+                service_type = Integer.valueOf(records[14]);
+                //construct the object here
+                OpdTestOrder opdTestOrder = new OpdTestOrder();
+                opdTestOrder.setOpdOrderId(opd_order_id);
+                opdTestOrder.setPatient(patient_id);
+                opdTestOrder.setEncounter(encounter_id);
+                opdTestOrder.setConcept(concept_id);
+                opdTestOrder.setTypeConcept(type_concept);
+                opdTestOrder.setValueCoded(value_coded);
+                opdTestOrder.setCreator(created_by);
+                opdTestOrder.setCreatedOn(created_on);
+                opdTestOrder.setBillingStatus(billing_status);
+                opdTestOrder.setCancelStatus(cancel_status);
+                opdTestOrder.setBillableService(billable_service_id);
+                opdTestOrder.setScheduleDate(schedule_date);
+                opdTestOrder.setIndoorStatus(indoor_status);
+                opdTestOrder.setFromDept(referral_ward_name);
+                opdTestOrder.setServiceType(service_type);
+                //Save the object
+                Context.getService(PatientDashboardService.class).saveOrUpdateOpdOrder(opdTestOrder);
+
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static void updateOpdDrugOrder() {
         InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_opd_drug_order_migration.csv");
@@ -460,19 +531,19 @@ public class PatientMigrationTracking {
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
 
-                weight = stripNullFromString(records[3]);
-                height = stripNullFromString(records[4]);
-                temperature = stripNullFromString(records[5]);
-                systolic = stripNullFromString(records[6]);
-                daistolic = stripNullFromString(records[7]);
-                respiratoryRate = stripNullFromString(records[8]);
-                pulsRate = stripNullFromString(records[9]);
-                createdOn = DateUtils.getDateFromString(records[14], "dd/MM/yyyy hh:mm:ss");
-                mua = stripNullFromString(records[15]);
-                chest = stripNullFromString(records[16]);
-                abdominal = stripNullFromString(records[17]);
-                oxygenSaturation = stripNullFromString(records[20]);
-                patient = stripNullFromString(records[21]);
+                weight = stripNullFromString(records[2]);
+                height = stripNullFromString(records[3]);
+                temperature = stripNullFromString(records[4]);
+                systolic = stripNullFromString(records[5]);
+                daistolic = stripNullFromString(records[6]);
+                respiratoryRate = stripNullFromString(records[7]);
+                pulsRate = stripNullFromString(records[8]);
+                createdOn = DateUtils.getDateFromString(records[13], "yyyy-MM-dd hh:mm:ss");
+                mua = stripNullFromString(records[14]);
+                chest = stripNullFromString(records[15]);
+                abdominal = stripNullFromString(records[16]);
+                oxygenSaturation = stripNullFromString(records[19]);
+                patient = stripNullFromString(records[20]);
 
                 //
                 TriagePatientData triagePatientData = new TriagePatientData();
