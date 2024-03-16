@@ -14,6 +14,7 @@ import org.openmrs.Visit;
 import org.openmrs.VisitType;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.hospitalcore.BillingService;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
 import org.openmrs.module.hospitalcore.IdentifierTypes;
 import org.openmrs.module.hospitalcore.InventoryCommonService;
@@ -25,6 +26,7 @@ import org.openmrs.module.hospitalcore.model.MigrationEncounterTracking;
 import org.openmrs.module.hospitalcore.model.MigrationTracking;
 import org.openmrs.module.hospitalcore.model.MigrationVisitsTracking;
 import org.openmrs.module.hospitalcore.model.OpdDrugOrder;
+import org.openmrs.module.hospitalcore.model.PatientServiceBill;
 import org.openmrs.module.hospitalcore.model.TriagePatientData;
 import org.openmrs.module.hospitalcore.model.TriagePatientQueueLog;
 import org.openmrs.module.hospitalcore.util.DateUtils;
@@ -350,28 +352,28 @@ public class PatientMigrationTracking {
         String cvsSplitBy = ",";
         String headLine = "";
         Integer patient_service_bill_id = null;
-        String description = "";
+        String description = null;
         User creator = Context.getAuthenticatedUser();
-        String amount = "";
+        String amount = null;
         Integer printed = null;
         Date created_date = null;
-        int voided = 0;
+        //int voided = 0;
         //Date voided_date = null;
         Patient patient_id = null;
         Integer receipt_id = null;
-        String comment = "";
+        String comment = null;
         Integer free_bill = null;
         Integer actual_amount = null;
         Integer waiver_amount = null;
-        String payment_mode = "";
+        String payment_mode = null;
         Encounter encounter = null;
         Integer discharge_status = null;
         Integer admitted_days = null;
-        String patient_category = "";
-        Integer rebate_amount = null;
-        String category_number = "";
-        String patient_subcategory = "";
-        String transaction_code = "";
+        String patient_category = null;
+        String rebate_amount = null;
+        String category_number = null;
+        String patient_subcategory = null;
+        String transaction_code = null;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
             headLine = br.readLine();
@@ -393,10 +395,37 @@ public class PatientMigrationTracking {
                 discharge_status = Integer.valueOf(records[16]);
                 admitted_days = Integer.valueOf(records[17]);
                 patient_category = records[18];
-                rebate_amount = Integer.valueOf(records[19]);
+                rebate_amount = records[19];
                 category_number = records[20];
                 patient_subcategory = records[21];
                 transaction_code = records[22];
+                //Construct the object as expected
+                PatientServiceBill patientServiceBill = new PatientServiceBill();
+                patientServiceBill.setPatientServiceBillId(patient_service_bill_id);
+                patientServiceBill.setDescription(description);
+                patientServiceBill.setAmount(new BigDecimal(amount));
+                patientServiceBill.setPrinted(getBooleanStatus(printed));
+                patientServiceBill.setCreatedDate(created_date);
+                patientServiceBill.setCreator(creator);
+                patientServiceBill.setPatient(patient_id);
+                patientServiceBill.setReceipt(Context.getService(BillingService.class).getPatientServiceBillByReceiptId(receipt_id).getReceipt());
+                patientServiceBill.setComment(comment);
+                patientServiceBill.setFreeBill(free_bill);
+                patientServiceBill.setActualAmount(new BigDecimal(actual_amount));
+                patientServiceBill.setWaiverAmount(new BigDecimal(waiver_amount));
+                patientServiceBill.setPaymentMode(payment_mode);
+                patientServiceBill.setEncounter(encounter);
+                patientServiceBill.setDischargeStatus(discharge_status);
+                patientServiceBill.setAdmittedDays(admitted_days);
+                patientServiceBill.setPatientCategory(patient_category);
+                patientServiceBill.setRebateAmount(new BigDecimal(rebate_amount));
+                patientServiceBill.setCategoryNumber(category_number);
+                patientServiceBill.setPatientSubCategory(patient_subcategory);
+                patientServiceBill.setTransactionCode(transaction_code);
+                patientServiceBill.setVoided(false);
+
+                //save the patient service bill
+                Context.getService(BillingService.class).savePatientServiceBill(patientServiceBill);
 
             }
         }
@@ -670,5 +699,13 @@ public class PatientMigrationTracking {
             encounter = Context.getEncounterService().getEncounter(getEncounterIds.get(encounterId));
         }
         return encounter;
+    }
+
+    static boolean getBooleanStatus(int value){
+        boolean status = false;
+        if(value == 1) {
+            status = true;
+        }
+        return status;
     }
 }
