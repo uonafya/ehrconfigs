@@ -17,13 +17,11 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.BillingService;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
-import org.openmrs.module.hospitalcore.IdentifierTypes;
 import org.openmrs.module.hospitalcore.InventoryCommonService;
 import org.openmrs.module.hospitalcore.PatientDashboardService;
 import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.BillableService;
 import org.openmrs.module.hospitalcore.model.IdentifierNumbersGenerator;
-import org.openmrs.module.hospitalcore.model.InventoryDrug;
 import org.openmrs.module.hospitalcore.model.MigrationEncounterTracking;
 import org.openmrs.module.hospitalcore.model.MigrationTracking;
 import org.openmrs.module.hospitalcore.model.MigrationVisitsTracking;
@@ -31,9 +29,7 @@ import org.openmrs.module.hospitalcore.model.OpdDrugOrder;
 import org.openmrs.module.hospitalcore.model.OpdTestOrder;
 import org.openmrs.module.hospitalcore.model.PatientServiceBill;
 import org.openmrs.module.hospitalcore.model.TriagePatientData;
-import org.openmrs.module.hospitalcore.model.TriagePatientQueueLog;
 import org.openmrs.module.hospitalcore.util.DateUtils;
-import org.openmrs.module.hospitalcore.util.HospitalCoreUtils;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
@@ -101,10 +97,10 @@ public class PatientMigrationTracking {
                     }
 
                     if(StringUtils.isNotBlank(family_name)) {
-                        personName.setGivenName(StringUtils.deleteWhitespace(family_name));
+                        personName.setFamilyName(StringUtils.deleteWhitespace(family_name));
                     }
                     if(StringUtils.isNotBlank(middle_name)) {
-                        personName.setGivenName(StringUtils.deleteWhitespace(middle_name));
+                        personName.setMiddleName(StringUtils.deleteWhitespace(middle_name));
                     }
                     personName.setCreator(Context.getAuthenticatedUser());
                     personName.setDateCreated(new Date());
@@ -122,28 +118,29 @@ public class PatientMigrationTracking {
                     patientIdentifier.setDateCreated(new Date());
                     patientIdentifier.setPreferred(true);
 
-
-                    //create the patient
-                    Patient patient = new Patient();
-                    patient.addName(personName);
-                    patient.setCreator(Context.getAuthenticatedUser());
-                    patient.setDateCreated(new Date());
-                    patient.addIdentifier(patientIdentifier);
-                    patient.setGender(gender);
-                    patient.setBirthdate(DateUtils.getDateFromString(stripOffTimePartOnString(dob), "MM/dd/yyyy"));
-                    //save the patient
-                    Patient newPatient = Context.getPatientService().savePatient(patient);
-                    //record the tracking history
-                    MigrationTracking migrationTracking = new MigrationTracking();
-                    migrationTracking.setCreatedBy(Context.getAuthenticatedUser().getUserId());
-                    migrationTracking.setOldPatientId(oldPatientId);
-                    migrationTracking.setNewPatientId(newPatient.getPatientId());
-                    migrationTracking.setOpenmrsId(generated);
-                    migrationTracking.setCreatedOn(new Date());
-                    //save the migration tracking
-                    Context.getService(HospitalCoreService.class).createMigrationPatientTrackingDetails(migrationTracking);
-                    track++;
-                    System.out.println("Saved patient number "+track);
+                    if(Context.getService(HospitalCoreService.class).getMigrationPatientTrackingDetailsByOldPatientId(oldPatientId) == null) {
+                        //create the patient
+                        Patient patient = new Patient();
+                        patient.addName(personName);
+                        patient.setCreator(Context.getAuthenticatedUser());
+                        patient.setDateCreated(new Date());
+                        patient.addIdentifier(patientIdentifier);
+                        patient.setGender(gender);
+                        patient.setBirthdate(DateUtils.getDateFromString(stripOffTimePartOnString(dob), "MM/dd/yyyy"));
+                        //save the patient
+                        Patient newPatient = Context.getPatientService().savePatient(patient);
+                        //record the tracking history
+                        MigrationTracking migrationTracking = new MigrationTracking();
+                        migrationTracking.setCreatedBy(Context.getAuthenticatedUser().getUserId());
+                        migrationTracking.setOldPatientId(oldPatientId);
+                        migrationTracking.setNewPatientId(newPatient.getPatientId());
+                        migrationTracking.setOpenmrsId(generated);
+                        migrationTracking.setCreatedOn(new Date());
+                        //save the migration tracking
+                        Context.getService(HospitalCoreService.class).createMigrationPatientTrackingDetails(migrationTracking);
+                        track++;
+                        System.out.println("Saved patient number " + track);
+                    }
 
                 }
             }
@@ -164,12 +161,12 @@ public class PatientMigrationTracking {
         String old_visit_id = "";
         Patient patient = null;
         VisitType visittype = null;
-        Date date_started = null;
-        Date date_stopped = null;
+        String date_started = "";
+        String date_stopped = "";
         //indication_concept_id,
         Location location_id = null;
         User creator = null;
-        Date date_created = null;
+        String  date_created = "";
         //changed_by,
         //date_changed,
         //voided;
@@ -177,6 +174,9 @@ public class PatientMigrationTracking {
         //date_voided,
         //void_reason,
         //uuid
+        Date date_started_1 = null;
+        Date date_stopped_1 = null;
+        Date date_created_1 = null;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
             headLine = br.readLine();
@@ -185,34 +185,39 @@ public class PatientMigrationTracking {
                 old_visit_id = records[0];
                 patient = getPatient(Integer.parseInt(records[1]));
                 visittype = Context.getVisitService().getVisitTypeByUuid("3371a4d4-f66f-4454-a86d-92c7b3da990c");
-                date_started = DateUtils.getDateFromString(records[3], "yyyy-MM-dd hh:mm:ss");
-                date_stopped = DateUtils.getDateFromString(records[4], "yyyy-MM-dd hh:mm:ss");
-                date_created = DateUtils.getDateFromString(records[8], "yyyy-MM-dd hh:mm:ss");
+                date_started = getSafeString(records[3]);
+                date_started_1 =  DateUtils.getDateFromString(date_started, "yyyy-MM-dd HH:mm:ss");
+                date_stopped = getSafeString(records[4]);
+                date_stopped_1 = DateUtils.getDateFromString(date_stopped, "yyyy-MM-dd HH:mm:ss");
+
+                date_created = getSafeString(records[8]);
+                date_created_1 =  DateUtils.getDateFromString(date_created, "yyyy-MM-dd HH:mm:ss");
                 location_id = Context.getService(KenyaEmrService.class).getDefaultLocation();
                 creator = Context.getAuthenticatedUser();
+                if(Context.getService(HospitalCoreService.class).getMigrationVisitsTrackingDetailsByOldVisitId(Integer.valueOf(old_visit_id)) == null) {
+                    //create the visit
+                    Visit visit = new Visit();
+                    visit.setVisitType(visittype);
+                    visit.setPatient(patient);
+                    visit.setStartDatetime(date_started_1);
+                    if (date_stopped != null) {
+                        visit.setStartDatetime(date_stopped_1);
+                    }
+                    visit.setCreator(creator);
+                    visit.setDateCreated(date_created_1);
+                    visit.setLocation(location_id);
+                    //save visit
+                    Visit savedVisit = Context.getVisitService().saveVisit(visit);
 
-                //create the visit
-                Visit visit = new Visit();
-                visit.setVisitType(visittype);
-                visit.setPatient(patient);
-                visit.setStartDatetime(date_started);
-                if(date_stopped != null) {
-                    visit.setStartDatetime(date_stopped);
+                    //populate the model to help track the visits
+                    MigrationVisitsTracking migrationVisitsTracking = new MigrationVisitsTracking();
+                    migrationVisitsTracking.setOldVisitId(Integer.valueOf(old_visit_id));
+                    migrationVisitsTracking.setNewVisitId(savedVisit.getVisitId());
+                    migrationVisitsTracking.setCreatedBy(creator.getId());
+                    migrationVisitsTracking.setCreatedOn(new Date());
+                    //save the tracking model
+                    Context.getService(HospitalCoreService.class).createMigrationVisitsTrackingDetails(migrationVisitsTracking);
                 }
-                visit.setCreator(creator);
-                visit.setDateCreated(date_created);
-                visit.setLocation(location_id);
-                //save visit
-                Visit savedVisit = Context.getVisitService().saveVisit(visit);
-
-                //populate the model to help track the visits
-                MigrationVisitsTracking migrationVisitsTracking = new MigrationVisitsTracking();
-                migrationVisitsTracking.setOldVisitId(Integer.valueOf(old_visit_id));
-                migrationVisitsTracking.setNewVisitId(savedVisit.getVisitId());
-                migrationVisitsTracking.setCreatedBy(creator.getId());
-                migrationVisitsTracking.setCreatedOn(new Date());
-                //save the tracking model
-                Context.getService(HospitalCoreService.class).createMigrationVisitsTrackingDetails(migrationVisitsTracking);
             }
         }
         catch (IOException e) {
@@ -243,6 +248,8 @@ public class PatientMigrationTracking {
         //date_changed;
         Visit visit_id = null;
         //uuid;
+        String encounter_datetime_1 = "";
+        String date_created_1 = "";
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
             headLine = br.readLine();
@@ -252,29 +259,32 @@ public class PatientMigrationTracking {
                 old_encounter_id = Integer.parseInt(records[0]);
                 encounter_type = getEncounterType(Integer.parseInt(records[1]));
                 patient = getPatient(Integer.parseInt(records[2]));
-                encounter_datetime = DateUtils.getDateFromString(records[5], "yyyy-MM-dd hh:mm:ss");
-                date_created = DateUtils.getDateFromString(records[7], "yyyy-MM-dd hh:mm:ss");
+                encounter_datetime_1 = getSafeString(records[5]);
+                date_created_1 = getSafeString(records[7]);
+                encounter_datetime = DateUtils.getDateFromString(encounter_datetime_1, "yyyy-MM-dd HH:mm:ss");
+                date_created = DateUtils.getDateFromString(date_created_1, "yyyy-MM-dd HH:mm:ss");
                 visit_id = getVisit(Integer.parseInt(records[14]));
-
-                Encounter encounter = new Encounter();
-                encounter.setEncounterDatetime(encounter_datetime);
-                encounter.setPatient(patient);
-                encounter.setDateCreated(date_created);
-                encounter.setEncounterType(encounter_type);
-                encounter.setVisit(visit_id);
-                encounter.setCreator(creator);
-                encounter.setLocation(location);
-                encounter.setProvider(EhrConfigsUtils.getDefaultEncounterRole(),
-                        EhrConfigsUtils.getProvider(Context.getAuthenticatedUser().getPerson()));
-                //save the encounter in the database
-                Encounter savedEncounter = Context.getEncounterService().saveEncounter(encounter);
-                //save an object that tracks encounters
-                MigrationEncounterTracking migrationEncounterTracking = new MigrationEncounterTracking();
-                migrationEncounterTracking.setOldEncounterId(old_encounter_id);
-                migrationEncounterTracking.setNewEncounterId(savedEncounter.getEncounterId());
-                migrationEncounterTracking.setCreatedOn(new Date());
-                //Save the object
-                Context.getService(HospitalCoreService.class).createMigrationEncounterTrackingDetails(migrationEncounterTracking);
+                if(Context.getService(HospitalCoreService.class).getMigrationEncounterTrackingDetailsByOldEncounterID(old_encounter_id) == null) {
+                    Encounter encounter = new Encounter();
+                    encounter.setEncounterDatetime(encounter_datetime);
+                    encounter.setPatient(patient);
+                    encounter.setDateCreated(date_created);
+                    encounter.setEncounterType(encounter_type);
+                    encounter.setVisit(visit_id);
+                    encounter.setCreator(creator);
+                    encounter.setLocation(location);
+                    encounter.setProvider(EhrConfigsUtils.getDefaultEncounterRole(),
+                            EhrConfigsUtils.getProvider(Context.getAuthenticatedUser().getPerson()));
+                    //save the encounter in the database
+                    Encounter savedEncounter = Context.getEncounterService().saveEncounter(encounter);
+                    //save an object that tracks encounters
+                    MigrationEncounterTracking migrationEncounterTracking = new MigrationEncounterTracking();
+                    migrationEncounterTracking.setOldEncounterId(old_encounter_id);
+                    migrationEncounterTracking.setNewEncounterId(savedEncounter.getEncounterId());
+                    migrationEncounterTracking.setCreatedOn(new Date());
+                    //Save the object
+                    Context.getService(HospitalCoreService.class).createMigrationEncounterTrackingDetails(migrationEncounterTracking);
+                }
 
             }
 
@@ -318,11 +328,11 @@ public class PatientMigrationTracking {
                 concept_id = Context.getConceptService().getConcept(records[3]);
                 type_concept = Integer.valueOf(records[4]);
                 value_coded = Context.getConceptService().getConcept(records[5]);
-                created_on = DateUtils.getDateFromString(records[7], "yyyy-MM-dd hh:mm:ss");
+                created_on = DateUtils.getDateFromString(getSafeString(records[7]), "yyyy-MM-dd hh:mm:ss");
                 billing_status = Integer.valueOf(records[8]);
                 cancel_status = Integer.valueOf(records[9]);
                 billable_service_id = Context.getService(BillingService.class).getServiceById(Integer.valueOf(records[10]));
-                schedule_date = DateUtils.getDateFromString(records[11], "yyyy-MM-dd hh:mm:ss");
+                schedule_date = DateUtils.getDateFromString(getSafeString(records[11]), "yyyy-MM-dd hh:mm:ss");
                 indoor_status = Integer.valueOf(records[12]);
                 referral_ward_name = records[13];
                 service_type = Integer.valueOf(records[14]);
@@ -385,7 +395,7 @@ public class PatientMigrationTracking {
                 frequency_concept_id = Integer.valueOf(records[5]);
                 no_of_days = Integer.valueOf(records[6]);
                 comments = records[7];
-                created_on = DateUtils.getDateFromString(records[9], "dd/MM/yyyy hh:mm:ss");
+                created_on = DateUtils.getDateFromString(getSafeString(records[9]), "dd/MM/yyyy hh:mm:ss");
                 order_status = Integer.valueOf(records[10]);
                 cancel_status = Integer.valueOf(records[11]);
                 referral_ward_name = records[12];
@@ -454,7 +464,7 @@ public class PatientMigrationTracking {
                 description = records[1];
                 amount = records[3];
                 printed = Integer.valueOf(records[4]);
-                created_date = DateUtils.getDateFromString(records[5], "dd/MM/yyyy hh:mm:ss");
+                created_date = DateUtils.getDateFromString(getSafeString(records[5]), "dd/MM/yyyy hh:mm:ss");
                 patient_id = getPatient(Integer.parseInt(records[8]));
                 receipt_id = Integer.valueOf(records[9]);
                 comment = records[10];
@@ -516,7 +526,8 @@ public class PatientMigrationTracking {
         String daistolic;
         String respiratoryRate;
         String pulsRate;
-        Date createdOn;
+        String  createdOn = "";
+        Date convertedCreatedOn = null;
         String oxygenSaturation;
         String patient;
         String weight;
@@ -538,7 +549,8 @@ public class PatientMigrationTracking {
                 daistolic = stripNullFromString(records[6]);
                 respiratoryRate = stripNullFromString(records[7]);
                 pulsRate = stripNullFromString(records[8]);
-                createdOn = DateUtils.getDateFromString(records[13], "yyyy-MM-dd hh:mm:ss");
+                createdOn = getSafeString(records[13]);
+                convertedCreatedOn = DateUtils.getDateFromString(createdOn, "yyyy-MM-dd HH:mm:ss");
                 mua = stripNullFromString(records[14]);
                 chest = stripNullFromString(records[15]);
                 abdominal = stripNullFromString(records[16]);
@@ -548,7 +560,7 @@ public class PatientMigrationTracking {
                 //
                 TriagePatientData triagePatientData = new TriagePatientData();
                 if(createdOn != null) {
-                    triagePatientData.setCreatedOn(createdOn);
+                    triagePatientData.setCreatedOn(convertedCreatedOn);
                 }
                 if(StringUtils.isNotBlank(weight)) {
                     triagePatientData.setWeight(new BigDecimal(weight));
@@ -606,6 +618,13 @@ public class PatientMigrationTracking {
         String cvsSplitBy = ",";
         String headLine = "";
 
+    }
+
+    public static void updatePersonAddress() {
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/person_address_migration.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
     }
     static boolean checkIfSimilarPatientExistsBasedOnMohId(String mohID) {
         PatientService patientService = Context.getPatientService();
@@ -778,5 +797,8 @@ public class PatientMigrationTracking {
             status = true;
         }
         return status;
+    }
+    static String getSafeString(String str){
+        return str.replaceAll("^\"|\"$", "");
     }
 }

@@ -59,10 +59,10 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//CodedConceptsConversion.allowDecimalsInConcepts();
 		//CodedConceptsConversion.addAnswersToHivTest();
 		System.out.println("Starting to update patient demographics");
-		PatientMigrationTracking.updatePatientIds();
+		//PatientMigrationTracking.updatePatientIds();
 		System.out.println("Done updating patient demographics");
 		System.out.println("Start updating patient triage data");
-		PatientMigrationTracking.updatePatientTriageData();
+		//PatientMigrationTracking.updatePatientTriageData();
 		System.out.println("Done updating patient triage data");
 		System.out.println("Starting updating patient Visit data");
 		PatientMigrationTracking.updatePatientVisits();
@@ -81,8 +81,13 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		System.out.println("Done updating patient billing data");
 		System.out.println("Start updating patient OPD test order data");
 		PatientMigrationTracking.updateOpdTestOrders();
+		System.out.println("Done updating OPD test orders");
+		System.out.println("Starting to update person address");
+		PatientMigrationTracking.updatePersonAddress();
+		System.out.println("Done updating person address");
 		System.out.println("Start importing OBS");
 		PatientMigrationTracking.updatePatientObsData();
+		System.out.println("Done updating OBS");
 	}
 	
 }
