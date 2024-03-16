@@ -1,6 +1,8 @@
 package org.openmrs.module.ehrconfigs.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
@@ -17,11 +19,13 @@ import org.openmrs.module.hospitalcore.IdentifierTypes;
 import org.openmrs.module.hospitalcore.PatientDashboardService;
 import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.IdentifierNumbersGenerator;
+import org.openmrs.module.hospitalcore.model.MigrationEncounterTracking;
 import org.openmrs.module.hospitalcore.model.MigrationTracking;
 import org.openmrs.module.hospitalcore.model.MigrationVisitsTracking;
 import org.openmrs.module.hospitalcore.model.TriagePatientData;
 import org.openmrs.module.hospitalcore.model.TriagePatientQueueLog;
 import org.openmrs.module.hospitalcore.util.DateUtils;
+import org.openmrs.module.hospitalcore.util.HospitalCoreUtils;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
@@ -214,6 +218,61 @@ public class PatientMigrationTracking {
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
+        int old_encounter_id;
+        EncounterType encounter_type = null;
+        Patient patient = null;
+        Location location = Context.getService(KenyaEmrService.class).getDefaultLocation();
+        //form_id;
+        Date encounter_datetime = null;
+        User creator = Context.getAuthenticatedUser();
+        Date date_created = null;
+        //voided;
+        //voided_by;
+        //date_voided;
+        //void_reason;
+        //changed_by;
+        //date_changed;
+        Visit visit_id = null;
+        //uuid;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+
+                old_encounter_id = Integer.parseInt(records[0]);
+                encounter_type = getEncounterType(Integer.parseInt(records[1]));
+                patient = getPatient(Integer.parseInt(records[2]));
+                encounter_datetime = DateUtils.getDateFromString(records[5], "dd/MM/yyyy hh:mm:ss");
+                date_created = DateUtils.getDateFromString(records[7], "dd/MM/yyyy hh:mm:ss");
+                visit_id = getVisit(Integer.parseInt(records[14]));
+
+                Encounter encounter = new Encounter();
+                encounter.setEncounterDatetime(encounter_datetime);
+                encounter.setPatient(patient);
+                encounter.setDateCreated(date_created);
+                encounter.setEncounterType(encounter_type);
+                encounter.setVisit(visit_id);
+                encounter.setCreator(creator);
+                encounter.setLocation(location);
+                encounter.setProvider(EhrConfigsUtils.getDefaultEncounterRole(),
+                        EhrConfigsUtils.getProvider(Context.getAuthenticatedUser().getPerson()));
+                //save the encounter in the database
+                Encounter savedEncounter = Context.getEncounterService().saveEncounter(encounter);
+                //save an object that tracks encounters
+                MigrationEncounterTracking migrationEncounterTracking = new MigrationEncounterTracking();
+                migrationEncounterTracking.setOldEncounterId(old_encounter_id);
+                migrationEncounterTracking.setNewEncounterId(savedEncounter.getEncounterId());
+                migrationEncounterTracking.setCreatedOn(new Date());
+                //Save the object
+                Context.getService(HospitalCoreService.class).createMigrationEncounterTrackingDetails(migrationEncounterTracking);
+
+            }
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -368,8 +427,7 @@ public class PatientMigrationTracking {
         return patient;
     }
 
-    static Visit
-    getVisit(int visitId) {
+    static Visit getVisit(int visitId) {
         HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
         List<MigrationVisitsTracking> migrationVisitTrackingList = hospitalCoreService.getMigrationVisitsTrackingDetails();
         Map<Integer, Integer> getVisitIds = new HashMap<Integer, Integer>();
@@ -440,5 +498,49 @@ public class PatientMigrationTracking {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    static Map<Integer, String> getEncounterTypeMappings() {
+        Map<Integer, String> encounterMap = new HashMap<Integer, String>();
+        InputStream encounterTypePath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_encounter_type_migration.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(encounterTypePath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                encounterMap.put(Integer.valueOf(records[0]), records[9]);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return encounterMap;
+    }
+
+    static EncounterType getEncounterType(Integer oldEncounterTypeId) {
+        EncounterType encounterType = null;
+        if(!getEncounterTypeMappings().isEmpty() && getEncounterTypeMappings().containsKey(oldEncounterTypeId)) {
+            encounterType = Context.getEncounterService().getEncounterTypeByUuid(getEncounterTypeMappings().get(oldEncounterTypeId));
+        }
+        return encounterType;
+    }
+
+    static Encounter getEncounter(int encounterId) {
+        HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
+        List<MigrationEncounterTracking> migrationEncounterTracking = hospitalCoreService.getMigrationEncounterTrackingDetails();
+        Map<Integer, Integer> getEncounterIds = new HashMap<Integer, Integer>();
+        if(!migrationEncounterTracking.isEmpty()) {
+            for(MigrationEncounterTracking migrationVisitTrackingItem: migrationEncounterTracking) {
+                getEncounterIds.put(migrationVisitTrackingItem.getOldEncounterId(), migrationVisitTrackingItem.getNewEncounterId());
+            }
+        }
+        Encounter encounter = null;
+        if (!getEncounterIds.isEmpty() && getEncounterIds.containsKey(encounterId)) {
+            encounter = Context.getEncounterService().getEncounter(getEncounterIds.get(encounterId));
+        }
+        return encounter;
     }
 }
