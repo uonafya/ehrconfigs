@@ -618,6 +618,77 @@ public class PatientMigrationTracking {
         String cvsSplitBy = ",";
         String headLine = "";
 
+        Integer obs_id = null;//0
+        Integer person_id = null;//1
+        Integer concept_id = null;//2
+        Integer encounter_id = null;//3
+        Integer order_id = null;//4
+        String obs_datetime = "";//5
+        Location location_id = Context.getService(KenyaEmrService.class).getDefaultLocation();//6
+        //obs_group_id,//6
+        String accession_number = "";//7
+        //value_group_id, //8
+        Integer value_coded = null;
+        Integer value_coded_name_id = null;
+        String value_drug = null;
+        String value_datetime = null;
+        Double value_numeric = null;
+        String value_modifier = "";
+        String value_text = "";
+        //String value_complex = "";
+        String comments = "";
+        //creator,
+        String date_created = "";
+        //voided,
+        //voided_by,
+        //date_voided,
+        //void_reason,
+        //uuid,
+        //previous_version,
+        //form_namespace_and_path,
+        String status = "";
+        String interpretation = "";
+
+    }
+
+    public static void updateOrderData() {
+
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/orders_migration.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
+
+        Integer order_id = null; //0
+        Integer order_type_id = null;//1
+        Integer concept_id = null;//2
+        //orderer,
+        Integer encounter_id = null;//4
+        String instructions = "";//5
+        String date_activated = "";//6
+        String auto_expire_date = "";//7
+        String date_stopped = "";//8
+        String order_reason = "";//9
+        String order_reason_non_coded = "";//10
+        //creator,//11
+        String date_created = "";//12
+        //voided,//13
+        //voided_by,//14
+        //date_voided,//15
+        //void_reason,//16
+        Integer patient_id = null;//17
+        String accession_number = "";//18
+        //uuid,//19
+        String urgency = "";//20
+        String order_number = "";//21
+        Integer previous_order_id = null;//22
+        String order_action = "";//23
+        String comment_to_fulfiller = "";//24
+        String care_setting = ""; //25
+        String scheduled_date = "";//26
+        //order_group_id,//27
+        //sort_weight,//28
+        String fulfiller_comment = "";//29
+        String fulfiller_status = "";//30
     }
 
     public static void updatePersonAddress() {
@@ -625,6 +696,33 @@ public class PatientMigrationTracking {
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
+        Integer person_id = null; //1
+        String address1 = ""; //3
+        String address2 = ""; //4
+        String city_village = ""; //5
+        String state_province = ""; //6
+        String postal_code = ""; //7
+        String country = "" ; //8
+        String latitude = ""; //9
+        String longitude = ""; //10
+        String start_date = ""; //11
+        String end_date = ""; //12
+        String date_created = "";//14
+        String county_district = ""; //19
+        String address3 = ""; //20
+        String address4 = ""; //21
+        String address5 = ""; //22
+        String address6 = ""; //23
+        String date_changed = ""; //24
+        String address7 = ""; //27
+        String address8 = ""; //28
+        String address9 = ""; //29
+        String address10 = ""; //30
+        String address11 = ""; //31
+        String address12 = ""; //32
+        String address13 = ""; //33
+        String address14 = ""; //34
+        String address15 = ""; //35
     }
     static boolean checkIfSimilarPatientExistsBasedOnMohId(String mohID) {
         PatientService patientService = Context.getPatientService();
