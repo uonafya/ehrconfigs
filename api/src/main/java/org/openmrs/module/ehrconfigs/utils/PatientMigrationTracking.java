@@ -617,47 +617,112 @@ public class PatientMigrationTracking {
 
     public static void updatePatientObsData() {
 
-        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_obs_1_migration.csv");
+        InputStream obsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_obs_1_migration.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
 
-        Integer obs_id = null;//0
-        Integer person_id = null;//1
-        Integer concept_id = null;//2
-        Integer encounter_id = null;//3
-        Integer order_id = null;//4
+        Integer old_obs_id = null;//0
+        Patient  person_id = null;//1
+        Concept concept_id = null;//2
+        Encounter encounter_id = null;//3
+        Order order_id = null;//4
         String obs_datetime = "";//5
         Location location_id = Context.getService(KenyaEmrService.class).getDefaultLocation();//6
-        //obs_group_id,//6
-        String accession_number = "";//7
-        //value_group_id, //8
-        Integer value_coded = null;
-        Integer value_coded_name_id = null;
-        String value_drug = null;
-        String value_datetime = null;
-        Double value_numeric = null;
-        String value_modifier = "";
-        String value_text = "";
-        //String value_complex = "";
-        String comments = "";
-        //creator,
-        String date_created = "";
-        //voided,
-        //voided_by,
-        //date_voided,
-        //void_reason,
-        //uuid,
-        //previous_version,
-        //form_namespace_and_path,
-        String status = "";
-        String interpretation = "";
+        //obs_group_id,//7
+        //String accession_number = "";//8
+        //value_group_id, //9
+        Concept value_coded = null; //10
+        //Integer value_coded_name_id = null; //11
+        //String value_drug = null; //12
+        String value_datetime = null; //13
+        Double value_numeric = null;//14
+        //String value_modifier = "";//15
+        String value_text = ""; //16
+        //String value_complex = "";//17
+        String comments = "";//18
+        //creator,//19
+        String date_created = "";//20
+        //voided,//21
+        //voided_by,//22
+        //date_voided,//23
+        //void_reason,//24
+        //uuid,//25
+        //previous_version,//26
+        //form_namespace_and_path,//27
+        String status = "";//28
+        String interpretation = "";//29
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(obsPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                old_obs_id = Integer.valueOf(records[0]);
+                if(getLastMigrationObsTracking() != null && !(getLastMigrationObsTracking().getOldObsId().equals(old_obs_id))) {
+                    //get into the observations populating
+                    person_id = getPatient(Integer.parseInt(records[1]));
+                    concept_id = Context.getConceptService().getConcept(records[2]);
+                    encounter_id = getEncounter(Integer.parseInt(records[3]));
+                    order_id = getOrders(Integer.parseInt(records[4]));
+                    obs_datetime = records[5];
+                    Date obs_datetime_converted = DateUtils.getDateFromString(obs_datetime, "yyyy-MM-dd HH:mm:ss");
+                    value_coded = Context.getConceptService().getConcept(records[10]);
+                    value_datetime = records[13];
+                    Date value_datetime_converted = DateUtils.getDateFromString(value_datetime, "yyyy-MM-dd HH:mm:ss");
+                    value_numeric = Double.valueOf(records[14]);
+                    value_text = records[16];
+                    comments = records[18];
+                    date_created = records[20];
+                    Date date_created_converted = DateUtils.getDateFromString(date_created, "yyyy-MM-dd HH:mm:ss");
+                    status = records[28];
+
+                    //construct an observation row
+                    Obs obs = new Obs();
+                    obs.setObsDatetime(obs_datetime_converted);
+                    obs.setPerson(person_id);
+                    obs.setConcept(concept_id);
+                    obs.setEncounter(encounter_id);
+                    if(order_id != null) {
+                        obs.setOrder(order_id);
+                    }
+                    if(value_coded != null) {
+                        obs.setValueCoded(value_coded);
+                    }
+                    if(value_datetime_converted != null) {
+                        obs.setValueDatetime(value_datetime_converted);
+                    }
+                    if(value_numeric != null) {
+                        obs.setValueNumeric(value_numeric);
+                    }
+                    if(StringUtils.isNotBlank(comments)) {
+                        obs.setComment(comments);
+                    }
+                    if(date_created_converted != null) {
+                        obs.setDateCreated(date_created_converted);
+                    }
+                    if(StringUtils.isNotBlank(value_text)) {
+                        obs.setValueText(value_text);
+                    }
+                    //Save the obs
+                    Obs savedObs = Context.getObsService().saveObs(obs, "Data migration");
+                    //save the Migation Obs tracker
+                    MigrationObsTracking migrationObsTracking = new MigrationObsTracking();
+                    migrationObsTracking.setOldObsId(old_obs_id);
+                    migrationObsTracking.setNewObsId(savedObs.getObsId());
+                    Context.getService(HospitalCoreService.class).createMigrationObsTrackingDetails(migrationObsTracking);
+
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public static void updateOrderData() {
 
-        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/orders_migration.csv");
+        InputStream ordersPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/orders_migration.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -693,10 +758,20 @@ public class PatientMigrationTracking {
         //sort_weight,//28
         String fulfiller_comment = "";//29
         String fulfiller_status = "";//30
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(ordersPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void updatePersonAddress() {
-        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/person_address_migration.csv");
+        InputStream addressPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/person_address_migration.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -727,6 +802,16 @@ public class PatientMigrationTracking {
         String address13 = ""; //33
         String address14 = ""; //34
         String address15 = ""; //35
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(addressPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     static boolean checkIfSimilarPatientExistsBasedOnMohId(String mohID) {
         PatientService patientService = Context.getPatientService();
@@ -944,4 +1029,5 @@ public class PatientMigrationTracking {
         }
         return orderTypeMap;
     }
+
 }
