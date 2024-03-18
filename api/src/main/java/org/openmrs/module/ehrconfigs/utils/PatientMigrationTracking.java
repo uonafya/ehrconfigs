@@ -5,6 +5,8 @@ import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
@@ -23,6 +25,8 @@ import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.BillableService;
 import org.openmrs.module.hospitalcore.model.IdentifierNumbersGenerator;
 import org.openmrs.module.hospitalcore.model.MigrationEncounterTracking;
+import org.openmrs.module.hospitalcore.model.MigrationObsTracking;
+import org.openmrs.module.hospitalcore.model.MigrationOrders;
 import org.openmrs.module.hospitalcore.model.MigrationTracking;
 import org.openmrs.module.hospitalcore.model.MigrationVisitsTracking;
 import org.openmrs.module.hospitalcore.model.OpdDrugOrder;
@@ -898,5 +902,46 @@ public class PatientMigrationTracking {
     }
     static String getSafeString(String str){
         return str.replaceAll("^\"|\"$", "");
+    }
+
+    static Order getOrders(int orderId) {
+        HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
+        List<MigrationOrders> migrationOrders = hospitalCoreService.getMigrationOrdersDetails();
+        Map<Integer, Integer> getOrdersIds = new HashMap<Integer, Integer>();
+        if(!migrationOrders.isEmpty()) {
+            for(MigrationOrders migrationOrdersItem: migrationOrders) {
+                getOrdersIds.put(migrationOrdersItem.getOldOrderId(), migrationOrdersItem.getNewOrderId());
+            }
+        }
+        Order order = null;
+        if (!getOrdersIds.isEmpty() && getOrdersIds.containsKey(orderId)) {
+            order = Context.getOrderService().getOrder(getOrdersIds.get(orderId));
+        }
+        return order;
+    }
+
+    static MigrationObsTracking getLastMigrationObsTracking() {
+        return Context.getService(HospitalCoreService.class).getLastMigrationObsTracking();
+
+    }
+
+    static Map<Integer, String> getOrderTypeMappings() {
+        Map<Integer, String> orderTypeMap = new HashMap<Integer, String>();
+        InputStream orderTypePath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/orders_type_migration.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(orderTypePath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                orderTypeMap.put(Integer.valueOf(records[0]), records[9]);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return orderTypeMap;
     }
 }

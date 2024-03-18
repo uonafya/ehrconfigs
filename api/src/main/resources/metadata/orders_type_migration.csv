@@ -1,0 +1,4 @@
+order_type_id,name,description,creator,date_created,retired,retired_by,date_retired,retire_reason,uuid,java_class_name,parent,changed_by,date_changed
+2,"Drug Order","An order for a medication to be given to the patient",2,"2010-05-12 00:00:00",0,NULL,NULL,NULL,131168f4-15f5-102d-96e4-000c29c2a5d7,org.openmrs.DrugOrder,NULL,2,"2021-07-28 10:26:31"
+3,"Test Order","Order type for test orders",1,"2014-03-09 00:00:00",0,NULL,NULL,NULL,52a447d3-a64a-11e3-9aeb-50e549534c5e,org.openmrs.TestOrder,NULL,NULL,NULL
+4,"Radiology Order","This defines investigation orders for radiology/ultrasound raised at billing",1,"2021-09-09 19:30:12",0,NULL,NULL,NULL,b554bb28-29a6-11eb-8daa-377c8e081a2c,org.openmrs.TestOrder,NULL,NULL,NULL
