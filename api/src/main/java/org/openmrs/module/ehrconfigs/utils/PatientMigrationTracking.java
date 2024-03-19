@@ -1,20 +1,25 @@
 package org.openmrs.module.ehrconfigs.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
+import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
+import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
+import org.openmrs.api.OrderContext;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.BillingService;
@@ -34,6 +39,7 @@ import org.openmrs.module.hospitalcore.model.OpdTestOrder;
 import org.openmrs.module.hospitalcore.model.PatientServiceBill;
 import org.openmrs.module.hospitalcore.model.TriagePatientData;
 import org.openmrs.module.hospitalcore.util.DateUtils;
+import org.openmrs.module.hospitalcore.util.HospitalCoreUtils;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
@@ -726,43 +732,95 @@ public class PatientMigrationTracking {
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
-
         Integer order_id = null; //0
-        Integer order_type_id = null;//1
-        Integer concept_id = null;//2
-        //orderer,
-        Integer encounter_id = null;//4
+        OrderType order_type_id = null;//1
+        Concept concept_id = null;//2
+        Provider orderer = HospitalCoreUtils.getProvider(Context.getAuthenticatedUser().getPerson());
+        Encounter encounter_id = null;//4
         String instructions = "";//5
         String date_activated = "";//6
         String auto_expire_date = "";//7
         String date_stopped = "";//8
-        String order_reason = "";//9
+        Concept order_reason = null;//9
         String order_reason_non_coded = "";//10
-        //creator,//11
+        User creator = Context.getAuthenticatedUser();
         String date_created = "";//12
         //voided,//13
         //voided_by,//14
         //date_voided,//15
         //void_reason,//16
-        Integer patient_id = null;//17
+        Patient patient_id = null;//17
         String accession_number = "";//18
         //uuid,//19
-        String urgency = "";//20
+        Order.Urgency urgency = Order.Urgency.ROUTINE;//20
         String order_number = "";//21
-        Integer previous_order_id = null;//22
-        String order_action = "";//23
+        //Integer previous_order_id = null;//22
+        Order.Action action = Order.Action.NEW;;//23
         String comment_to_fulfiller = "";//24
-        String care_setting = ""; //25
+        CareSetting careSetting = Context.getOrderService().getCareSettingByUuid("6f0c9a92-6f24-11e3-af88-005056821db0"); //25
         String scheduled_date = "";//26
         //order_group_id,//27
         //sort_weight,//28
         String fulfiller_comment = "";//29
-        String fulfiller_status = "";//30
+        Order.FulfillerStatus fulfillerStatus = Order.FulfillerStatus.COMPLETED;//30
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(ordersPath, "UTF-8"));
             headLine = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
+                order_id = Integer.valueOf(records[0]);
+                order_type_id = getOrderType(Integer.parseInt(records[1]));
+                concept_id = Context.getConceptService().getConcept(records[2]);
+                encounter_id = getEncounter(Integer.parseInt(records[4]));
+                instructions = records[5];
+                date_activated = records[6];
+                Date date_activated_1 = DateUtils.getDateFromString(date_activated, "yyyy-MM-dd HH:mm:ss");
+                auto_expire_date = records[7];
+                Date auto_expire_date_1 = DateUtils.getDateFromString(auto_expire_date, "yyyy-MM-dd HH:mm:ss");
+                date_stopped = records[8];
+                Date date_stopped_1 = DateUtils.getDateFromString(date_stopped, "yyyy-MM-dd HH:mm:ss");
+                order_reason = Context.getConceptService().getConcept(records[9]);
+                order_reason_non_coded = records[10];
+                date_created = records[12];
+                Date date_created_1 = DateUtils.getDateFromString(date_created, "yyyy-MM-dd HH:mm:ss");
+                patient_id = getPatient(Integer.parseInt(records[17]));
+                accession_number = records[18];
+                order_number = records[21];
+                comment_to_fulfiller = records[24];
+                scheduled_date = records[26];
+                Date scheduled_date_1 = DateUtils.getDateFromString(scheduled_date, "yyyy-MM-dd HH:mm:ss");
+                fulfiller_comment = records[29];
+
+                //create order
+                Order order = new Order();
+                order.setOrderType(order_type_id);
+                order.setOrderer(orderer);
+                order.setPatient(patient_id);
+                order.setOrderReason(order_reason);
+                order.setAccessionNumber(accession_number);
+                order.setAction(action);
+                order.setAutoExpireDate(auto_expire_date_1);
+                order.setConcept(concept_id);
+                order.setCareSetting(careSetting);
+                order.setCommentToFulfiller(comment_to_fulfiller);
+                order.setDateActivated(date_activated_1);
+                order.setCreator(creator);
+                order.setEncounter(encounter_id);
+                order.setInstructions(instructions);
+                order.setOrderReasonNonCoded(order_reason_non_coded);
+                order.setDateCreated(date_created_1);
+                order.setFulfillerComment(fulfiller_comment);
+                order.setScheduledDate(scheduled_date_1);
+                order.setUrgency(urgency);
+
+                //save the order to backend
+                Order saveOrder = Context.getOrderService().saveOrder(order, null);
+                //populate the migration order tracking map
+                MigrationOrders migrationOrders = new MigrationOrders();
+                migrationOrders.setOldOrderId(order_id);
+                migrationOrders.setNewOrderId(saveOrder.getOrderId());
+                //save the migration order
+                Context.getService(HospitalCoreService.class).createMigrationOrdersTrackingDetails(migrationOrders);
             }
         }
         catch (IOException e) {
@@ -775,7 +833,7 @@ public class PatientMigrationTracking {
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
-        Integer person_id = null; //1
+        Person person_id = null; //1
         String address1 = ""; //3
         String address2 = ""; //4
         String city_village = ""; //5
@@ -792,7 +850,7 @@ public class PatientMigrationTracking {
         String address4 = ""; //21
         String address5 = ""; //22
         String address6 = ""; //23
-        String date_changed = ""; //24
+        //String date_changed = ""; //24
         String address7 = ""; //27
         String address8 = ""; //28
         String address9 = ""; //29
@@ -807,6 +865,120 @@ public class PatientMigrationTracking {
             headLine = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
+                person_id = getPatient(Integer.parseInt(records[1]));
+                address1 = records[3];
+                address2 = records[4];
+                city_village = records[5];
+                state_province = records[6];
+                postal_code = records[7];
+                country = records[8];
+                latitude = records[9];
+                longitude = records[10];
+                start_date = records[11];
+                Date start_date_1 = DateUtils.getDateFromString(start_date, "yyyy-MM-dd HH:mm:ss");
+                end_date = records[12];
+                Date end_date_1 = DateUtils.getDateFromString(end_date, "yyyy-MM-dd HH:mm:ss");
+                date_created = records[14];
+                Date date_created_1 = DateUtils.getDateFromString(date_created, "yyyy-MM-dd HH:mm:ss");
+                county_district = records[19];
+                address3 = records[20];
+                address4 = records[21];
+                address5 = records[22];
+                address6 = records[23];
+                address7 = records[27];
+                address8 = records[28];
+                address9 = records[29];
+                address10 = records[30];
+                address11 = records[31];
+                address12 = records[32];
+                address13 = records[33];
+                address14 = records[34];
+                address15 = records[35];
+
+                //construct a person address
+                PersonAddress personAddress = new PersonAddress();
+                personAddress.setCreator(Context.getAuthenticatedUser());
+                personAddress.setPerson(person_id);
+                if(StringUtils.isNotBlank(address1)) {
+                    personAddress.setAddress1(address1);
+                }
+                if(StringUtils.isNotBlank(address2)) {
+                    personAddress.setAddress2(address2);
+                }
+                if(StringUtils.isNotBlank(city_village)) {
+                    personAddress.setCityVillage(city_village);
+                }
+                if(StringUtils.isNotBlank(state_province)) {
+                    personAddress.setStateProvince(state_province);
+                }
+                if(StringUtils.isNotBlank(postal_code)) {
+                    personAddress.setPostalCode(postal_code);
+                }
+                if(StringUtils.isNotBlank(country)) {
+                    personAddress.setCountry(country);
+                }
+                if(StringUtils.isNotBlank(latitude)) {
+                    personAddress.setLatitude(latitude);
+                }
+                if(StringUtils.isNotBlank(longitude)) {
+                    personAddress.setLongitude(longitude);
+                }
+                if(start_date_1 != null) {
+                    personAddress.setStartDate(start_date_1);
+                }
+                if(end_date_1 != null) {
+                    personAddress.setEndDate(end_date_1);
+                }
+                if(date_created_1 != null) {
+                    personAddress.setDateCreated(date_created_1);
+                }
+                else {
+                    personAddress.setDateCreated(new Date());
+                }
+                if(StringUtils.isNotBlank(county_district)) {
+                    personAddress.setCountyDistrict(county_district);
+                }
+                if(StringUtils.isNotBlank(address3)) {
+                    personAddress.setAddress3(address3);
+                }
+                if(StringUtils.isNotBlank(address4)) {
+                    personAddress.setAddress4(address4);
+                }
+                if(StringUtils.isNotBlank(address5)) {
+                    personAddress.setAddress5(address5);
+                }
+                if(StringUtils.isNotBlank(address6)) {
+                    personAddress.setAddress6(address6);
+                }
+                if(StringUtils.isNotBlank(address7)) {
+                    personAddress.setAddress7(address7);
+                }
+                if(StringUtils.isNotBlank(address8)) {
+                    personAddress.setAddress8(address8);
+                }
+                if(StringUtils.isNotBlank(address9)) {
+                    personAddress.setAddress9(address9);
+                }
+                if(StringUtils.isNotBlank(address10)) {
+                    personAddress.setAddress10(address10);
+                }
+                if(StringUtils.isNotBlank(address11)) {
+                    personAddress.setAddress11(address11);
+                }
+                if(StringUtils.isNotBlank(address12)) {
+                    personAddress.setAddress12(address12);
+                }
+                if(StringUtils.isNotBlank(address13)) {
+                    personAddress.setAddress13(address13);
+                }
+                if(StringUtils.isNotBlank(address14)) {
+                    personAddress.setAddress14(address14);
+                }
+                if(StringUtils.isNotBlank(address15)) {
+                    personAddress.setAddress15(address15);
+                }
+
+                Context.getPersonService().savePersonAddress(personAddress);
             }
         }
         catch (IOException e) {
@@ -1028,6 +1200,13 @@ public class PatientMigrationTracking {
             e.printStackTrace();
         }
         return orderTypeMap;
+    }
+    static OrderType getOrderType(Integer oldOrderTypeId) {
+        OrderType orderType = null;
+        if(!getOrderTypeMappings().isEmpty() && getOrderTypeMappings().containsKey(oldOrderTypeId)) {
+            orderType = Context.getOrderService().getOrderTypeByUuid(getOrderTypeMappings().get(oldOrderTypeId));
+        }
+        return orderType;
     }
 
 }
