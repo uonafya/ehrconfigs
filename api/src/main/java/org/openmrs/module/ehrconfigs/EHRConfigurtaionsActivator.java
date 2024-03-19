@@ -65,11 +65,14 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//PatientMigrationTracking.updatePatientTriageData();
 		System.out.println("Done updating patient triage data");
 		System.out.println("Starting updating patient Visit data");
-		PatientMigrationTracking.updatePatientVisits();
+		//PatientMigrationTracking.updatePatientVisits();
 		System.out.println("Done updating patient visit data");
 		System.out.println("Start updating patient OPD nummber data");
 		PatientMigrationTracking.updateAvailableOpdNumbers();
 		System.out.println("Done updating patient OPD number data");
+		System.out.println("Starting to update person address");
+		PatientMigrationTracking.updatePersonAddress();
+		System.out.println("Done updating person address");
 		System.out.println("Start updating patient Encounter data");
 		PatientMigrationTracking.updatePatientEncounters();
 		System.out.println("Done updating patient Encounter data");
@@ -82,11 +85,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		System.out.println("Start updating patient OPD test order data");
 		PatientMigrationTracking.updateOpdTestOrders();
 		System.out.println("Done updating OPD test orders");
-		System.out.println("Starting to update person address");
-		PatientMigrationTracking.updatePersonAddress();
-		System.out.println("Done updating person address");
 		System.out.println("Start updating orders .....");
-		//PatientMigrationTracking.updateOrderData();
+		PatientMigrationTracking.updateOrderData();
 		System.out.println("Done updating Orders");
 		System.out.println("Start importing OBS");
 		//PatientMigrationTracking.updatePatientObsData();

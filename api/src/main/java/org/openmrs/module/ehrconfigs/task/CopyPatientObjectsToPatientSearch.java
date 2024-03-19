@@ -44,12 +44,12 @@ public class CopyPatientObjectsToPatientSearch extends AbstractTask {
 			startExecuting();
 			try {
 				//do all the work here
-				for (Patient patient : patientList) {
+				/*for (Patient patient : patientList) {
 					//set person attribute to allow searching of patient
 					generatePersonalAttributeForPatients(patient);
 					//save the record into the patient search for easier navigation
 					copyPatientObjectsToPatientSearchObjects(patient);
-				}
+				}*/
 			}
 			catch (Exception e) {
 				log.error("Error while copying patients to the respective destination ", e);

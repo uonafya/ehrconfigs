@@ -162,14 +162,14 @@ public class PatientMigrationTracking {
     }
 
     public static void updatePatientVisits() {
-
+        int start = 0;
         InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_visit_migration.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
 
         String old_visit_id = "";
-        Patient patient = null;
+        String patient = "";
         VisitType visittype = null;
         String date_started = "";
         String date_stopped = "";
@@ -189,11 +189,13 @@ public class PatientMigrationTracking {
         Date date_created_1 = null;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
-            headLine = br.readLine();
+            //headLine = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
                 old_visit_id = records[0];
-                patient = getPatient(Integer.parseInt(records[1]));
+                patient = records[1];
+               Patient patient_1 = getPatient(Integer.parseInt(patient));
+                System.out.println("The patient is  >>||"+patient_1 +"||>> with OLD ID as "+records[1]);
                 visittype = Context.getVisitService().getVisitTypeByUuid("3371a4d4-f66f-4454-a86d-92c7b3da990c");
                 date_started = getSafeString(records[3]);
                 date_started_1 =  DateUtils.getDateFromString(date_started, "yyyy-MM-dd HH:mm:ss");
@@ -204,20 +206,21 @@ public class PatientMigrationTracking {
                 date_created_1 =  DateUtils.getDateFromString(date_created, "yyyy-MM-dd HH:mm:ss");
                 location_id = Context.getService(KenyaEmrService.class).getDefaultLocation();
                 creator = Context.getAuthenticatedUser();
-                if(Context.getService(HospitalCoreService.class).getMigrationVisitsTrackingDetailsByOldVisitId(Integer.valueOf(old_visit_id)) == null) {
+                if(Context.getService(HospitalCoreService.class).getMigrationVisitsTrackingDetailsByOldVisitId(Integer.valueOf(old_visit_id)) == null && patient_1 !=null) {
                     //create the visit
                     Visit visit = new Visit();
                     visit.setVisitType(visittype);
-                    visit.setPatient(patient);
+                    visit.setPatient(patient_1);
                     visit.setStartDatetime(date_started_1);
-                    if (date_stopped != null) {
-                        visit.setStartDatetime(date_stopped_1);
+                    if (date_stopped_1 != null) {
+                        visit.setStopDatetime(date_stopped_1);
                     }
                     visit.setCreator(creator);
                     visit.setDateCreated(date_created_1);
                     visit.setLocation(location_id);
                     //save visit
                     Visit savedVisit = Context.getVisitService().saveVisit(visit);
+                        start++;
 
                     //populate the model to help track the visits
                     MigrationVisitsTracking migrationVisitsTracking = new MigrationVisitsTracking();
@@ -228,6 +231,7 @@ public class PatientMigrationTracking {
                     //save the tracking model
                     Context.getService(HospitalCoreService.class).createMigrationVisitsTrackingDetails(migrationVisitsTracking);
                 }
+                System.out.println("Total of >>"+start+" visits done");
             }
         }
         catch (IOException e) {
@@ -241,7 +245,6 @@ public class PatientMigrationTracking {
         InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_encounter_migration.csv");
         String line = "";
         String cvsSplitBy = ",";
-        String headLine = "";
         int old_encounter_id;
         EncounterType encounter_type = null;
         Patient patient = null;
@@ -250,6 +253,7 @@ public class PatientMigrationTracking {
         Date encounter_datetime = null;
         User creator = Context.getAuthenticatedUser();
         Date date_created = null;
+        int count = 0;
         //voided;
         //voided_by;
         //date_voided;
@@ -262,7 +266,7 @@ public class PatientMigrationTracking {
         String date_created_1 = "";
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
-            headLine = br.readLine();
+            //headLine = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
 
@@ -274,7 +278,7 @@ public class PatientMigrationTracking {
                 encounter_datetime = DateUtils.getDateFromString(encounter_datetime_1, "yyyy-MM-dd HH:mm:ss");
                 date_created = DateUtils.getDateFromString(date_created_1, "yyyy-MM-dd HH:mm:ss");
                 visit_id = getVisit(Integer.parseInt(records[14]));
-                if(Context.getService(HospitalCoreService.class).getMigrationEncounterTrackingDetailsByOldEncounterID(old_encounter_id) == null) {
+                if(Context.getService(HospitalCoreService.class).getMigrationEncounterTrackingDetailsByOldEncounterID(old_encounter_id) == null && patient !=null) {
                     Encounter encounter = new Encounter();
                     encounter.setEncounterDatetime(encounter_datetime);
                     encounter.setPatient(patient);
@@ -294,7 +298,9 @@ public class PatientMigrationTracking {
                     migrationEncounterTracking.setCreatedOn(new Date());
                     //Save the object
                     Context.getService(HospitalCoreService.class).createMigrationEncounterTrackingDetails(migrationEncounterTracking);
+                    count++;
                 }
+                System.out.println("The encounter are >>"+count);
 
             }
 
@@ -325,6 +331,7 @@ public class PatientMigrationTracking {
         Integer indoor_status = null;
         String referral_ward_name = null;
         Integer service_type = null;
+        int count=0;
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
@@ -347,24 +354,28 @@ public class PatientMigrationTracking {
                 referral_ward_name = records[13];
                 service_type = Integer.valueOf(records[14]);
                 //construct the object here
-                OpdTestOrder opdTestOrder = new OpdTestOrder();
-                opdTestOrder.setOpdOrderId(opd_order_id);
-                opdTestOrder.setPatient(patient_id);
-                opdTestOrder.setEncounter(encounter_id);
-                opdTestOrder.setConcept(concept_id);
-                opdTestOrder.setTypeConcept(type_concept);
-                opdTestOrder.setValueCoded(value_coded);
-                opdTestOrder.setCreator(created_by);
-                opdTestOrder.setCreatedOn(created_on);
-                opdTestOrder.setBillingStatus(billing_status);
-                opdTestOrder.setCancelStatus(cancel_status);
-                opdTestOrder.setBillableService(billable_service_id);
-                opdTestOrder.setScheduleDate(schedule_date);
-                opdTestOrder.setIndoorStatus(indoor_status);
-                opdTestOrder.setFromDept(referral_ward_name);
-                opdTestOrder.setServiceType(service_type);
-                //Save the object
-                Context.getService(PatientDashboardService.class).saveOrUpdateOpdOrder(opdTestOrder);
+                if(patient_id != null) {
+                    OpdTestOrder opdTestOrder = new OpdTestOrder();
+                    opdTestOrder.setOpdOrderId(opd_order_id);
+                    opdTestOrder.setPatient(patient_id);
+                    opdTestOrder.setEncounter(encounter_id);
+                    opdTestOrder.setConcept(concept_id);
+                    opdTestOrder.setTypeConcept(type_concept);
+                    opdTestOrder.setValueCoded(value_coded);
+                    opdTestOrder.setCreator(created_by);
+                    opdTestOrder.setCreatedOn(created_on);
+                    opdTestOrder.setBillingStatus(billing_status);
+                    opdTestOrder.setCancelStatus(cancel_status);
+                    opdTestOrder.setBillableService(billable_service_id);
+                    opdTestOrder.setScheduleDate(schedule_date);
+                    opdTestOrder.setIndoorStatus(indoor_status);
+                    opdTestOrder.setFromDept(referral_ward_name);
+                    opdTestOrder.setServiceType(service_type);
+                    //Save the object
+                    Context.getService(PatientDashboardService.class).saveOrUpdateOpdOrder(opdTestOrder);
+                    count++;
+                }
+                System.out.println("The number of test orders recorded is >>"+count);
 
             }
         }
@@ -376,7 +387,6 @@ public class PatientMigrationTracking {
         InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_opd_drug_order_migration.csv");
         String line = "";
         String cvsSplitBy = ",";
-        String headLine = "";
         Integer opd_drug_order_id = null;
         Patient patient_id = null;
         Encounter encounter_id = null;
@@ -392,9 +402,9 @@ public class PatientMigrationTracking {
         String referral_ward_name = "";
         String dosage = "";
         Integer dosage_unit = null;
+        int count=0;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
-            headLine = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
                 opd_drug_order_id = Integer.valueOf(records[0]);
@@ -405,7 +415,7 @@ public class PatientMigrationTracking {
                 frequency_concept_id = Integer.valueOf(records[5]);
                 no_of_days = Integer.valueOf(records[6]);
                 comments = records[7];
-                created_on = DateUtils.getDateFromString(getSafeString(records[9]), "dd/MM/yyyy hh:mm:ss");
+                created_on = DateUtils.getDateFromString(getSafeString(records[9]), "yyyy-MM-dd HH:mm:ss");
                 order_status = Integer.valueOf(records[10]);
                 cancel_status = Integer.valueOf(records[11]);
                 referral_ward_name = records[12];
@@ -413,24 +423,28 @@ public class PatientMigrationTracking {
                 dosage_unit = Integer.valueOf(records[14]);
 
                 //Construct an OPD drug order object
-                OpdDrugOrder opdDrugOrder = new OpdDrugOrder();
-                opdDrugOrder.setOpdDrugOrderId(opd_drug_order_id);
-                opdDrugOrder.setPatient(patient_id);
-                opdDrugOrder.setEncounter(encounter_id);
-                opdDrugOrder.setInventoryDrug(Context.getService(InventoryCommonService.class).getDrugById(inventory_drug_id));
-                opdDrugOrder.setInventoryDrugFormulation(Context.getService(InventoryCommonService.class).getDrugFormulationById(formulation_id));
-                opdDrugOrder.setFrequency(Context.getConceptService().getConcept(frequency_concept_id));
-                opdDrugOrder.setNoOfDays(no_of_days);
-                opdDrugOrder.setComments(comments);
-                opdDrugOrder.setCreator(created_by);
-                opdDrugOrder.setCreatedOn(created_on);
-                opdDrugOrder.setOrderStatus(order_status);
-                opdDrugOrder.setCancelStatus(cancel_status);
-                opdDrugOrder.setReferralWardName(referral_ward_name);
-                opdDrugOrder.setDosage(dosage);
-                opdDrugOrder.setDosageUnit(Context.getConceptService().getConcept(dosage_unit));
-                //save an order
-                Context.getService(PatientDashboardService.class).saveOrUpdateOpdDrugOrder(opdDrugOrder);
+                if(patient_id != null) {
+                    OpdDrugOrder opdDrugOrder = new OpdDrugOrder();
+                    opdDrugOrder.setOpdDrugOrderId(opd_drug_order_id);
+                    opdDrugOrder.setPatient(patient_id);
+                    opdDrugOrder.setEncounter(encounter_id);
+                    opdDrugOrder.setInventoryDrug(Context.getService(InventoryCommonService.class).getDrugById(inventory_drug_id));
+                    opdDrugOrder.setInventoryDrugFormulation(Context.getService(InventoryCommonService.class).getDrugFormulationById(formulation_id));
+                    opdDrugOrder.setFrequency(Context.getConceptService().getConcept(frequency_concept_id));
+                    opdDrugOrder.setNoOfDays(no_of_days);
+                    opdDrugOrder.setComments(comments);
+                    opdDrugOrder.setCreator(created_by);
+                    opdDrugOrder.setCreatedOn(created_on);
+                    opdDrugOrder.setOrderStatus(order_status);
+                    opdDrugOrder.setCancelStatus(cancel_status);
+                    opdDrugOrder.setReferralWardName(referral_ward_name);
+                    opdDrugOrder.setDosage(dosage);
+                    opdDrugOrder.setDosageUnit(Context.getConceptService().getConcept(dosage_unit));
+                    //save an order
+                    Context.getService(PatientDashboardService.class).saveOrUpdateOpdDrugOrder(opdDrugOrder);
+                    count++;
+                }
+                System.out.println("The number of OPD Drug orders registered so far is >>"+count);
             }
         }
         catch (IOException e) {
@@ -441,7 +455,6 @@ public class PatientMigrationTracking {
         InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/billing_patient_service_billmigration.csv");
         String line = "";
         String cvsSplitBy = ",";
-        String headLine = "";
         Integer patient_service_bill_id = null;
         String description = null;
         User creator = Context.getAuthenticatedUser();
@@ -465,16 +478,16 @@ public class PatientMigrationTracking {
         String category_number = null;
         String patient_subcategory = null;
         String transaction_code = null;
+        int count=0;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
-            headLine = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
                 patient_service_bill_id = Integer.valueOf(records[0]);
                 description = records[1];
                 amount = records[3];
                 printed = Integer.valueOf(records[4]);
-                created_date = DateUtils.getDateFromString(getSafeString(records[5]), "dd/MM/yyyy hh:mm:ss");
+                created_date = DateUtils.getDateFromString(getSafeString(records[5]), "yyyy-MM-dd HH:mm:ss");
                 patient_id = getPatient(Integer.parseInt(records[8]));
                 receipt_id = Integer.valueOf(records[9]);
                 comment = records[10];
@@ -491,32 +504,36 @@ public class PatientMigrationTracking {
                 patient_subcategory = records[21];
                 transaction_code = records[22];
                 //Construct the object as expected
-                PatientServiceBill patientServiceBill = new PatientServiceBill();
-                patientServiceBill.setPatientServiceBillId(patient_service_bill_id);
-                patientServiceBill.setDescription(description);
-                patientServiceBill.setAmount(new BigDecimal(amount));
-                patientServiceBill.setPrinted(getBooleanStatus(printed));
-                patientServiceBill.setCreatedDate(created_date);
-                patientServiceBill.setCreator(creator);
-                patientServiceBill.setPatient(patient_id);
-                patientServiceBill.setReceipt(Context.getService(BillingService.class).getPatientServiceBillByReceiptId(receipt_id).getReceipt());
-                patientServiceBill.setComment(comment);
-                patientServiceBill.setFreeBill(free_bill);
-                patientServiceBill.setActualAmount(new BigDecimal(actual_amount));
-                patientServiceBill.setWaiverAmount(new BigDecimal(waiver_amount));
-                patientServiceBill.setPaymentMode(payment_mode);
-                patientServiceBill.setEncounter(encounter);
-                patientServiceBill.setDischargeStatus(discharge_status);
-                patientServiceBill.setAdmittedDays(admitted_days);
-                patientServiceBill.setPatientCategory(patient_category);
-                patientServiceBill.setRebateAmount(new BigDecimal(rebate_amount));
-                patientServiceBill.setCategoryNumber(category_number);
-                patientServiceBill.setPatientSubCategory(patient_subcategory);
-                patientServiceBill.setTransactionCode(transaction_code);
-                patientServiceBill.setVoided(false);
+                if(patient_id != null) {
+                    PatientServiceBill patientServiceBill = new PatientServiceBill();
+                    patientServiceBill.setPatientServiceBillId(patient_service_bill_id);
+                    patientServiceBill.setDescription(description);
+                    patientServiceBill.setAmount(new BigDecimal(amount));
+                    patientServiceBill.setPrinted(getBooleanStatus(printed));
+                    patientServiceBill.setCreatedDate(created_date);
+                    patientServiceBill.setCreator(creator);
+                    patientServiceBill.setPatient(patient_id);
+                    patientServiceBill.setReceipt(Context.getService(BillingService.class).getPatientServiceBillByReceiptId(receipt_id).getReceipt());
+                    patientServiceBill.setComment(comment);
+                    patientServiceBill.setFreeBill(free_bill);
+                    patientServiceBill.setActualAmount(new BigDecimal(actual_amount));
+                    patientServiceBill.setWaiverAmount(new BigDecimal(waiver_amount));
+                    patientServiceBill.setPaymentMode(payment_mode);
+                    patientServiceBill.setEncounter(encounter);
+                    patientServiceBill.setDischargeStatus(discharge_status);
+                    patientServiceBill.setAdmittedDays(admitted_days);
+                    patientServiceBill.setPatientCategory(patient_category);
+                    patientServiceBill.setRebateAmount(new BigDecimal(rebate_amount));
+                    patientServiceBill.setCategoryNumber(category_number);
+                    patientServiceBill.setPatientSubCategory(patient_subcategory);
+                    patientServiceBill.setTransactionCode(transaction_code);
+                    patientServiceBill.setVoided(false);
 
-                //save the patient service bill
-                Context.getService(BillingService.class).savePatientServiceBill(patientServiceBill);
+                    //save the patient service bill
+                    Context.getService(BillingService.class).savePatientServiceBill(patientServiceBill);
+                    count++;
+                }
+                System.out.println("The number of patient service bill generated are >>"+count);
 
             }
         }
@@ -832,7 +849,6 @@ public class PatientMigrationTracking {
         InputStream addressPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/person_address_migration.csv");
         String line = "";
         String cvsSplitBy = ",";
-        String headLine = "";
         Person person_id = null; //1
         String address1 = ""; //3
         String address2 = ""; //4
@@ -860,9 +876,9 @@ public class PatientMigrationTracking {
         String address13 = ""; //33
         String address14 = ""; //34
         String address15 = ""; //35
+        int count=0;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(addressPath, "UTF-8"));
-            headLine = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] records = line.split(cvsSplitBy);
                 person_id = getPatient(Integer.parseInt(records[1]));
@@ -896,89 +912,92 @@ public class PatientMigrationTracking {
                 address15 = records[35];
 
                 //construct a person address
-                PersonAddress personAddress = new PersonAddress();
-                personAddress.setCreator(Context.getAuthenticatedUser());
-                personAddress.setPerson(person_id);
-                if(StringUtils.isNotBlank(address1)) {
-                    personAddress.setAddress1(address1);
-                }
-                if(StringUtils.isNotBlank(address2)) {
-                    personAddress.setAddress2(address2);
-                }
-                if(StringUtils.isNotBlank(city_village)) {
-                    personAddress.setCityVillage(city_village);
-                }
-                if(StringUtils.isNotBlank(state_province)) {
-                    personAddress.setStateProvince(state_province);
-                }
-                if(StringUtils.isNotBlank(postal_code)) {
-                    personAddress.setPostalCode(postal_code);
-                }
-                if(StringUtils.isNotBlank(country)) {
-                    personAddress.setCountry(country);
-                }
-                if(StringUtils.isNotBlank(latitude)) {
-                    personAddress.setLatitude(latitude);
-                }
-                if(StringUtils.isNotBlank(longitude)) {
-                    personAddress.setLongitude(longitude);
-                }
-                if(start_date_1 != null) {
-                    personAddress.setStartDate(start_date_1);
-                }
-                if(end_date_1 != null) {
-                    personAddress.setEndDate(end_date_1);
-                }
-                if(date_created_1 != null) {
-                    personAddress.setDateCreated(date_created_1);
-                }
-                else {
-                    personAddress.setDateCreated(new Date());
-                }
-                if(StringUtils.isNotBlank(county_district)) {
-                    personAddress.setCountyDistrict(county_district);
-                }
-                if(StringUtils.isNotBlank(address3)) {
-                    personAddress.setAddress3(address3);
-                }
-                if(StringUtils.isNotBlank(address4)) {
-                    personAddress.setAddress4(address4);
-                }
-                if(StringUtils.isNotBlank(address5)) {
-                    personAddress.setAddress5(address5);
-                }
-                if(StringUtils.isNotBlank(address6)) {
-                    personAddress.setAddress6(address6);
-                }
-                if(StringUtils.isNotBlank(address7)) {
-                    personAddress.setAddress7(address7);
-                }
-                if(StringUtils.isNotBlank(address8)) {
-                    personAddress.setAddress8(address8);
-                }
-                if(StringUtils.isNotBlank(address9)) {
-                    personAddress.setAddress9(address9);
-                }
-                if(StringUtils.isNotBlank(address10)) {
-                    personAddress.setAddress10(address10);
-                }
-                if(StringUtils.isNotBlank(address11)) {
-                    personAddress.setAddress11(address11);
-                }
-                if(StringUtils.isNotBlank(address12)) {
-                    personAddress.setAddress12(address12);
-                }
-                if(StringUtils.isNotBlank(address13)) {
-                    personAddress.setAddress13(address13);
-                }
-                if(StringUtils.isNotBlank(address14)) {
-                    personAddress.setAddress14(address14);
-                }
-                if(StringUtils.isNotBlank(address15)) {
-                    personAddress.setAddress15(address15);
-                }
+                if(person_id != null) {
+                    PersonAddress personAddress = new PersonAddress();
+                    personAddress.setCreator(Context.getAuthenticatedUser());
+                    personAddress.setPerson(person_id);
+                    if (StringUtils.isNotBlank(address1)) {
+                        personAddress.setAddress1(address1);
+                    }
+                    if (StringUtils.isNotBlank(address2)) {
+                        personAddress.setAddress2(address2);
+                    }
+                    if (StringUtils.isNotBlank(city_village)) {
+                        personAddress.setCityVillage(city_village);
+                    }
+                    if (StringUtils.isNotBlank(state_province)) {
+                        personAddress.setStateProvince(state_province);
+                    }
+                    if (StringUtils.isNotBlank(postal_code)) {
+                        personAddress.setPostalCode(postal_code);
+                    }
+                    if (StringUtils.isNotBlank(country)) {
+                        personAddress.setCountry(country);
+                    }
+                    if (StringUtils.isNotBlank(latitude)) {
+                        personAddress.setLatitude(latitude);
+                    }
+                    if (StringUtils.isNotBlank(longitude)) {
+                        personAddress.setLongitude(longitude);
+                    }
+                    if (start_date_1 != null) {
+                        personAddress.setStartDate(start_date_1);
+                    }
+                    if (end_date_1 != null) {
+                        personAddress.setEndDate(end_date_1);
+                    }
+                    if (date_created_1 != null) {
+                        personAddress.setDateCreated(date_created_1);
+                    } else {
+                        personAddress.setDateCreated(new Date());
+                    }
+                    if (StringUtils.isNotBlank(county_district)) {
+                        personAddress.setCountyDistrict(county_district);
+                    }
+                    if (StringUtils.isNotBlank(address3)) {
+                        personAddress.setAddress3(address3);
+                    }
+                    if (StringUtils.isNotBlank(address4)) {
+                        personAddress.setAddress4(address4);
+                    }
+                    if (StringUtils.isNotBlank(address5)) {
+                        personAddress.setAddress5(address5);
+                    }
+                    if (StringUtils.isNotBlank(address6)) {
+                        personAddress.setAddress6(address6);
+                    }
+                    if (StringUtils.isNotBlank(address7)) {
+                        personAddress.setAddress7(address7);
+                    }
+                    if (StringUtils.isNotBlank(address8)) {
+                        personAddress.setAddress8(address8);
+                    }
+                    if (StringUtils.isNotBlank(address9)) {
+                        personAddress.setAddress9(address9);
+                    }
+                    if (StringUtils.isNotBlank(address10)) {
+                        personAddress.setAddress10(address10);
+                    }
+                    if (StringUtils.isNotBlank(address11)) {
+                        personAddress.setAddress11(address11);
+                    }
+                    if (StringUtils.isNotBlank(address12)) {
+                        personAddress.setAddress12(address12);
+                    }
+                    if (StringUtils.isNotBlank(address13)) {
+                        personAddress.setAddress13(address13);
+                    }
+                    if (StringUtils.isNotBlank(address14)) {
+                        personAddress.setAddress14(address14);
+                    }
+                    if (StringUtils.isNotBlank(address15)) {
+                        personAddress.setAddress15(address15);
+                    }
 
-                Context.getPersonService().savePersonAddress(personAddress);
+                    Context.getPersonService().savePersonAddress(personAddress);
+                    count++;
+                }
+                System.out.println("The address done are >>"+count);
             }
         }
         catch (IOException e) {
@@ -1055,50 +1074,56 @@ public class PatientMigrationTracking {
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
-
-        Patient patient = null;
+        int count = 0;
+        String patient = "";
         String opd_number = "";
         User createdBy = Context.getAuthenticatedUser();
         Date dateCreated = null;
         PatientIdentifierType identifierType = Context.getPatientService().getPatientIdentifierTypeByUuid("61A354CB-4F7F-489A-8BE8-09D0ACEDDC63");
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(opdNumbersPath, "UTF-8"));
-            String[] records = line.split(cvsSplitBy);
             headLine = br.readLine();
-            patient = getPatient(Integer.parseInt(stripNullFromString(records[1])));
-            opd_number = records[1];
-            dateCreated = DateUtils.getDateFromString(records[3], "dd/MM/yyyy hh:mm:ss");
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                patient = records[1];
+                Patient patient_1 = getPatient(Integer.parseInt(patient));
+                opd_number = records[2];
+                dateCreated = DateUtils.getDateFromString(records[4], "yyyy-MM-dd HH:mm:ss");
 
-            //Save patient identifier
-            //Check if such patient identifier exist for this patient
-            List<PatientIdentifier> patientIdentifierList = Context.getPatientService().getPatientIdentifiers(
-                    null,
-                    Arrays.asList(identifierType), null, Arrays.asList(patient), false);
-            if (patientIdentifierList.isEmpty()) {
-                //populate the patient identifier
-                PatientService patientService = Context.getPatientService();
-                PatientIdentifier opdPatientIdentifier = new PatientIdentifier();
-                opdPatientIdentifier.setIdentifierType(identifierType);
-                opdPatientIdentifier.setIdentifier(opd_number);
-                opdPatientIdentifier.setPatient(patient);
-                opdPatientIdentifier.setPreferred(true);
-                opdPatientIdentifier.setDateCreated(dateCreated);
-                opdPatientIdentifier.setCreator(createdBy);
+                //Save patient identifier
+                //Check if such patient identifier exist for this patient
+                if (patient_1 != null) {
+                    List<PatientIdentifier> patientIdentifierList = Context.getPatientService().getPatientIdentifiers(
+                            null,
+                            Arrays.asList(identifierType), null, Arrays.asList(patient_1), false);
+                    if (patientIdentifierList.isEmpty() && patient != null) {
+                        //populate the patient identifier
+                        PatientService patientService = Context.getPatientService();
+                        PatientIdentifier opdPatientIdentifier = new PatientIdentifier();
+                        opdPatientIdentifier.setIdentifierType(identifierType);
+                        opdPatientIdentifier.setIdentifier(opd_number);
+                        opdPatientIdentifier.setPatient(patient_1);
+                        opdPatientIdentifier.setPreferred(true);
+                        opdPatientIdentifier.setDateCreated(dateCreated);
+                        opdPatientIdentifier.setCreator(createdBy);
 
-                //save the patient identifier
-                patientService.savePatientIdentifier(opdPatientIdentifier);
+                        //save the patient identifier
+                        patientService.savePatientIdentifier(opdPatientIdentifier);
 
-                //save the object
-                IdentifierNumbersGenerator opdNumbersGenerator = new IdentifierNumbersGenerator();
-                opdNumbersGenerator.setPatientId(patient.getPatientId());
-                opdNumbersGenerator.setIdentifier(opd_number);
-                opdNumbersGenerator.setDateCreated(dateCreated);
-                opdNumbersGenerator.setCreatedBy(createdBy.getId());
-                opdNumbersGenerator.setIdentifierType(identifierType.getPatientIdentifierTypeId());
-                Context.getService(HospitalCoreService.class).saveOpdNumbersGenerator(opdNumbersGenerator);
+                        //save the object
+                        IdentifierNumbersGenerator opdNumbersGenerator = new IdentifierNumbersGenerator();
+                        opdNumbersGenerator.setPatientId(patient_1.getPatientId());
+                        opdNumbersGenerator.setIdentifier(opd_number);
+                        opdNumbersGenerator.setDateCreated(dateCreated);
+                        opdNumbersGenerator.setCreatedBy(createdBy.getId());
+                        opdNumbersGenerator.setIdentifierType(identifierType.getPatientIdentifierTypeId());
+                        Context.getService(HospitalCoreService.class).saveOpdNumbersGenerator(opdNumbersGenerator);
 
-
+                        count++;
+                    }
+                }
             }
+            System.out.println("The numbers transferred is >>"+count);
 
         }
         catch (IOException e) {
