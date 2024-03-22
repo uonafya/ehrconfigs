@@ -1,7 +1,6 @@
 package org.openmrs.module.ehrconfigs.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
@@ -22,17 +21,13 @@ import org.openmrs.TestOrder;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
-import org.openmrs.api.OrderContext;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.BillingService;
 import org.openmrs.module.hospitalcore.HospitalCoreService;
-import org.openmrs.module.hospitalcore.InventoryCommonService;
 import org.openmrs.module.hospitalcore.PatientDashboardService;
 import org.openmrs.module.hospitalcore.PatientQueueService;
-import org.openmrs.module.hospitalcore.model.BillableService;
 import org.openmrs.module.hospitalcore.model.IdentifierNumbersGenerator;
-import org.openmrs.module.hospitalcore.model.InventoryDrugFormulation;
 import org.openmrs.module.hospitalcore.model.MigrationEncounterTracking;
 import org.openmrs.module.hospitalcore.model.MigrationObsTracking;
 import org.openmrs.module.hospitalcore.model.MigrationOrders;
@@ -64,7 +59,7 @@ import java.util.Map;
 public class PatientMigrationTracking {
 
     public static void updatePatientIds() {
-        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_search_new.csv");
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_search_langalanga_clean.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -98,7 +93,7 @@ public class PatientMigrationTracking {
                     //create the person
                     Person person = new Person();
                     person.setGender(gender);
-                    person.setBirthdate(DateUtils.getDateFromString(stripOffTimePartOnString(dob), "MM/dd/yyyy"));
+                    person.setBirthdate(DateUtils.getDateFromString(getSafeString(dob), "yyyy-MM-dd HH:mm:ss"));
                     person.setCreator(Context.getAuthenticatedUser());
                     person.setDateCreated(new Date());
                     person.setDead(false);
@@ -170,7 +165,7 @@ public class PatientMigrationTracking {
 
     public static void updatePatientVisits() {
         int start = 0;
-        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_visit_migration.csv");
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/visit_langalanga.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -418,7 +413,7 @@ public class PatientMigrationTracking {
     }
     public static void updatePatientTriageData() {
 
-        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_triage_migration.csv");
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_triage_langalanga.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -515,7 +510,7 @@ public class PatientMigrationTracking {
 
     public static void updatePatientObsData() {
 
-        InputStream obsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/obs_new_1.csv");
+        InputStream obsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/obs_current_6_cleaned.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -527,7 +522,7 @@ public class PatientMigrationTracking {
         String order_id;//4
         String obs_datetime = "";//5
         Location location_id = Context.getService(KenyaEmrService.class).getDefaultLocation();//6
-        //obs_group_id,//7
+        String obs_group_id = "";//7
         //String accession_number = "";//8
         //value_group_id, //9
         String value_coded; //10
@@ -590,12 +585,15 @@ public class PatientMigrationTracking {
                     if(value_numeric.matches("^-?\\d+(\\.\\d+)?$")) {
                         valueNumeric = Double.valueOf(value_numeric);
                     }
-                    System.out.println("The value Numeric is outside >>"+valueNumeric);
                     value_text = records[16];
                     comments = records[18];
                     date_created = getSafeString(records[20]);
                     Date date_created_converted = DateUtils.getDateFromString(date_created, "yyyy-MM-dd HH:mm:ss");
-                    status = records[28];
+                    obs_group_id = records[7];
+                    Concept obsGroupConcept = null;
+                    if(obs_group_id.matches("^-?\\d+$")) {
+                        obsGroupConcept = Context.getConceptService().getConcept(obs_group_id);
+                    }
 
                     //construct an observation row
                 if(person_id != null) {
@@ -824,7 +822,7 @@ public class PatientMigrationTracking {
     }
 
     public static void updatePersonAddress() {
-        InputStream addressPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/person_address_migration.csv");
+        InputStream addressPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/person_adress_langalanga.csv");
         String line = "";
         String headLine = "";
         String cvsSplitBy = ",";
@@ -1059,7 +1057,7 @@ public class PatientMigrationTracking {
     }
 
     public static void updateAvailableOpdNumbers() {
-        InputStream opdNumbersPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_opd_numbers_migration.csv");
+        InputStream opdNumbersPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_opd_numbers_langalanga.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -1294,6 +1292,9 @@ public class PatientMigrationTracking {
     static String getSafeString(String str){
         return str.replaceAll("^\"|\"$", "");
     }
+    static String removeSpacesFromString(String str) {
+        return str.replaceAll("\\s", "");
+    }
 
     static Order getOrders(int orderId) {
         HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
@@ -1341,6 +1342,22 @@ public class PatientMigrationTracking {
             orderType = Context.getOrderService().getOrderTypeByUuid(getOrderTypeMappings().get(oldOrderTypeId));
         }
         return orderType;
+    }
+
+    static Obs getObs(int oldObsId) {
+        HospitalCoreService hospitalCoreService = Context.getService(HospitalCoreService.class);
+        List<MigrationObsTracking> migrationObsTracking = hospitalCoreService.getMigrationObsTrackingDetails();
+        Map<Integer, Integer> getObsIds = new HashMap<Integer, Integer>();
+        if(!migrationObsTracking.isEmpty()) {
+            for(MigrationObsTracking migrationObsTrackingItem: migrationObsTracking) {
+                getObsIds.put(migrationObsTrackingItem.getOldObsId(), migrationObsTrackingItem.getNewObsId());
+            }
+        }
+        Obs obs = null;
+        if (!getObsIds.isEmpty() && getObsIds.containsKey(oldObsId)) {
+            obs = Context.getObsService().getObs(getObsIds.get(oldObsId));
+        }
+        return obs;
     }
 
 }
