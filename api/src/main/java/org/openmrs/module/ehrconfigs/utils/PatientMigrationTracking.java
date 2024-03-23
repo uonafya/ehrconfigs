@@ -510,7 +510,7 @@ public class PatientMigrationTracking {
 
     public static void updatePatientObsData() {
 
-        InputStream obsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/obs_current_6_cleaned.csv");
+        InputStream obsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/obs_1_langalanga_cleaned.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";

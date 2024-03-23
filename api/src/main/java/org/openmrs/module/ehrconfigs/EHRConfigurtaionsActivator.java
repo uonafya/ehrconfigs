@@ -74,7 +74,7 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		///PatientMigrationTracking.updatePersonAddress();
 		System.out.println("Done updating person address");
 		System.out.println("Start updating patient Encounter data");
-		PatientMigrationTracking.updatePatientEncounters();
+		//PatientMigrationTracking.updatePatientEncounters();
 		System.out.println("Done updating patient Encounter data");
 		System.out.println("Start updating orders .....");
 		PatientMigrationTracking.updateOrderData();
