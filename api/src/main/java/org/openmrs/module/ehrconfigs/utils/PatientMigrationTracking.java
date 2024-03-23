@@ -247,7 +247,7 @@ public class PatientMigrationTracking {
 
     public static void updatePatientEncounters() {
 
-        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_encounter_migration.csv");
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/encounter_langalanga_5.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -658,7 +658,7 @@ public class PatientMigrationTracking {
 
     public static void updateOrderData() {
 
-        InputStream ordersPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/orders_migration.csv");
+        InputStream ordersPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/orders_langalanga.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
