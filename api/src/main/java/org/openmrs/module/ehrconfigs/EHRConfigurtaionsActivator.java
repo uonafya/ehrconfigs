@@ -58,8 +58,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//CodedConceptsConversion.unRetireConcepts();
 		//CodedConceptsConversion.allowDecimalsInConcepts();
 		//CodedConceptsConversion.addAnswersToHivTest();
-		System.out.println("Starting to update patient demographics");
-		///PatientMigrationTracking.updatePatientIds();
+		/*System.out.println("Starting to update patient demographics");
+		PatientMigrationTracking.updatePatientIds();
 		System.out.println("Done updating patient demographics");
 		System.out.println("Start updating patient triage data");
 		///PatientMigrationTracking.updatePatientTriageData();
@@ -77,10 +77,10 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		//PatientMigrationTracking.updatePatientEncounters();
 		System.out.println("Done updating patient Encounter data");
 		System.out.println("Start updating orders .....");
-		PatientMigrationTracking.updateOrderData();
+		//PatientMigrationTracking.updateOrderData();
 		System.out.println("Done updating Orders");
 		System.out.println("Start importing OBS");
-		//PatientMigrationTracking.updatePatientObsData();
+		PatientMigrationTracking.updatePatientObsData();
 		System.out.println("Done updating OBS");
 		System.out.println("Start updating patient OPD drug order data");
 		//PatientMigrationTracking.updateOpdDrugOrder();
@@ -90,7 +90,8 @@ public class EHRConfigurtaionsActivator extends BaseModuleActivator {
 		System.out.println("Done updating patient billing data");
 		System.out.println("Start updating patient OPD test order data");
 		//PatientMigrationTracking.updateOpdTestOrders();
-		System.out.println("Done updating OPD test orders");
+		System.out.println("Done updating OPD test orders");*/
+		PatientMigrationTracking.updateBirthDateForPatient();
 
 	}
 	

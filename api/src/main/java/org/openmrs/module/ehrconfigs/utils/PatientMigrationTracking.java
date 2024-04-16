@@ -58,6 +58,45 @@ import java.util.Map;
 
 public class PatientMigrationTracking {
 
+    public static void updateBirthDateForPatient() {
+        InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_search_langalanga_clean.csv");
+        String line = "";
+        String cvsSplitBy = ",";
+        String headLine = "";
+
+        //patient
+        Integer oldPatientId = null;
+        String dob = "";
+        int track = 0;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(patientPath, "UTF-8"));
+            headLine = br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] records = line.split(cvsSplitBy);
+                oldPatientId = Integer.valueOf(records[0]);
+                dob = records[7];
+                Patient patient = getPatient(oldPatientId);
+                if(patient != null && StringUtils.isNotBlank(dob)) {
+                    patient.setBirthdate((DateUtils.getDateFromString(stripOffTimePartOnString(dob), "yyyy-MM-dd")));
+                    patient.setChangedBy(Context.getAuthenticatedUser());
+                    patient.setDateChanged(new Date());
+
+                    //update the patient
+                    Context.getPatientService().savePatient(patient);
+                    track++;
+                }
+                System.out.println("So far >>"+track+">>Patient corrected");
+                if(track == 200) {
+                    Context.clearSession();
+                    Context.flushSession();
+                }
+
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void updatePatientIds() {
         InputStream patientPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/patient_search_langalanga_clean.csv");
         String line = "";
@@ -135,7 +174,7 @@ public class PatientMigrationTracking {
                         patient.setDateCreated(new Date());
                         patient.addIdentifier(patientIdentifier);
                         patient.setGender(gender);
-                        patient.setBirthdate(DateUtils.getDateFromString(stripOffTimePartOnString(dob), "MM/dd/yyyy"));
+                        patient.setBirthdate(DateUtils.getDateFromString(stripOffTimePartOnString(dob), "yyyy-MM-dd"));
                         //save the patient
                         Patient newPatient = Context.getPatientService().savePatient(patient);
                         //record the tracking history
@@ -510,7 +549,7 @@ public class PatientMigrationTracking {
 
     public static void updatePatientObsData() {
 
-        InputStream obsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/obs_1_langalanga_cleaned.csv");
+        InputStream obsPath = OpenmrsClassLoader.getInstance().getResourceAsStream("metadata/obs_14_langalanga_cleaned.csv");
         String line = "";
         String cvsSplitBy = ",";
         String headLine = "";
@@ -581,7 +620,7 @@ public class PatientMigrationTracking {
                         value_datetime_converted = DateUtils.getDateFromString(value_datetime, "yyyy-MM-dd HH:mm:ss");
                     }
                     value_numeric = getSafeString(records[14]);
-                    Double valueNumeric = null;
+                    Double valueNumeric = 0.0;
                     if(value_numeric.matches("^-?\\d+(\\.\\d+)?$")) {
                         valueNumeric = Double.valueOf(value_numeric);
                     }
@@ -1005,7 +1044,7 @@ public class PatientMigrationTracking {
         return exist;
     }
 
-    static String stripOffTimePartOnString(String str) {
+    public static String stripOffTimePartOnString(String str) {
         String output = "";
         if(StringUtils.isNotBlank(str)) {
             String[] splited = str.split("\\s+");
