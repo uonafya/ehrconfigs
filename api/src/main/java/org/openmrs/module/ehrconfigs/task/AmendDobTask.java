@@ -63,7 +63,7 @@ public class AmendDobTask extends AbstractTask {
                 oldPatientId = Integer.valueOf(records[0]);
                 dob = records[7];
                 Patient patient = getPatient(oldPatientId);
-                if(patient != null && StringUtils.isNotBlank(dob)) {
+                if(patient != null && StringUtils.isNotBlank(dob) && patient.getBirthdate() == null) {
                     patient.setBirthdate((DateUtils.getDateFromString(stripOffTimePartOnString(dob), "yyyy-MM-dd")));
                     patient.setChangedBy(Context.getAuthenticatedUser());
                     patient.setDateChanged(new Date());
